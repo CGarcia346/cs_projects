@@ -6,7 +6,7 @@
  * The purpose of this class is to give the students in CS257 an opportunity to practice creating
  * unit tests.
  */
-package edu.carleton.jondich;
+package edu.carleton.garciac3;
 
 import java.util.ArrayList;
 import java.util.List;
