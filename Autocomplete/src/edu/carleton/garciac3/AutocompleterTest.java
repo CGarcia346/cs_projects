@@ -6,6 +6,7 @@ class AutocompleterTest {
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
+        Autocompleter autocompleter = new Autocompleter("actors.txt");
     }
 
     @org.junit.jupiter.api.AfterEach
