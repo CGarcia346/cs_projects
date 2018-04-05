@@ -64,10 +64,20 @@ public class Autocompleter {
             y++;
         }
     }
+    private List<String> transfer(List<String> rmv, List<String> onTo){
+        while(!rmv.isEmpty()){
+            onTo.add(rmv.remove(0));
+        }
+        return onTo;
+    }
 
     public List<String> getCompletions(String searchString){
         createFix();
         List<String> results = new ArrayList<String>();
+        List<String> fPrio = new ArrayList<String>();
+        List<String> sPrio = new ArrayList<String>();
+        List<String> tPrio = new ArrayList<String>();
+        List<String> lPrio = new ArrayList<String>();
         String ss = searchString.toLowerCase();
         int i = 0;
         while(i < searchList.size()){
@@ -76,27 +86,27 @@ public class Autocompleter {
                 String cur = searchList.get(i);
                 //Check for last name priority
                 if(ss.equals(cur.substring(0, ss.length()))){
-                    results.add(Actors.get(i));
+                    fPrio.add(Actors.get(i));
                 }
                 //Check for first name priority
                 else if(ss.equals(cur.substring(cur.indexOf(",")+1, cur.indexOf(",") + ss.length()+1))){
-                    results.add(Actors.get(i));
+                    sPrio.add(Actors.get(i));
                 }
                 //Check for last name substring priority
                 else if(cur.indexOf(",") > cur.indexOf(ss)){
-                    System.out.println(cur.indexOf(","));
-                    System.out.println(cur.indexOf(ss));
+                    tPrio.add(Actors.get(i));
                 }
                 //Check for first name substring priority
                 else if(cur.indexOf(",") < cur.indexOf(ss)) {
-                    System.out.println(searchList.get(i).indexOf(","));
-                    System.out.println(searchList.get(i).indexOf(ss));
+                    lPrio.add(Actors.get(i));
                 }
             }
             i++;
         }
-
-        System.out.println(results);
+        results = transfer(fPrio, results);
+        results = transfer(sPrio, results);
+        results = transfer(tPrio, results);
+        results = transfer(lPrio, results);
         return results;
     }
 }
