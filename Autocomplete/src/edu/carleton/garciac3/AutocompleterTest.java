@@ -1,3 +1,10 @@
+/**
+ * Carlos Garcia & Joey Cook-Gallardo 3 April, 2018
+ * Professor Jeffrey Ondich
+ *
+ */
+
+
 package edu.carleton.garciac3;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,12 +32,12 @@ class AutocompleterTest {
         assertArrayEquals(empty, arrayEmpty, "Empty Arrays wanted!");
     }
 
-    @org.junit.jupiter.api.Test
+    /*@org.junit.jupiter.api.Test
     void checkNull(){
         List<String> completions = completer.getCompletions("");
         String[] nothing = {""};
         assertArrayEquals(nothing, completions.toArray(), "Empty Arrays wanted!");
-    }
+    }*/
 
     @org.junit.jupiter.api.Test
     void lSearch(){
@@ -51,15 +58,15 @@ class AutocompleterTest {
     @org.junit.jupiter.api.Test
     void lSubSearch(){
         List<String> lSubCompletions = completer.getCompletions("rig");
-        String[] expected = {"Riggle, Rob", "Rodriguez, Michelle", "Wright, Jeffrey", "Wright, Robin",
-                "Wright, Teresa"};
+        String[] expected = {"Riggle, Rob", "Wright, Jeffrey", "Wright, Robin",
+                "Wright, Teresa",  "Rodriguez, Michelle"};
         String[] arrayCompletions = lSubCompletions.toArray(new String [0]);
         assertArrayEquals(expected, arrayCompletions, "last-name substring search generated wrong results");
     }
 
     @org.junit.jupiter.api.Test
     void fSubSearch(){
-        List<String> fSubCompletions = completer.getCompletions("toni");
+        List<String> fSubCompletions = completer.getCompletions("Toni");
         String[] expected = {"Collette, Toni", "Banderas, Antonio"};
         String[] arrayCompletions = fSubCompletions.toArray(new String [0]);
         assertArrayEquals(expected, arrayCompletions, "first-name substring search generated wrong results");
@@ -68,7 +75,7 @@ class AutocompleterTest {
     @org.junit.jupiter.api.Test
     void mSearch(){
         List<String> midCompletions = completer.getCompletions("az");
-        String[] expected = {"Barraza, Adriana", "Diaz, Cameron", "Palminteri, Chazz"};
+        String[] expected = {"Diaz, Cameron", "Barraza, Adriana", "Palminteri, Chazz"};
         String[] arrayCompletions = midCompletions.toArray(new String [0]);
         assertArrayEquals(expected, arrayCompletions, "Substring cross search generated wrong results");
     }
