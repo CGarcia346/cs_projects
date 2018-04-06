@@ -152,11 +152,15 @@ public class Autocompleter {
         return results;
     }
     /**
-     * a main method that allows for a command line argument
+     * a main method that allows for a command line argument and prints back to user
      * @param
      */
     public static void main(String[] args) {
         Autocompleter run = new Autocompleter(args[0]);
-        run.getCompletions(args[1]);
+        List<String> show = run.getCompletions(args[1]);
+        for(int i = 0; i < show.size(); i++){
+            System.out.println(show.get(i));
+        }
+
     }
 }
