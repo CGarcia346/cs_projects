@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static sun.security.krb5.internal.LoginOptions.MAX;
+
 public class Autocompleter {
 
     /**
@@ -65,17 +67,42 @@ public class Autocompleter {
         }
     }
     private List<String> transfer(List<String> rmv, List<String> onTo){
-        while(!rmv.isEmpty()){
+        while (!rmv.isEmpty()){
             onTo.add(rmv.remove(0));
         }
         return onTo;
+    }
+    private List<String> createOrder(List<String> toBeOrdered, String causeOrder) {
+        List<String> order = new ArrayList<String>();
+        List<String> done = new ArrayList<String>();
+        int y = 0;
+        int s = 0;
+        while (y < toBeOrdered.size()) {
+            order.add(toBeOrdered.get(y).toLowerCase().replaceAll(" ", ""));
+            y++;
+        }
+        while (s < toBeOrdered.size()) {
+            int lowest = MAX;
+            String currentlow = null;
+            int i = 0;
+            String tBO = toBeOrdered.get(i);
+            while (i < toBeOrdered.size()) {
+                if (tBO.indexOf(causeOrder) < lowest) {
+                    currentlow = tBO;
+                }
+                done.add(currentlow);
+                s++;
+                i++;
+            }
+
+
+        }
+        return done;
     }
 
     public List<String> getCompletions(String searchString){
         createFix();
         List<String> results = new ArrayList<String>();
-        List<String> fPrio = new ArrayList<String>();
-        List<String> sPrio = new ArrayList<String>();
         List<String> tPrio = new ArrayList<String>();
         List<String> lPrio = new ArrayList<String>();
         String ss = searchString.toLowerCase();
@@ -86,11 +113,11 @@ public class Autocompleter {
                 String cur = searchList.get(i);
                 //Check for last name priority
                 if(ss.equals(cur.substring(0, ss.length()))){
-                    fPrio.add(Actors.get(i));
+                    results.add(Actors.get(i));
                 }
                 //Check for first name priority
-                else if(ss.equals(cur.substring(cur.indexOf(",")+1, cur.indexOf(",") + ss.length()+1))){
-                    sPrio.add(Actors.get(i));
+                else if(ss.equals(cur.substring(cur.indexOf(",")+ 1, cur.indexOf(",") + ss.length()+1))){
+                    results.add(Actors.get(i));
                 }
                 //Check for last name substring priority
                 else if(cur.indexOf(",") > cur.indexOf(ss)){
@@ -103,8 +130,8 @@ public class Autocompleter {
             }
             i++;
         }
-        results = transfer(fPrio, results);
-        results = transfer(sPrio, results);
+        tPrio = createOrder(tPrio, ss);
+        lPrio = createOrder(lPrio, ss);
         results = transfer(tPrio, results);
         results = transfer(lPrio, results);
         return results;
