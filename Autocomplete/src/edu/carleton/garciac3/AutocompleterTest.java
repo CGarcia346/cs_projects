@@ -32,12 +32,12 @@ class AutocompleterTest {
         assertArrayEquals(empty, arrayEmpty, "Empty Arrays wanted!");
     }
 
-    /*@org.junit.jupiter.api.Test
+    @org.junit.jupiter.api.Test
     void checkNull(){
         List<String> completions = completer.getCompletions("");
-        String[] nothing = {""};
+        String[] nothing = {};
         assertArrayEquals(nothing, completions.toArray(), "Empty Arrays wanted!");
-    }*/
+    }
 
     @org.junit.jupiter.api.Test
     void lSearch(){
@@ -94,6 +94,13 @@ class AutocompleterTest {
     void checkQBee(){
         List<String> singles = completer.getCompletions("Bey");
         String[] qBee = {"Beyoncé", "Maguire, Tobey"};
-        assertArrayEquals(qBee, singles.toArray(), "You failed Beyonce");
+        assertArrayEquals(qBee, singles.toArray(), "Single name not searchable");
+    }
+
+    @org.junit.jupiter.api.Test
+    void checkComma(){
+        List<String> commas = completer.getCompletions("g, z");
+        String[] correct = {"Zhang, Ziyi"};
+        assertArrayEquals(correct, commas.toArray(), "Comma search not searchable");
     }
 }

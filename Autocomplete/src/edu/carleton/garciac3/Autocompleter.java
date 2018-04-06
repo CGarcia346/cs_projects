@@ -70,6 +70,32 @@ public class Autocompleter {
         }
         return onTo;
     }
+    private List<String> createOrder(List<String> toBeOrdered, String causeOrder){
+        List<String> order = new ArrayList<String>();
+        List<String> lower = new ArrayList<String>();
+
+        int y = 0;
+        while(y < toBeOrdered.size()){
+            lower.add(toBeOrdered.get(y).toLowerCase().replaceAll(" ", ""));
+            y++;
+        }
+
+        while(!toBeOrdered.isEmpty()){
+            int toCompare = toBeOrdered.get(0).indexOf(causeOrder);
+            int location = 0;
+            int i = 0;
+
+            while(i < toBeOrdered.size()){
+                if(lower.get(i).indexOf(causeOrder) < toCompare){
+                    location = i;
+                    toCompare = lower.get(i).indexOf(causeOrder);
+                }
+                i++;
+            }
+            order.add(toBeOrdered.remove(location));
+        }
+        return order;
+    }
 
     public List<String> getCompletions(String searchString){
         createFix();
@@ -78,7 +104,12 @@ public class Autocompleter {
         List<String> sPrio = new ArrayList<String>();
         List<String> tPrio = new ArrayList<String>();
         List<String> lPrio = new ArrayList<String>();
-        String ss = searchString.toLowerCase();
+        if(searchString.equals("")){
+            System.out.println("You have entered nothing, Try Again!");
+            return results;
+        }
+        String ss = searchString.toLowerCase().replaceAll(" ", "");
+
         int i = 0;
         while(i < searchList.size()){
 
@@ -103,6 +134,10 @@ public class Autocompleter {
             }
             i++;
         }
+        fPrio = createOrder(fPrio, ss);
+        sPrio = createOrder(sPrio, ss);
+        tPrio = createOrder(tPrio, ss);
+        lPrio = createOrder(lPrio, ss);
         results = transfer(fPrio, results);
         results = transfer(sPrio, results);
         results = transfer(tPrio, results);
