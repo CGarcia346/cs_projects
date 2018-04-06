@@ -1,4 +1,4 @@
-/**
+ /**
  * Autocompleter.java
  * Jeff Ondich, 20 March 2018
  * Carlos Garcia & Joey Cook-Gallardo
@@ -17,6 +17,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Autocompleter {
+
+    public static void main(String[] args){
+        Autocompleter run = new Autocompleter(args[0]);
+        run.getCompletions(args[1]);
+    }
 
     /**
      * @param dataFilePath the path to the data file containing the set of items to
