@@ -4,7 +4,11 @@
  * Carlos Garcia & Joey Cook-Gallardo
  * This class exposes a very simple interface for generating auto-completions of search strings.
  */
-package edu.carleton.garciac3;
+ /*
+ When we try to run using the command line and the package isn't commented out, the program
+ will not run.
+ */
+//package edu.carleton.garciac3;
 
 import java.io.File;
 import java.io.FileNotFoundException;
