@@ -1,0 +1,39 @@
+Autocompleter test results, 6 April 2018
+Carlos Garcia, Joey Cook Gallardo
+Narun Raman, Nathaniel Sauerberg
+1. Yes, they passed their own tests
+2. We did not have to modify any of their code, and their code passed 8/10 of out tests. 
+3.
+checkEmpty:
+Passed 
+
+checkNull:
+Passed
+
+lSearch:
+Passed
+
+fSearch:
+Failed,
+We are not completely sure, but we believe there is a bug in the test itself.
+Specifically, we believe we slightly misunderstood how we were suppossed to sort.
+
+lSubSearch:
+Passed
+
+fSubSearch:
+Passed
+
+mSearch:
+passed
+
+checkPerfectSearch:
+Failed,
+We are not completely sure, but we believe there is a bug in the test itself.
+Specifically, we believe we slightly misunderstood how we were suppossed to sort.
+
+checkQBee:
+passed
+
+checkComma:
+passed
