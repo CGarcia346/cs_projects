@@ -7,10 +7,6 @@
 package edu.carleton.garciac3;
 
 //import jdk.internal.util.xml.impl.Input;
-<<<<<<< HEAD
-=======
-
->>>>>>> e8ba43777009127371f2df2edb0350dc1a308936
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -156,15 +152,11 @@ public class Autocompleter {
         results = transfer(lPrio, results);
         return results;
     }
-<<<<<<< HEAD
     /**
      * a main method that allows for a command line argument
      * @param
      */
     public static void main(String[] args) {
-=======
-    public static void main(String[] args){
->>>>>>> e8ba43777009127371f2df2edb0350dc1a308936
         Autocompleter run = new Autocompleter(args[0]);
         run.getCompletions(args[1]);
     }
