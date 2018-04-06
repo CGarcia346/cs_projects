@@ -3,13 +3,10 @@
  * Jeff Ondich, 20 March 2018
  * Carlos Garcia & Joey Cook-Gallardo
  * This class exposes a very simple interface for generating auto-completions of search strings.
- * The purpose of this class is to give the students in CS257 an opportunity to practice creating
- * unit tests.
  */
 package edu.carleton.garciac3;
 
-import jdk.internal.util.xml.impl.Input;
-
+//import jdk.internal.util.xml.impl.Input;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -18,11 +15,6 @@ import java.util.Scanner;
 
 public class Autocompleter {
 
-    public static void main(String[] args){
-        Autocompleter run = new Autocompleter(args[0]);
-        run.getCompletions(args[1]);
-    }
-
     /**
      * @param dataFilePath the path to the data file containing the set of items to
      * from which auto-completed results will be drawn. (In the context of this assignment,
@@ -30,14 +22,10 @@ public class Autocompleter {
      * later about how you might use inheritance to create subclasses of Autocompleter
      * to use different datasets and different approaches to doing the autocompletion.)
      */
-    private ArrayList<String> Actors = null;
+    private ArrayList<String> Actors;
     private ArrayList<String> searchList = null;
 
     public Autocompleter(String dataFilePath) {
-        // Initialization goes here, as needed. For example, you might load
-        // from a file into a list (or a hashmap or something like that)
-        // the list of strings that are going to form the dataset of potential
-        // auto-completions. The initialization will be up to you.
         Actors = new ArrayList<String>();
         File inputFile = new File(dataFilePath);
         Scanner scanner;
@@ -53,14 +41,10 @@ public class Autocompleter {
             Actors.add(Actor);
         }
         }
-
     /**
-     * @param searchString the string whose autocompletions are sought
-     * @return the list of potential completions that match the search string,
-     *  sorted in decreasing order of quality of the match (that is, the matches
-     *  are sorted from best match to weakest match)
+     * a method that creates a new ArrayList with the actors in the actors.txt file
+     * with the spaces removed and the Actors name turned to all lowercase
      */
-
     private void createFix(){
         searchList = new ArrayList<String>();
         int y = 0;
@@ -69,12 +53,24 @@ public class Autocompleter {
             y++;
         }
     }
+    /**
+     * A method to remove the contents of an ArrayList and place them into another ArrayList
+     * @param List<String> rmv
+     * @param List<String> onTo
+     * @return an ArrayList
+     */
     private List<String> transfer(List<String> rmv, List<String> onTo){
         while(!rmv.isEmpty()){
             onTo.add(rmv.remove(0));
         }
         return onTo;
     }
+    /**
+     * Organizes and returns A list of search results
+     * @param List<String> toBeOrdered
+     * @param String causeOrder
+     * @return an ordered ArrayList
+     */
     private List<String> createOrder(List<String> toBeOrdered, String causeOrder){
         List<String> order = new ArrayList<String>();
         List<String> lower = new ArrayList<String>();
@@ -101,6 +97,13 @@ public class Autocompleter {
         }
         return order;
     }
+
+    /**
+     * @param searchString the string whose autocompletions are sought
+     * @return the list of potential completions that match the search string,
+     *  sorted in decreasing order of quality of the match (that is, the matches
+     *  are sorted from best match to weakest match)
+     */
 
     public List<String> getCompletions(String searchString){
         createFix();
@@ -149,6 +152,10 @@ public class Autocompleter {
         results = transfer(lPrio, results);
         return results;
     }
+    /**
+     * a main method that allows for a command line argument
+     * @param
+     */
     public static void main(String[] args) {
         Autocompleter run = new Autocompleter(args[0]);
         run.getCompletions(args[1]);
