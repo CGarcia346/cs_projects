@@ -18,11 +18,6 @@ import java.util.Scanner;
 
 public class Autocompleter {
 
-    public static void main(String[] args){
-        Autocompleter run = new Autocompleter(args[0]);
-        run.getCompletions(args[1]);
-    }
-
     /**
      * @param dataFilePath the path to the data file containing the set of items to
      * from which auto-completed results will be drawn. (In the context of this assignment,
@@ -149,7 +144,7 @@ public class Autocompleter {
         results = transfer(lPrio, results);
         return results;
     }
-    public static void main(String[] args) {
+    public static void main(String[] args){
         Autocompleter run = new Autocompleter(args[0]);
         run.getCompletions(args[1]);
     }
