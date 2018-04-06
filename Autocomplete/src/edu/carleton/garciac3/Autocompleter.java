@@ -149,4 +149,8 @@ public class Autocompleter {
         results = transfer(lPrio, results);
         return results;
     }
+    public static void main(String[] args) {
+        Autocompleter run = new Autocompleter(args[0]);
+        run.getCompletions(args[1]);
+    }
 }
