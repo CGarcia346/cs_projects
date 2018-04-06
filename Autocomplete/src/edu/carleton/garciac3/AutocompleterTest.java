@@ -50,7 +50,7 @@ class AutocompleterTest {
     @org.junit.jupiter.api.Test
     void fSearch(){
         List<String> fComp = completer.getCompletions("Gloria");
-        String[] expected = {"Grahame, Gloria", "Stuart, Gloria", "Swanson, Gloria"};
+        String[] expected = {"Stuart, Gloria", "Grahame, Gloria", "Swanson, Gloria"};
         String[] arrayCompletions = fComp.toArray(new String [0]);
         assertArrayEquals(expected, arrayCompletions, "first-name search generated wrong results");
     }
@@ -83,9 +83,10 @@ class AutocompleterTest {
     @org.junit.jupiter.api.Test
     void checkPerfectSearch(){
         List<String> orderC = completer.getCompletions("cla");
-        String[] correctOrder = {"Clarke, Emilia", "Clarkson, Patricia", "Clayburgh, Jill", "Cardinale, Claudia",
-                "Colbert, Claudette", "Danes, Claire", "Gable, Clark", "Gregg, Clark","Rains, Claude", "Trevor, Claire",
-                "MacLaine, Shirley", "McLaglen, Victor", "Duncan, Michael Clarke",  "Van Damme, Jean-Claude"};
+        String[] correctOrder = {"Clarke, Emilia", "Clarkson, Patricia", "Clayburgh, Jill", "Danes, Claire",
+                "Gable, Clark","Gregg, Clark", "Rains, Claude", "Trevor, Claire", "Colbert, Claudette",
+                "Cardinale, Claudia",  "McLaglen, Victor","MacLaine, Shirley", "Duncan, Michael Clarke",
+                "Van Damme, Jean-Claude"};
         String[] orderArray = orderC.toArray(new String [0]);
         assertArrayEquals(correctOrder, orderArray, "Incorrect Orrder");
     }

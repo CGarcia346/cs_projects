@@ -77,7 +77,7 @@ public class Autocompleter {
     private List<String> createOrder(List<String> toBeOrdered, String causeOrder){
         List<String> order = new ArrayList<String>();
         List<String> lower = new ArrayList<String>();
-
+        String co = causeOrder.toLowerCase().replaceAll(" ", "");
         int y = 0;
         while(y < toBeOrdered.size()){
             lower.add(toBeOrdered.get(y).toLowerCase().replaceAll(" ", ""));
@@ -85,14 +85,13 @@ public class Autocompleter {
         }
 
         while(!toBeOrdered.isEmpty()){
-            int toCompare = toBeOrdered.get(0).indexOf(causeOrder);
+            int toCompare = lower.get(0).indexOf(co);
             int location = 0;
             int i = 0;
-
             while(i < toBeOrdered.size()){
-                if(lower.get(i).indexOf(causeOrder) < toCompare){
+                if(lower.get(i).indexOf(co) < toCompare){
                     location = i;
-                    toCompare = lower.get(i).indexOf(causeOrder);
+                    toCompare = lower.get(i).indexOf(co);
                 }
                 i++;
             }
@@ -145,14 +144,17 @@ public class Autocompleter {
             }
             i++;
         }
+
         fPrio = createOrder(fPrio, ss);
         sPrio = createOrder(sPrio, ss);
         tPrio = createOrder(tPrio, ss);
         lPrio = createOrder(lPrio, ss);
+
         results = transfer(fPrio, results);
         results = transfer(sPrio, results);
         results = transfer(tPrio, results);
         results = transfer(lPrio, results);
+
         return results;
     }
     /**
