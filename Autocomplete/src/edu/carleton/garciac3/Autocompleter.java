@@ -8,7 +8,7 @@
  When we try to run using the command line and the package isn't commented out, the program
  will not run.
  */
-//package edu.carleton.garciac3;
+package edu.carleton.garciac3;
 
 import java.io.File;
 import java.io.FileNotFoundException;
