@@ -28,9 +28,11 @@ def get_Pokemon(gen, gen_num):
 
     result_list = []
     pokemon_species = generation_list['pokemon_species']
+    count = 0
     for pokemon_list_dictionary in pokemon_species:
+        count+= 1
         pokemon = pokemon_list_dictionary['name']
-        '''
+
         id_url = pokemon_list_dictionary['url']
         request_id = urllib.request.Request(id_url)
         request_id.add_header("User-Agent", "Garco")
@@ -38,8 +40,10 @@ def get_Pokemon(gen, gen_num):
         string_extend = data_extend.decode('utf-8')
         pokemon_entry = json.loads(string_extend)
         id_num = pokemon_entry['id']
-        '''
-        result_list.append(pokemon)
+        str_num = str(id_num)
+        print("received id: " + str_num + " and appended to " + pokemon + " || collected total: " + str(count))
+        poke_data = (pokemon, id_num)
+        result_list.append(poke_data)
 
     print(result_list)
     return result_list
