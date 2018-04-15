@@ -82,11 +82,8 @@ def get_Pokemon(pokemonSpecies, entry):
     data_from_server = urllib.request.urlopen(request).read()
     string_from_server = data_from_server.decode('utf-8')
     pokemon_info = json.loads(string_from_server)
-
     pokemon_data = []
-    '''
-    name, stats
-    '''
+
     pokemon_name = pokemon_info['name']
     stat_list_dictionary = pokemon_info['stats']
     stats = []
