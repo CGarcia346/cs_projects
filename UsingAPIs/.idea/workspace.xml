@@ -15,10 +15,10 @@
       <file leaf-file-name="api_test.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="415">
-              <caret line="43" column="78" selection-start-line="43" selection-start-column="78" selection-end-line="43" selection-end-column="78" />
+            <state relative-caret-position="173">
+              <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
               <folding>
-                <element signature="e#251#261#0" expanded="true" />
+                <element signature="e#274#284#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -27,8 +27,8 @@
       <file leaf-file-name="api_sample.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api_sample.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1093">
-              <caret line="132" lean-forward="true" selection-start-line="132" selection-end-line="132" />
+            <state relative-caret-position="2193">
+              <caret line="132" selection-start-line="132" selection-end-line="132" />
             </state>
           </provider>
         </entry>
@@ -42,7 +42,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-7" />
     <option name="y" value="3" />
     <option name="width" value="764" />
@@ -138,7 +138,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="3" width="764" height="726" extended-state="0" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -174,10 +174,27 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/api_test.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="952">
+          <caret line="56" column="37" lean-forward="true" selection-start-line="56" selection-start-column="37" selection-end-line="56" selection-end-column="37" />
+          <folding>
+            <element signature="e#274#284#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api_sample.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2244">
+          <caret line="132" lean-forward="true" selection-start-line="132" selection-end-line="132" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api_test.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="17" column="62" lean-forward="true" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
           <folding>
-            <element signature="e#251#261#0" expanded="true" />
+            <element signature="e#274#284#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -191,17 +208,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/api_sample.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1093">
-          <caret line="132" lean-forward="true" selection-start-line="132" selection-end-line="132" />
+        <state relative-caret-position="2193">
+          <caret line="132" selection-start-line="132" selection-end-line="132" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/api_test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="415">
-          <caret line="43" column="78" selection-start-line="43" selection-start-column="78" selection-end-line="43" selection-end-column="78" />
+        <state relative-caret-position="173">
+          <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
           <folding>
-            <element signature="e#251#261#0" expanded="true" />
+            <element signature="e#274#284#0" expanded="true" />
           </folding>
         </state>
       </provider>

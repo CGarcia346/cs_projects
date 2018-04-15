@@ -12,6 +12,7 @@ import sys
 import argparse
 import json
 import urllib.request
+import math
 
 def get_Pokemon(gen, gen_num):
     '''
@@ -42,21 +43,43 @@ def get_Pokemon(gen, gen_num):
         id_num = pokemon_entry['id']
         str_num = str(id_num)
         print("received id: " + str_num + " and appended to " + pokemon + " || collected total: " + str(count))
-        poke_data = (pokemon, id_num)
+        poke_data = (id_num, pokemon)
         result_list.append(poke_data)
 
-    print(result_list)
-    return result_list
+    final_list = createOrder(result_list)
+    return final_list
+
+def createOrder(list_of_tuples):
+
+    ordered_list = []
+
+    while len(list_of_tuples) != 0:
+
+        i = 0
+        index = 0
+        lowest = float("inf")
+
+        for aTuple in list_of_tuples:
+            if aTuple[0] < lowest:
+                lowest = aTuple[0]
+                index = i
+                i+= 1
+            else:
+                i += 1
+
+        ordered_list.append(list_of_tuples.pop(index))
+
+    return ordered_list
+
 
 def main(args):
     if args.action == 'generation':
         pokedex = get_Pokemon(args.action, args.gen_num)
-        '''
-        for root_word in root_words:
-            root = root_word['root']
-            part_of_speech = root_word['partofspeech']
-            print('{0} [{1}]'.format(root, part_of_speech))
-
+        print("=======================================================================================================")
+        print("Pokemon list in order")
+        for pokemon in pokedex:
+            print(str(pokemon[0]) + "-" + pokemon[1])
+    '''
     elif args.action == 'conjugate':
         conjugations = get_conjugations(args.word, args.language)
         for conjugation in conjugations:
