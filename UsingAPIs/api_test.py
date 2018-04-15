@@ -104,11 +104,21 @@ def get_Pokemon(pokemonSpecies, entry):
     pokemon_data.append(pokemon_name)
     pokemon_data.append(stats)
     pokemon_data.append(abilities)
-    print(pokemon_data)
     return pokemon_data
 
 def main(args):
+    check_searchable = [1,2,3,4,5,6,7]
+
     if args.action == 'generation':
+
+        while(args.searchable not in check_searchable):
+            print("Invalid generation! Enter new input in range 1-7: ")
+            try:
+                args.searchable = int(input())
+            except:
+                args.searchable = 35
+
+
         pokedex = get_Pokedex(args.action, args.searchable)
         print("=======================================================================================================")
         print("Pokemon list in order")
@@ -116,7 +126,19 @@ def main(args):
             print(str(pokemon[0]) + "-" + pokemon[1])
 
     elif args.action == 'entry':
-        pokemon_info = get_Pokemon("pokemon", args.searchable)
+        pokemon_info = get_Pokemon("pokemon", args.searchable.lower())
+        name = pokemon_info[0]
+        print("\n" + name[0].upper() + name[1:] + "\n")
+        stat_list = pokemon_info[1]
+        print("Stats-")
+        for stat in stat_list:
+            print("\t" + stat[0] + ": " + str(stat[1]))
+        print()
+        ability_list= pokemon_info[2]
+        print("Abilities-")
+        for ability in ability_list:
+            print("\t" + ability)
+        print()
 
 if __name__ == '__main__':
     # When I use argparse to parse my command line, I usually
