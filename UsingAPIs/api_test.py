@@ -20,7 +20,7 @@ def get_Pokedex(gen, searchable):
     '''
 
     base_url = 'http://pokeapi.co/api/v2/{0}/{1}/'
-    url = base_url.format(gen, gen_num)
+    url = base_url.format(gen, searchable)
     request = urllib.request.Request(url)
     request.add_header("User-Agent", "Garco")
     data_from_server = urllib.request.urlopen(request).read()
@@ -42,9 +42,10 @@ def get_Pokedex(gen, searchable):
         pokemon_entry = json.loads(string_extend)
         id_num = pokemon_entry['id']
         str_num = str(id_num)
-        print("received id: " + str_num + " and appended to " + pokemon + " || collected total: " + str(count))
         poke_data = (id_num, pokemon)
         result_list.append(poke_data)
+        print("received id: " + str_num + " and appended to " + pokemon + " || collected total: " + str(count) +
+              "|| progress complete: " + str(int((len(result_list) / len(pokemon_species))*100)) + "%")
 
     final_list = createOrder(result_list)
     return final_list
@@ -125,16 +126,16 @@ if __name__ == '__main__':
     # put the argparse setup here in the global code, and then
     # call a function called main to do the actual work of
     # the program.
-    parser = argparse.ArgumentParser(description='Get word info from the Ultralingua API')
+    parser = argparse.ArgumentParser(description='Get Pokemon data from pokeapi.co')
 
     parser.add_argument('action',
                         metavar='action',
-                        help='action to perform on the word ("gen" or "entry")',
+                        help='action to perform on the word ("generation" or "entry")',
                         choices=['generation', 'entry'])
 
     parser.add_argument('searchable',
                         metavar = 'searchable',
-                        help='the generation number(1-7), Pokedex entry number(1-802), or name of a Pokemon')
+                        help='for generation: numbers(1-7) || for Pokedex entry: numbers(1-802) or name of a Pokemon')
 
     args = parser.parse_args()
     main(args)
