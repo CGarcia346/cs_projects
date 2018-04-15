@@ -101,15 +101,24 @@ def get_Pokemon(pokemonSpecies, entry):
         ability = list_dictionaries['ability']['name']
         abilities.append(ability)
 
+    types = []
+    type_dictionary = pokemon_info['types']
+
+    for type_dictionaries in type_dictionary:
+        type = type_dictionaries['type']['name']
+        types.append(type)
+
     pokemon_data.append(pokemon_name)
     pokemon_data.append(stats)
     pokemon_data.append(abilities)
+    pokemon_data.append(types)
     return pokemon_data
 
 def main(args):
     check_searchable = [1,2,3,4,5,6,7]
 
     if args.action == 'generation':
+        args.searchable = int(args.searchable)
 
         while(args.searchable not in check_searchable):
             print("Invalid generation! Enter new input in range 1-7: ")
@@ -126,18 +135,40 @@ def main(args):
             print(str(pokemon[0]) + "-" + pokemon[1])
 
     elif args.action == 'entry':
-        pokemon_info = get_Pokemon("pokemon", args.searchable.lower())
+
+        try:
+            pokemon_info = get_Pokemon('pokemon', args.searchable)
+
+        except:
+            can_search = False
+            while(not can_search):
+                print("Invalid search, Try Again! Maybe a valid number entry(1-802) or proper name")
+                args.searchable = input()
+                try:
+                    pokemon_info = get_Pokemon('pokemon', args.searchable)
+                    can_search = True
+                except:
+                    can_search = False
+
         name = pokemon_info[0]
-        print("\n" + name[0].upper() + name[1:] + "\n")
+        print("\n \t" + name[0].upper() + name[1:] + ":")
+
         stat_list = pokemon_info[1]
-        print("Stats-")
+        print("\t \t Stats-")
         for stat in stat_list:
-            print("\t" + stat[0] + ": " + str(stat[1]))
+            print("\t \t \t" + stat[0] + ": " + str(stat[1]))
         print()
+
         ability_list= pokemon_info[2]
-        print("Abilities-")
+        print("\t \t Abilities-")
         for ability in ability_list:
-            print("\t" + ability)
+            print("\t \t \t" + ability)
+        print()
+
+        type_list = pokemon_info[3]
+        print("\t \t Type: ")
+        for type in type_list:
+            print("\t \t \t" + type)
         print()
 
 if __name__ == '__main__':
