@@ -14,7 +14,7 @@ import json
 import urllib.request
 import math
 
-def get_Pokemon(gen, gen_num):
+def get_Pokedex(gen, searchable):
     '''
 
     '''
@@ -63,7 +63,8 @@ def createOrder(list_of_tuples):
             if aTuple[0] < lowest:
                 lowest = aTuple[0]
                 index = i
-                i+= 1
+                i += 1
+
             else:
                 i += 1
 
@@ -71,24 +72,53 @@ def createOrder(list_of_tuples):
 
     return ordered_list
 
+def get_Pokemon(pokemonSpecies, entry):
+
+    base_url = 'http://pokeapi.co/api/v2/{0}/{1}/'
+    url = base_url.format(pokemonSpecies, entry)
+    request = urllib.request.Request(url)
+    request.add_header("User-Agent", "Garco")
+    data_from_server = urllib.request.urlopen(request).read()
+    string_from_server = data_from_server.decode('utf-8')
+    pokemon_info = json.loads(string_from_server)
+
+    pokemon_data = []
+    '''
+    name, stats
+    '''
+    pokemon_name = pokemon_info['name']
+    stat_list_dictionary = pokemon_info['stats']
+    stats = []
+    for stat_dictionary in stat_list_dictionary:
+        stat_inner_list = stat_dictionary['stat']
+        name = stat_inner_list['name']
+        base_stat = stat_dictionary['base_stat']
+        stat_tuple = (name, base_stat)
+        stats.append(stat_tuple)
+
+    abilities = []
+    abilities_dictionary = pokemon_info['abilities']
+
+    for list_dictionaries in abilities_dictionary:
+        ability = list_dictionaries['ability']['name']
+        abilities.append(ability)
+
+    pokemon_data.append(pokemon_name)
+    pokemon_data.append(stats)
+    pokemon_data.append(abilities)
+    print(pokemon_data)
+    return pokemon_data
 
 def main(args):
     if args.action == 'generation':
-        pokedex = get_Pokemon(args.action, args.gen_num)
+        pokedex = get_Pokedex(args.action, args.searchable)
         print("=======================================================================================================")
         print("Pokemon list in order")
         for pokemon in pokedex:
             print(str(pokemon[0]) + "-" + pokemon[1])
-    '''
-    elif args.action == 'conjugate':
-        conjugations = get_conjugations(args.word, args.language)
-        for conjugation in conjugations:
-            text = conjugation['text']
-            tense = conjugation['tense']
-            person = conjugation['person']
-            number = conjugation['number']
-            print('{0} [{1} {2} {3}]'.format(text, tense, person, number))
-            '''
+
+    elif args.action == 'entry':
+        pokemon_info = get_Pokemon("pokemon", args.searchable)
 
 if __name__ == '__main__':
     # When I use argparse to parse my command line, I usually
@@ -101,13 +131,10 @@ if __name__ == '__main__':
                         metavar='action',
                         help='action to perform on the word ("gen" or "entry")',
                         choices=['generation', 'entry'])
-    '''
-    parser.add_argument('language',
-                        metavar='language',
-                        help='the language as a 3-character ISO code',
-                        choices=['eng', 'fra', 'spa', 'deu', 'ita', 'por'])
-                        '''
-    parser.add_argument('gen_num', help='the word you want to act on')
+
+    parser.add_argument('searchable',
+                        metavar = 'searchable',
+                        help='the generation number(1-7), Pokedex entry number(1-802), or name of a Pokemon')
 
     args = parser.parse_args()
     main(args)
