@@ -128,17 +128,23 @@ def main(args):
     check_searchable = [1,2,3,4,5,6,7]
 
     if args.action == 'generation':
-        args.searchable = int(args.searchable)
 
-        while(args.searchable not in check_searchable):
-            print("Invalid generation! Enter new input in range 1-7: ")
-            try:
-                args.searchable = int(input())
-            except:
-                args.searchable = 35
+        try:
+            pokedex = get_Pokedex(args.action, args.searchable)
+
+        except:
+            can_search = False
+            while(not can_search):
+                print("Invalid search, Try Again! Maybe a valid number entry(1-7) will work")
+                args.searchable = input()
+                try:
+                    pokedex = get_Pokedex(args.action, args.searchable)
+                    can_search = True
+                except:
+                    can_search = False
 
 
-        pokedex = get_Pokedex(args.action, args.searchable)
+
         print("=======================================================================================================")
         print("Pokemon list in order")
         for pokemon in pokedex:
