@@ -142,7 +142,7 @@ def main(args):
         except:
             can_search = False
             while(not can_search):
-                print("Invalid search, Try Again! Maybe a valid number entry(1-802) or proper name")
+                print("Invalid search, Try Again! Maybe a valid number entry(1-802) or proper name will work")
                 args.searchable = input()
                 try:
                     pokemon_info = get_Pokemon('pokemon', args.searchable)
