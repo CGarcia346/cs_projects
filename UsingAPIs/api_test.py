@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 '''
     api_test.py
-    Carlos Garcia & Joey Cook-Gallardo, 13 April 2018
-
-    An example for CS 257 Software Design. How to retrieve results
-    from an HTTP-based API, parse the results (JSON in this case),
-    and manage the potential errors.
+    Carlos Garcia & Joey Cook-Gallardo, 15 April 2018
+    An api that allows its user to search for the pokemon in a generation or the entry of a pokemon
 '''
 
 import sys
@@ -16,7 +13,9 @@ import math
 
 def get_Pokedex(gen, searchable):
     '''
-
+        searches for and prints out a list of all the pokemon in a generation
+        parameter: generation, specifies that the user is searching for the pokemon within a generation
+        parameter: searches for the specific number of the generation
     '''
 
     base_url = 'http://pokeapi.co/api/v2/{0}/{1}/'
@@ -31,7 +30,7 @@ def get_Pokedex(gen, searchable):
     pokemon_species = generation_list['pokemon_species']
     count = 0
     for pokemon_list_dictionary in pokemon_species:
-        count+= 1
+        count += 1
         pokemon = pokemon_list_dictionary['name']
 
         id_url = pokemon_list_dictionary['url']
@@ -51,7 +50,10 @@ def get_Pokedex(gen, searchable):
     return final_list
 
 def createOrder(list_of_tuples):
-
+    '''
+       organizes the list of pokemon/id tuples
+       parameter: list of tuples, tuple contains a pokemon and its id number
+    '''
     ordered_list = []
 
     while len(list_of_tuples) != 0:
@@ -74,6 +76,11 @@ def createOrder(list_of_tuples):
     return ordered_list
 
 def get_Pokemon(pokemonSpecies, entry):
+    '''
+       searches for and prints out the entry of a pokemon
+       parameter: pokemonSpecies, specifies that the user is searching for a pokemon entry
+       parameter: entry, the pokemon the user wants the entry of
+   '''
 
     base_url = 'http://pokeapi.co/api/v2/{0}/{1}/'
     url = base_url.format(pokemonSpecies, entry)
@@ -115,6 +122,9 @@ def get_Pokemon(pokemonSpecies, entry):
     return pokemon_data
 
 def main(args):
+    '''
+       interprets input and runs methods based off the input
+    '''
     check_searchable = [1,2,3,4,5,6,7]
 
     if args.action == 'generation':
@@ -142,7 +152,7 @@ def main(args):
         except:
             can_search = False
             while(not can_search):
-                print("Invalid search, Try Again! Maybe a valid number entry(1-802) or proper name")
+                print("Invalid search, Try Again! Maybe a valid number entry(1-802) or proper name will work")
                 args.searchable = input()
                 try:
                     pokemon_info = get_Pokemon('pokemon', args.searchable)
@@ -172,10 +182,9 @@ def main(args):
         print()
 
 if __name__ == '__main__':
-    # When I use argparse to parse my command line, I usually
-    # put the argparse setup here in the global code, and then
-    # call a function called main to do the actual work of
-    # the program.
+    '''
+       input from the user and provides information about how to use the api to the user
+    '''
     parser = argparse.ArgumentParser(description='Get Pokemon data from pokeapi.co')
 
     parser.add_argument('action',
