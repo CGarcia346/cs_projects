@@ -127,4 +127,7 @@ def save_linking_table(books_authors, csv_file_name):
 if __name__ == '__main__':
     sets = load_from_books_csv_file('sets_table.csv')
 
-    save_books_table(sets, 'cards.csv')
+    save_books_table(books, 'books.csv')
+    save_authors_table(authors, 'authors.csv')
+    save_linking_table(books_authors, 'books_authors.csv')
+
