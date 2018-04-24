@@ -1,0 +1,23 @@
+Joey Cook Gallardo and Carlos Garcia
+Dataset:
+A dataset that contains all Magic the gathering cards, including their layout, name, manacost, converted mana cost (CMC), colors, type, types, subtypes, text, power, toughness, image name, printings, legalities, and color identity
+
+Instructions for how to find data: 
+https://mtgjson.com/
+Click on “All cards + Extras”
+
+User Story:
+
+User searches card name: Returns a list sorted alphabetically
+User searches card type: Listed Alphabetically
+User searches color: Listed Alphabetically priority list white, blue, black, red, green
+User searches CMC: List priority- total, white, blue, black, red, green, amount of generic increasing
+User searches Card Subtype: Returns a list sorted alphabetically
+User searches text: Returns a list sorted alphabetically
+User searches Power: Returns a list sorted from lowest to greatest
+User searches Toughness: Returns a list sorted from lowest to greatest
+User searches Printings: Returns a list sorted by newest printing to oldest printing
+User searches Legality: Returns a list sorted by legality, and then alphabetically otherwise
+User searches a combination of the above attributes, returns list alphabetically 
+Felipe is walking home and he remembers tomorrow is the big game. His papa is finally taking him to the MTG tournament at the local park, man das sick crazy bro. Felipe has been building his deck for three years but he just remembered. He recently lost his “Fugitive Wizard” card and can’t remember what its function was. His whole deck revolved around it. What is he supposed to do? He remembers there’s a dataset that can find you the card if you know its color. He whips out his telefono and starts searching for _____ and then filters by color. He sees it. It’s Fugitive wizard! Felipe remembers he needs a card that is 1 blue for 1/1. He quickly grabs his Magic collection and finds a card as close to Fugitive Wizard s he can. He slips it into his deck and heads off with his papa to the tournament.
+Part 2 coming soon.
