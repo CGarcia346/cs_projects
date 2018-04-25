@@ -29,12 +29,19 @@ def save_cards_table_as_csv(sets, csv_file_name):
     writer = csv.writer(output_file)
     ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
     id = 0
+    card_id = 0
     for key in sets:
         if (sets[key]['type'] not in ban):
             cards = sets[key]['cards']
             for card in cards:
-                set_row = [id, card['artist'], card['name'], card['type'], card['cmc']
-                           ]
+
+                card_set_num = None
+
+                if "number" in card:
+                    card_set_num = card['number']
+
+                set_row = [id, card_id, card_set_num, card['artist'], card['name'], card['type'], card['cmc']]
+
                 if "types" in card:
                     set_row.append(card['types'])
                 else:
@@ -43,10 +50,7 @@ def save_cards_table_as_csv(sets, csv_file_name):
                     set_row.append(card['manaCost'])
                 else:
                     set_row.append(None)
-                if "number" in card:
-                    set_row.append(card['number'])
-                else:
-                    set_row.append(None)
+
                 if "subtypes" in card:
                     set_row.append(card['subtypes'])
                 else:
@@ -75,18 +79,32 @@ def save_cards_table_as_csv(sets, csv_file_name):
                     set_row.append(card['toughness'])
                 else:
                     set_row.append(None)
+
+                card_id += 1
                 writer.writerow(set_row)
             id += 1
     output_file.close()
 
-def save_artist_table_as_csv(data, 'cards_table.csv'):
+def save_artist_table_as_csv(sets, csv_file_name):
     output_file = open(csv_file_name, 'w')
     writer = csv.writer(output_file)
     ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
     id = 0
+    artists = []
     for key in sets:
         if (sets[key]['type'] not in ban):
             cards = sets[key]['cards']
+            for card in cards:
+                if card["artist"] not in artists:
+                    artists.append(card["artist"])
+                artistID = artists.index(card['artist'])
+                set_row = [id, artistID, card["artist"], card["name"]]
+                writer.writerow(set_row)
+            id += 1
+    output_file.close()
+
+
+
 
 def save_linking_table_as_csv(books, authors, csv_file_name):
     ''' Exercise for the reader. Roughly, you might do this like so:
@@ -108,5 +126,5 @@ if __name__ == '__main__':
     # Save the tables
     save_sets_table_as_csv(data, 'sets_table.csv')
     save_cards_table_as_csv(data, 'cards_table.csv')
-    save_artist_table_as_csv(data, 'cards_table.csv')
+    save_artist_table_as_csv(data, 'artists_table.csv')
 
