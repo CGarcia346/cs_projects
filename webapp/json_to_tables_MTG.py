@@ -90,6 +90,7 @@ def save_artist_table_as_csv(sets, csv_file_name):
     writer = csv.writer(output_file)
     ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
     id = 0
+    card_id = 0
     artists = []
     for key in sets:
         if (sets[key]['type'] not in ban):
@@ -98,8 +99,9 @@ def save_artist_table_as_csv(sets, csv_file_name):
                 if card["artist"] not in artists:
                     artists.append(card["artist"])
                 artistID = artists.index(card['artist'])
-                set_row = [id, artistID, card["artist"], card["name"]]
+                set_row = [id, artistID, card_id, card["artist"], card["name"]]
                 writer.writerow(set_row)
+                card_id+=1
             id += 1
     output_file.close()
 def save_cmc_table_as_csv(sets, csv_file_name):
@@ -140,6 +142,7 @@ def save_color_table_as_csv(sets, csv_file_name):
                 card_id += 1
     output_file.close()
 
+<<<<<<< HEAD
 def save_power_table_as_csv(sets, csv_file_name):
     output_file = open(csv_file_name, 'w')
     writer = csv.writer(output_file)
@@ -170,6 +173,8 @@ def save_toughness_table_as_csv(sets, csv_file_name):
     output_file.close()
 
 
+=======
+>>>>>>> 9989e372c7bc1e3669a38e16b72e9a61f51fe332
 def save_linking_table_as_csv(books, authors, csv_file_name):
     ''' Exercise for the reader. Roughly, you might do this like so:
         
