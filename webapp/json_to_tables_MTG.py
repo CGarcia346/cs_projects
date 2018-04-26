@@ -104,8 +104,77 @@ def save_artist_table_as_csv(sets, csv_file_name):
                 card_id+=1
             id += 1
     output_file.close()
+def save_cmc_table_as_csv(sets, csv_file_name):
+    output_file = open(csv_file_name, 'w')
+    writer = csv.writer(output_file)
+    ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
+    card_id = 0
+    for key in sets:
+        if sets[key]['type'] not in ban:
+            cards = sets[key]['cards']
+            for card in cards:
+                set_row = [card["cmc"], card_id, card["name"]]
+                writer.writerow(set_row)
+                card_id += 1
+    output_file.close()
+def save_color_table_as_csv(sets, csv_file_name):
+    output_file = open(csv_file_name, 'w')
+    writer = csv.writer(output_file)
+    ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
+    card_id = 0
+    color_list = []
+    for key in sets:
+        if sets[key]['type'] not in ban:
+            cards = sets[key]['cards']
+            for card in cards:
+                if "colors" in card:
+                    if card["colors"] not in color_list:
+                        color_list.append(card["colors"])
+                        color_id = len(color_list) - 1
+                    else:
+                        color_id = color_list.index(card["colors"])
+                    set_row = [color_id, card["colors"], card_id, card["name"]]
+
+                else:
+                    color_id = -1
+                    set_row = [color_id, None, card_id, card["name"]]
+                writer.writerow(set_row)
+                card_id += 1
+    output_file.close()
+
+<<<<<<< HEAD
+def save_power_table_as_csv(sets, csv_file_name):
+    output_file = open(csv_file_name, 'w')
+    writer = csv.writer(output_file)
+    ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
+    card_id = 0
+    for key in sets:
+        if sets[key]['type'] not in ban:
+            cards = sets[key]['cards']
+            for card in cards:
+                if 'power' in card:
+                    set_row = [card_id, card["power"], card["name"]]
+                    writer.writerow(set_row)
+                card_id += 1
+    output_file.close()
+def save_toughness_table_as_csv(sets, csv_file_name):
+    output_file = open(csv_file_name, 'w')
+    writer = csv.writer(output_file)
+    ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
+    card_id = 0
+    for key in sets:
+        if sets[key]['type'] not in ban:
+            cards = sets[key]['cards']
+            for card in cards:
+                if 'toughness' in card:
+                    set_row = [card_id, card["toughness"], card["name"]]
+                    writer.writerow(set_row)
+                card_id += 1
+    output_file.close()
 
 
+=======
+>>>>>>> 9989e372c7bc1e3669a38e16b72e9a61f51fe332
 def save_linking_table_as_csv(books, authors, csv_file_name):
     ''' Exercise for the reader. Roughly, you might do this like so:
         
@@ -127,4 +196,7 @@ if __name__ == '__main__':
     save_sets_table_as_csv(data, 'sets_table.csv')
     save_cards_table_as_csv(data, 'cards_table.csv')
     save_artist_table_as_csv(data, 'artists_table.csv')
-
+    save_cmc_table_as_csv(data, 'cmc_table.csv')
+    save_power_table_as_csv(data, 'power_table.csv')
+    save_toughness_table_as_csv(data, 'toughness_table.csv')
+    save_color_table_as_csv(data, 'color_table.csv')
