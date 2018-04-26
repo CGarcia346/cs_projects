@@ -140,6 +140,28 @@ def save_color_table_as_csv(sets, csv_file_name):
                 card_id += 1
     output_file.close()
 
+def save_type_table_as_csv(sets, csv_file_name):
+    output_file = open(csv_file_name, 'w')
+    writer = csv.writer(output_file)
+    ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
+    type_id = 0
+    card_id = 0
+    type_list = []
+    for key in sets:
+        if sets[key]['type'] not in ban:
+            cards = sets[key]['cards']
+            for card in cards:
+                if card["type"] not in type_list:
+                    type_list.append(card["type"])
+                    type_id = len(type_list) - 1
+                else:
+                    type_id = type_list.index(card["type"])
+                set_row = [type_id, card_id, card["type"], card["name"]]
+                writer.writerow(set_row)
+                card_id += 1
+    output_file.close()
+
+
 def save_power_table_as_csv(sets, csv_file_name):
     output_file = open(csv_file_name, 'w')
     writer = csv.writer(output_file)
@@ -195,3 +217,4 @@ if __name__ == '__main__':
     save_power_table_as_csv(data, 'power_table.csv')
     save_toughness_table_as_csv(data, 'toughness_table.csv')
     save_color_table_as_csv(data, 'color_table.csv')
+    save_type_table_as_csv(data, 'type_table.csv')
