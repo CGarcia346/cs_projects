@@ -249,6 +249,113 @@ def save_toughness_table_as_csv(sets, csv_file_name):
 
     output_file.close()
 
+def save_manacost_table_as_csv(sets, csv_file_name):
+
+    output_file = open(csv_file_name, 'w')
+    writer = csv.writer(output_file)
+    ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
+    card_id = 0
+
+    for key in sets:
+
+        if sets[key]['type'] not in ban:
+            cards = sets[key]['cards']
+            for card in cards:
+                if 'manaCost' in card:
+                    manaCost = card['manaCost']
+
+                    if "C" in manaCost:
+                        amount = 0
+                        while "C" in manaCost:
+                            i = manaCost.index('C')
+                            manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            amount += 1
+                        set_row = [card_id, 0, amount]
+                        writer.writerow(set_row)
+
+                    if "W" in manaCost:
+                        amount = 0
+                        while "W" in manaCost:
+                            i = manaCost.index('W')
+                            manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            amount += 1
+                        set_row = [card_id, 1, amount]
+                        writer.writerow(set_row)
+
+                    if "U" in manaCost:
+                        amount = 0
+                        while "U" in manaCost:
+                            i = manaCost.index('U')
+                            manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            amount += 1
+                        set_row = [card_id, 2, amount]
+                        writer.writerow(set_row)
+
+                    if "B" in manaCost:
+                        amount = 0
+                        while "B" in manaCost:
+                            i = manaCost.index('B')
+                            manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            amount += 1
+                        set_row = [card_id, 3, amount]
+                        writer.writerow(set_row)
+
+                    if "R" in manaCost:
+                        amount = 0
+                        while "R" in manaCost:
+                            i = manaCost.index('R')
+                            manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            amount += 1
+                        set_row = [card_id, 4, amount]
+                        writer.writerow(set_row)
+
+                    if "G" in manaCost:
+                        amount = 0
+                        while "G" in manaCost:
+                            i = manaCost.index('G')
+                            manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            amount += 1
+                        set_row = [card_id, 5, amount]
+                        writer.writerow(set_row)
+
+                    if "{" in manaCost:
+                        while "{" in manaCost:
+                            i = manaCost.index("{")
+                            set_row = [card_id, 6, manaCost[i:i+2]]
+                            writer.writerow(set_row)
+                            manaCost = manaCost[i+3:]
+
+                    print(manaCost)
+                card_id += 1
+
+    output_file.close()
+
+def create_color_table():
+
+    output_file = open("color.csv", 'w')
+    writer = csv.writer(output_file)
+
+    set_row = [0, "colorless"]
+    writer.writerow(set_row)
+
+    set_row = [1, "white"]
+    writer.writerow(set_row)
+
+    set_row = [2, "blue"]
+    writer.writerow(set_row)
+
+    set_row = [3, "black"]
+    writer.writerow(set_row)
+
+    set_row = [4, "red"]
+    writer.writerow(set_row)
+
+    set_row = [5, "green"]
+    writer.writerow(set_row)
+
+    set_row = [6, "generic"]
+    writer.writerow(set_row)
+
 def save_linking_table_as_csv(books, authors, csv_file_name):
     ''' Exercise for the reader. Roughly, you might do this like so:
         
@@ -267,11 +374,12 @@ if __name__ == '__main__':
     data = json.loads(open('AllSets.json').read())
 
     # Save the tables
-    save_sets_table_as_csv(data, 'sets_table.csv')
-    save_cards_table_as_csv(data, 'cards_table.csv')
-    save_artist_table_as_csv(data, 'artists_table.csv')
-    save_cmc_table_as_csv(data, 'cmc_table.csv')
-    save_power_table_as_csv(data, 'power_table.csv')
-    save_toughness_table_as_csv(data, 'toughness_table.csv')
-    save_color_table_as_csv(data, 'color_table.csv')
-    save_type_table_as_csv(data, 'type_table.csv')
+    save_sets_table_as_csv(data, 'MTG_sets_table.csv')
+    save_cards_table_as_csv(data, 'MTG_cards_table.csv')
+    save_artist_table_as_csv(data, 'MTG_artists_table.csv')
+    save_cmc_table_as_csv(data, 'MTG_cmc_table.csv')
+    save_power_table_as_csv(data, 'MTG_power_table.csv')
+    save_toughness_table_as_csv(data, 'MTG_toughness_table.csv')
+    save_color_table_as_csv(data, 'MTG_color_table.csv')
+    save_type_table_as_csv(data, 'MTG_type_table.csv')
+    save_manacost_table_as_csv(data, 'MTG_manacost_table.csv')
