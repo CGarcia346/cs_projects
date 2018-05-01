@@ -15,8 +15,8 @@
       <file leaf-file-name="json_to_tables_MTG.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/json_to_tables_MTG.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="323" column="65" selection-start-line="323" selection-start-column="65" selection-end-line="323" selection-end-column="65" />
+            <state relative-caret-position="499">
+              <caret line="324" column="65" lean-forward="true" selection-start-line="324" selection-start-column="65" selection-end-line="324" selection-end-column="65" />
               <folding>
                 <element signature="e#272#282#0" expanded="true" />
               </folding>
@@ -74,6 +74,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -85,7 +86,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
       <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
@@ -196,6 +196,23 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/json_to_tables_MTG.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5491">
+          <caret line="323" column="65" selection-start-line="323" selection-start-column="65" selection-end-line="323" selection-end-column="65" />
+          <folding>
+            <element signature="e#272#282#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AllSets.json">
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state relative-caret-position="41361">
+          <caret line="2433" column="18" selection-start-line="2433" selection-start-column="18" selection-end-line="2433" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/json_to_tables_MTG.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5355">
@@ -376,8 +393,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/json_to_tables_MTG.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="323" column="65" selection-start-line="323" selection-start-column="65" selection-end-line="323" selection-end-column="65" />
+        <state relative-caret-position="499">
+          <caret line="324" column="65" lean-forward="true" selection-start-line="324" selection-start-column="65" selection-end-line="324" selection-end-column="65" />
           <folding>
             <element signature="e#272#282#0" expanded="true" />
           </folding>

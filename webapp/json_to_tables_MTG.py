@@ -321,11 +321,12 @@ def save_manacost_table_as_csv(sets, csv_file_name):
                     if "{" in manaCost:
                         while "{" in manaCost:
                             i = manaCost.index("{")
-                            set_row = [card_id, 6, manaCost[i:i+2]]
+                            l = manaCost.index("}")
+                            set_row = [card_id, 6, manaCost[i+1:l]]
                             writer.writerow(set_row)
-                            manaCost = manaCost[i+3:]
+                            manaCost = manaCost[l+1:]
 
-                    print(manaCost)
+                    print("card id: " + str(card_id) + "| manaCost: " + manaCost)
                 card_id += 1
 
     output_file.close()
