@@ -249,7 +249,7 @@ def save_toughness_table_as_csv(sets, csv_file_name):
 
     output_file.close()
 
-def save_manacost_table_as_csv(sets, csv_file_name):
+def save_manacost_table(sets, csv_file_name):
 
     output_file = open(csv_file_name, 'w')
     writer = csv.writer(output_file)
@@ -270,8 +270,8 @@ def save_manacost_table_as_csv(sets, csv_file_name):
                             i = manaCost.index('C')
                             manaCost = manaCost[:i-1] + manaCost[i+2:]
                             amount += 1
-                        set_row = [card_id, 0, amount]
-                        writer.writerow(set_row)
+                            set_row = [card_id, 0, amount]
+                            writer.writerow(set_row)
 
                     if "W" in manaCost:
                         amount = 0
@@ -318,16 +318,6 @@ def save_manacost_table_as_csv(sets, csv_file_name):
                         set_row = [card_id, 5, amount]
                         writer.writerow(set_row)
 
-                    if "{" in manaCost:
-                        while "{" in manaCost:
-                            i = manaCost.index("{")
-                            if "}" in manaCost:
-                                l = manaCost.index("}")
-                            set_row = [card_id, 6, manaCost[i+1:l]]
-                            writer.writerow(set_row)
-                            manaCost = ""
-
-                    print("card id: " + str(card_id) + "| manaCost: " + manaCost)
                 card_id += 1
 
     output_file.close()
@@ -384,4 +374,4 @@ if __name__ == '__main__':
     save_toughness_table_as_csv(data, 'MTG_toughness_table.csv')
     save_color_table_as_csv(data, 'MTG_color_table.csv')
     save_type_table_as_csv(data, 'MTG_type_table.csv')
-    save_manacost_table_as_csv(data, 'MTG_manacost_table.csv')
+    save_manacost_table(data, 'MTG_manacost_table.csv')
