@@ -264,11 +264,22 @@ def save_manacost_table(sets, csv_file_name):
                 if 'manaCost' in card:
                     manaCost = card['manaCost']
 
+                    if "/" in manaCost:
+
+                        while "/" in manaCost:
+                            i= manaCost.index('/')
+                            if manaCost[i+1] == "P":
+                                manaCost = manaCost[:i] + manaCost[i+3:]
+                            else:
+                                manaCost = manaCost[:i] + "}{" + manaCost[i+1:]
+
                     if "C" in manaCost:
                         amount = 0
                         while "C" in manaCost:
                             i = manaCost.index('C')
+                            print(manaCost)
                             manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            print(manaCost)
                             amount += 1
                             set_row = [card_id, 0, amount]
                             writer.writerow(set_row)
@@ -277,7 +288,9 @@ def save_manacost_table(sets, csv_file_name):
                         amount = 0
                         while "W" in manaCost:
                             i = manaCost.index('W')
+                            print(manaCost)
                             manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            print(manaCost)
                             amount += 1
                         set_row = [card_id, 1, amount]
                         writer.writerow(set_row)
@@ -286,7 +299,9 @@ def save_manacost_table(sets, csv_file_name):
                         amount = 0
                         while "U" in manaCost:
                             i = manaCost.index('U')
+                            print(manaCost)
                             manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            print(manaCost)
                             amount += 1
                         set_row = [card_id, 2, amount]
                         writer.writerow(set_row)
@@ -295,7 +310,9 @@ def save_manacost_table(sets, csv_file_name):
                         amount = 0
                         while "B" in manaCost:
                             i = manaCost.index('B')
+                            print(manaCost)
                             manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            print(manaCost)
                             amount += 1
                         set_row = [card_id, 3, amount]
                         writer.writerow(set_row)
@@ -304,7 +321,9 @@ def save_manacost_table(sets, csv_file_name):
                         amount = 0
                         while "R" in manaCost:
                             i = manaCost.index('R')
+                            print(manaCost)
                             manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            print(manaCost)
                             amount += 1
                         set_row = [card_id, 4, amount]
                         writer.writerow(set_row)
@@ -313,7 +332,9 @@ def save_manacost_table(sets, csv_file_name):
                         amount = 0
                         while "G" in manaCost:
                             i = manaCost.index('G')
+                            print(manaCost)
                             manaCost = manaCost[:i-1] + manaCost[i+2:]
+                            print(manaCost)
                             amount += 1
                         set_row = [card_id, 5, amount]
                         writer.writerow(set_row)
