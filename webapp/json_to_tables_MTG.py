@@ -339,6 +339,13 @@ def save_manacost_table(sets, csv_file_name):
                         set_row = [card_id, 5, amount]
                         writer.writerow(set_row)
 
+                    if manaCost:
+                        for omit in ["X", "{", "}"]:
+                            if omit in manaCost:
+                                manaCost = manaCost.replace(omit, "")
+                        set_row = [card_id, 6, manaCost]
+                        writer.writerow(set_row)
+
                 card_id += 1
 
     output_file.close()
