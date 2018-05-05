@@ -124,7 +124,13 @@ def get_artists():
 
 @app.route('/artists/<artist_id>')
 def get_artist(artist_id):
-    return json.dumps()
+
+    temp_list = []
+    for artist in artists:
+        if artist['artist_id'] == artist_id:
+            temp_list.append(artist)
+
+    return json.dumps(temp_list)
 
 @app.route("/cards")
 def get_cards():
