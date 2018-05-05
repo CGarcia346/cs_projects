@@ -111,7 +111,8 @@ def save_artist_table_as_csv(sets, csv_file_name):
     output_file = open(csv_file_name, 'w')
     writer = csv.writer(output_file)
     ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
-    artists = []
+    artist_list = []
+    artists = {}
 
     for key in sets:
         if (sets[key]['type'] not in ban):
@@ -119,11 +120,17 @@ def save_artist_table_as_csv(sets, csv_file_name):
 
             for card in cards:
                 if card["artist"] not in artists:
-                    artists.append(card["artist"])
+                    artist_list.append(card['artist'])
+                    artists[card["artist"]] = {"id":artist_list.index(card['artist']), 'a_set': [card['name']],
+                                               'c_set': [card['name']]}
+                else:
+                    if sets[key]['name'] not in artists[card['artist']]['a_set']:
+                        artists[card["artist"]]['a_set'].append(sets[key]['name'])
+                    artists[card["artist"]]['c_set'].append(card['name'])
 
-                artistID = artists.index(card['artist'])
-                set_row = [artistID, card["artist"], sets[key]['name'], card["name"]]
-                writer.writerow(set_row)
+    for artist in artists:
+        set_row = [artists[artist]['id'], artist, artists[artist]['a_set'], artists[artist]['c_set']]
+        writer.writerow(set_row)
 
     output_file.close()
 

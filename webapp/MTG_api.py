@@ -51,6 +51,14 @@ with open('MTG_cards_table.csv') as csvfile:
         new_dict['artist']= row[15]
         card_list.append(new_dict)
 
+artists = []
+with open('MTG_artists_table.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    new_dict = {}
+    for row in reader:
+        new_dict[row[0]] = {"artist": row[1], "sets": [row[2]], "cards": [row[3]]}
+        artists.append(new_dict)
+
 @app.route('/')
 def hello():
     return 'Welcome to the world of MAGIC THE GATHERING (use a tiny elf voice when reading this)'
@@ -92,20 +100,38 @@ def get_set(set_id):
             break
     return json.dumps(set_dictionary)
 
+@app.route('/artists')
+def get_artists():
+
+    artist_list = []
+    artist_id = flask.request.args.get('artist_id')
+    name = flask.request.args.get('name')
+    set_name = flask.request.args.get('set_name', type= str)
+    card_name = flask.request.args.get('card_name', type = str)
+
+    for artist in artists:
+        if artist_id is not None and id != artist['artist_id']:
+            continue
+        if name is not None and name != artist['name']:
+            continue
+        if set_name is not None and set_name != artist['set_name']:
+            continue
+        if card_name is not None and card_name != artist['card_name']:
+            continue
+        artist_list.append(artist)
+
+    return json.dumps(artist_list)
+
 @app.route('/artists/<artist_id>')
 def get_artist(artist_id):
     return json.dumps()
 
-@app.route('/artists')
-def get_artists():
+@app.route("/cards")
+def get_cards():
     return json.dumps()
 
 @app.route('/cards/<card_id>')
 def get_card(card_id):
-    return json.dumps()
-
-@app.route("/cards")
-def get_cards():
     return json.dumps()
 
 @app.route("/power/<power_value>")
