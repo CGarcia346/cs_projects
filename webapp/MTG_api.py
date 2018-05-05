@@ -11,31 +11,40 @@
 import sys
 import flask
 import json
+import csv
 
 app = flask.Flask(__name__)
 
 # Who needs a database when you can just hard-code some actors and movies?
-actors = [
-    {'last_name': 'Pickford', 'first_name': 'Mary'},
-    {'last_name': 'Rains', 'first_name': 'Claude'},
-    {'last_name': 'Lorre', 'first_name': 'Peter'},
-    {'last_name': 'Greenstreet', 'first_name': 'Sydney'},
-    {'last_name': 'Bergman', 'first_name': 'Ingrid'},
-    {'last_name': 'Welles', 'first_name': 'Orson'},
-    {'last_name': 'Colbert', 'first_name': 'Claudette'},
-    {'last_name': 'Adams', 'first_name': 'Amy'}
-]
 
-movies = [
-    {'title': 'Casablanca', 'year': 1942, 'genre': 'drama'},
-    {'title': 'North By Northwest', 'year': 1959, 'genre': 'thriller'},
-    {'title': 'Alien', 'year': 1979, 'genre': 'scifi'},
-    {'title': 'Bridesmaids', 'year': 2011, 'genre': 'comedy'},
-    {'title': 'Arrival', 'year': 2016, 'genre': 'scifi'},
-    {'title': 'It Happened One Night', 'year': 1934, 'genre': 'comedy'},
-    {'title': 'Fargo', 'year': 1996, 'genre': 'thriller'},
-    {'title': 'Clueless', 'year': 1995, 'genre': 'comedy'}
-]
+sets = []
+with open('MTG_sets_table.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        new_dict = {}
+        new_dict["id"] = row[0]
+        new_dict['name'] = row[1]
+        new_dict['releaseDate'] = row[2]
+        new_dict['border'] = row[3]
+        sets.append(new_dict)
+
+with open('MTG_cards_table.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        new_dict={}
+        new_dict['card_id'] =
+        new_dict['set_id'] =
+        new_dict['name'] =
+        new_dict['cards_set_number'] =
+        new_dict['colors'] =
+        new_dict['colorIdentity'] =
+        new_dict['manaCost'] =
+        new_dict['']=
+        new_dict['']=
+        new_dict['']=
+        new_dict['']=
+
+
 
 @app.route('/')
 def hello():
@@ -44,21 +53,29 @@ def hello():
 @app.route('/set/<set_id>')
 def get_set(set_id):
     ''' Returns the first matching actor, or an empty dictionary if there's no match. '''
-
+    set_list =
     return json.dumps()
 
 @app.route('/sets')
 def get_sets():
-    ''' Returns the list of movies that match GET parameters:
-          start_year, int: reject any movie released earlier than this year
-          end_year, int: reject any movie released later than this year
-          genre: reject any movie whose genre does not match this genre exactly
-        If a GET parameter is absent, then any movie is treated as though
-        it meets the corresponding constraint. (That is, accept a movie unless
-        it is explicitly rejected by a GET parameter.)
-    '''
 
-    return json.dumps()
+    sets_list = []
+    id = flask.request.args.get('id')
+    name = flask.request.args.get('name')
+    release_date = flask.request.args.get('releaseDate', type= str)
+    border = flask.request.args.get('border', type = str)
+    for set in sets:
+        if id is not None and id != set['id']:
+            continue
+        if name is not None and name != set['name']:
+            continue
+        if release_date is not None and release_date != set['releaseDate']:
+            continue
+        if border is not None and border != set['border']:
+            continue
+        sets_list.append(set)
+
+    return json.dumps(sets_list)
 
 @app.route('/artists/<artist_id>')
 def get_artist(artist_id):
