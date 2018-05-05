@@ -28,21 +28,29 @@ with open('MTG_sets_table.csv') as csvfile:
         new_dict['border'] = row[3]
         sets.append(new_dict)
 
+card_list = []
 with open('MTG_cards_table.csv') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
         new_dict={}
-        new_dict['card_id'] =
-        new_dict['set_id'] =
-        new_dict['name'] =
-        new_dict['cards_set_number'] =
-        new_dict['colors'] =
-        new_dict['colorIdentity'] =
-        new_dict['manaCost'] =
-        new_dict['']=
-        new_dict['']=
-        new_dict['']=
-        new_dict['']=
+        new_dict['card_id'] = row[0]
+        new_dict['set_id'] = row[1]
+        new_dict['name'] = row[2]
+        new_dict['cards_set_number'] = row[3]
+        new_dict['colors'] = row[4]
+        new_dict['colorIdentity'] = row[5]
+        new_dict['manaCost'] = row[6]
+        new_dict['cmc']= row[7]
+        new_dict['type']= row[8]
+        new_dict['types']= row[9]
+        new_dict['subtypes']= row[10]
+        new_dict['text']= row[11]
+        new_dict['power']= row[12]
+        new_dict['toughness']= row[13]
+        new_dict['flavor']= row[14]
+        new_dict['artist']= row[15]
+        card_list.append(new_dict)
+
 
 
 
