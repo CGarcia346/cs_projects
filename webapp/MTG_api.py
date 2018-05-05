@@ -28,7 +28,7 @@ with open('MTG_sets_table.csv') as csvfile:
         new_dict['border'] = row[3]
         sets.append(new_dict)
 
-card_list = []
+cards = []
 with open('MTG_cards_table.csv') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
@@ -49,14 +49,17 @@ with open('MTG_cards_table.csv') as csvfile:
         new_dict['toughness']= row[13]
         new_dict['flavor']= row[14]
         new_dict['artist']= row[15]
-        card_list.append(new_dict)
+        cards.append(new_dict)
 
 artists = []
 with open('MTG_artists_table.csv') as csvfile:
     reader = csv.reader(csvfile)
-    new_dict = {}
     for row in reader:
-        new_dict[row[1]] = {"artist_id": row[0], "sets": row[2], "cards": row[3]}
+        new_dict = {}
+        new_dict['artist'] = row[0]
+        new_dict['artist_id'] = row[1]
+        new_dict['sets'] = row[2]
+        new_dict['cards'] = row[3]
         artists.append(new_dict)
 
 @app.route('/')
@@ -126,6 +129,7 @@ def get_artists():
 def get_artist(artist_id):
 
     temp_list = []
+    print(artists)
     for artist in artists:
         if artist['artist_id'] == artist_id:
             temp_list.append(artist)
@@ -134,11 +138,36 @@ def get_artist(artist_id):
 
 @app.route("/cards")
 def get_cards():
-    return json.dumps()
+
+    card_list = []
+    card_id = flask.request.args.get('card_id')
+    name = flask.request.args.get('name')
+    set_id = flask.request.args.get('set_id', type= str)
+    card_name = flask.request.args.get('card_name', type = str)
+    color_identity = flask.request.args.get('colorIdentity')
+
+    for card in cards:
+        if card_id is not None and id != card['card_id']:
+            continue
+        if name is not None and name != card['name']:
+            continue
+        if set_id is not None and set_id != card['set_id']:
+            continue
+        if card_name is not None and card_name != card['card_name']:
+            continue
+        if color_identity is not None and color_identity != card['colorIdentity']:
+            continue
+        card_list.append(card)
+
+    return json.dumps(card_list)
 
 @app.route('/cards/<card_id>')
 def get_card(card_id):
-    return json.dumps()
+    acard = []
+    for card in card_list:
+        if card['card_id'] == card_id:
+            acard.append(card)
+    return json.dumps(acard)
 
 @app.route("/power/<power_value>")
 def get_power(power_value):
