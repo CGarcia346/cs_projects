@@ -56,7 +56,7 @@ with open('MTG_artists_table.csv') as csvfile:
     reader = csv.reader(csvfile)
     new_dict = {}
     for row in reader:
-        new_dict[row[0]] = {"artist": row[1], "sets": [row[2]], "cards": [row[3]]}
+        new_dict[row[1]] = {"artist_id": row[0], "sets": row[2], "cards": row[3]}
         artists.append(new_dict)
 
 @app.route('/')
