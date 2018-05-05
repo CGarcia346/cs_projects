@@ -51,18 +51,9 @@ with open('MTG_cards_table.csv') as csvfile:
         new_dict['artist']= row[15]
         card_list.append(new_dict)
 
-
-
-
 @app.route('/')
 def hello():
     return 'Welcome to the world of MAGIC THE GATHERING (use a tiny elf voice when reading this)'
-
-@app.route('/set/<set_id>')
-def get_set(set_id):
-    ''' Returns the first matching actor, or an empty dictionary if there's no match. '''
-    set_list =
-    return json.dumps()
 
 @app.route('/sets')
 def get_sets():
@@ -84,6 +75,22 @@ def get_sets():
         sets_list.append(set)
 
     return json.dumps(sets_list)
+
+@app.route('/set/<set_id>')
+def get_set(set_id):
+    ''' Returns the first matching actor, or an empty dictionary if there's no match. '''
+    set_dictionary = {}
+    for set in sets:
+        if set['id'] == set_id:
+            set_dictionary = set.copy()
+            temp_list = []
+            for card in card_list:
+                if card['set_id'] == set_id:
+                    temp_list.append(card)
+            set_dictionary['cards'] = temp_list
+            print(sets)
+            break
+    return json.dumps(set_dictionary)
 
 @app.route('/artists/<artist_id>')
 def get_artist(artist_id):
