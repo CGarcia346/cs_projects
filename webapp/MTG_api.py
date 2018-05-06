@@ -13,6 +13,7 @@ import flask
 import json
 import csv
 
+
 app = flask.Flask(__name__)
 
 # Who needs a database when you can just hard-code some actors and movies?
@@ -56,15 +57,66 @@ with open('MTG_artists_table.csv') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
         new_dict = {}
-        new_dict['artist'] = row[0]
-        new_dict['artist_id'] = row[1]
+        new_dict['artist_id'] = row[0]
+        new_dict['name'] = row[1]
         new_dict['sets'] = row[2]
         new_dict['cards'] = row[3]
         artists.append(new_dict)
 
+power_list = []
+with open('MTG_power_table.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        new_dict = {}
+        new_dict["power"] = row[0]
+        new_dict["card_id"] = row[1]
+        new_dict["name"] = row[2]
+        power_list.append(new_dict)
+
+toughness_list = []
+with open('MTG_toughness_table.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        new_dict = {}
+        new_dict["toughness"] = row[0]
+        new_dict["card_id"] = row[1]
+        new_dict["name"] = row[2]
+        toughness_list.append(new_dict)
+
+cmc_list = []
+with open('MTG_cmc_table.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        new_dict = {}
+        new_dict["cmc"] = row[0]
+        new_dict["card_id"] = row[1]
+        new_dict["name"] = row[2]
+        cmc_list.append(new_dict)
+
+color_list = []
+with open('color.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        new_dict = {}
+        new_dict["color_id"] = row[0]
+        new_dict["color"] = row[1]
+        color_list.append(new_dict)
+
+color_amount_list = []
+with open('MTG_color_table.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        new_dict = {}
+        new_dict["color_id"] = row[0]
+        new_dict["color"] = row[1]
+        new_dict["card_id"] = row[2]
+        new_dict["name"] = row[3]
+        color_amount_list.append(new_dict)
+
 @app.route('/')
 def hello():
     return 'Welcome to the world of MAGIC THE GATHERING (use a tiny elf voice when reading this)'
+
 
 @app.route('/sets')
 def get_sets():
@@ -89,7 +141,6 @@ def get_sets():
 
 @app.route('/set/<set_id>')
 def get_set(set_id):
-    ''' Returns the first matching actor, or an empty dictionary if there's no match. '''
     set_dictionary = {}
     for set in sets:
         if set['id'] == set_id:
@@ -99,27 +150,26 @@ def get_set(set_id):
                 if card['set_id'] == set_id:
                     temp_list.append(card)
             set_dictionary['cards'] = temp_list
-            print(sets)
             break
     return json.dumps(set_dictionary)
 
+
 @app.route('/artists')
 def get_artists():
-
     artist_list = []
     artist_id = flask.request.args.get('artist_id')
     name = flask.request.args.get('name')
-    set_name = flask.request.args.get('set_name', type= str)
-    card_name = flask.request.args.get('card_name', type = str)
+    sets = flask.request.args.get('sets', type= str)
+    cards = flask.request.args.get('cards', type = str)
 
     for artist in artists:
         if artist_id is not None and id != artist['artist_id']:
             continue
         if name is not None and name != artist['name']:
             continue
-        if set_name is not None and set_name != artist['set_name']:
+        if sets is not None and sets not in artist['sets']:
             continue
-        if card_name is not None and card_name != artist['card_name']:
+        if cards is not None and cards not in artist['cards']:
             continue
         artist_list.append(artist)
 
@@ -127,39 +177,12 @@ def get_artists():
 
 @app.route('/artists/<artist_id>')
 def get_artist(artist_id):
-
     temp_list = []
-    print(artists)
     for artist in artists:
         if artist['artist_id'] == artist_id:
             temp_list.append(artist)
 
     return json.dumps(temp_list)
-
-@app.route("/cards")
-def get_cards():
-
-    card_list = []
-    card_id = flask.request.args.get('card_id')
-    name = flask.request.args.get('name')
-    set_id = flask.request.args.get('set_id', type= str)
-    card_name = flask.request.args.get('card_name', type = str)
-    color_identity = flask.request.args.get('colorIdentity')
-
-    for card in cards:
-        if card_id is not None and id != card['card_id']:
-            continue
-        if name is not None and name != card['name']:
-            continue
-        if set_id is not None and set_id != card['set_id']:
-            continue
-        if card_name is not None and card_name != card['card_name']:
-            continue
-        if color_identity is not None and color_identity != card['colorIdentity']:
-            continue
-        card_list.append(card)
-
-    return json.dumps(card_list)
 
 @app.route('/cards/<card_id>')
 def get_card(card_id):
@@ -169,30 +192,76 @@ def get_card(card_id):
             acard.append(card)
     return json.dumps(acard)
 
+@app.route("/cards")
+def get_cards():
+
+    card_list = []
+    card_id = flask.request.args.get('card_id')
+    name = flask.request.args.get('name')
+    set_id = flask.request.args.get('set_id', type= str)
+    Type = flask.request.args.get('type', type = str)
+    colors = flask.request.args.get('colors')
+    artist = flask.request.args.get('artist')
+
+    for card in cards:
+        if card_id is not None and id != card['card_id']:
+            continue
+        if name is not None and name != card['name']:
+            continue
+        if set_id is not None and set_id != card['set_id']:
+            continue
+        if colors is not None and colors not in card['colors']:
+            continue
+        if Type is not None and Type != card['type']:
+            continue
+        if artist is not None and artist.lower().replace(" ", "") not in card['artist'].lower().replace(" ", ""):
+            continue
+        card_list.append(card)
+
+    return json.dumps(card_list)
+
 @app.route("/power/<power_value>")
 def get_power(power_value):
-    return json.dumps()
+    temp_list = []
+    for card in power_list:
+        if card['power'] == power_value:
+            temp_list.append(card['name'])
+    return json.dumps(temp_list)
 
 @app.route("/toughness/<toughness_value>")
 def get_toughness(toughness_value):
-    return json.dumps()
+    temp_list = []
+    for card in toughness_list:
+        if card['toughness'] == toughness_value:
+            temp_list.append(card['name'])
+    return json.dumps(temp_list)
 
 @app.route("/cmc/<cmc_value>")
 def get_cmc(cmc_value):
-    return json.dumps()
+    temp_list = []
+    for card in cmc_list:
+        if card['cmc'] == cmc_value:
+            temp_list.append(card['name'])
+    return json.dumps(temp_list)
 
+'''
+This is incomplete
+'''
 @app.route("/manaCost/<manacost_combo>")
 def get_manacost(manacost_combo):
     return json.dumps()
 
 @app.route("/color/<color_value>")
 def get_colors(color_value):
-    return json.dumps()
+    temp_list = []
+    for card in color_amount_list:
+        if card['color'] == color_value:
+            temp_list.append(card['name'])
+    return json.dumps(temp_list)
 
 @app.route("/color")
 def get_color_list():
-    return json.dumps()
-
+    return json.dumps(color_list)
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
