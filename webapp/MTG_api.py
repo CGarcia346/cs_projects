@@ -266,7 +266,7 @@ def get_colors(color_value):
 
             card_colors = card['color']
 
-            if color_value[0].lower() in card_colors:
+            if color_value[0] in card_colors:
                 temp_list.append(card)
 
         color_value.pop(0)
