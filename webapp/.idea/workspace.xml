@@ -18,8 +18,8 @@
       <file leaf-file-name="MTG_api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MTG_api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="62">
-              <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
+            <state relative-caret-position="469">
+              <caret line="279" column="19" lean-forward="true" selection-start-line="279" selection-start-column="19" selection-end-line="279" selection-end-column="19" />
               <folding>
                 <element signature="e#272#282#0" expanded="true" />
               </folding>
@@ -85,6 +85,7 @@
       <find>enchantment</find>
       <find>number</find>
       <find>power</find>
+      <find>colors</find>
     </findStrings>
     <replaceStrings>
       <replace>toughness</replace>
@@ -104,7 +105,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="510" />
     <option name="y" value="2" />
     <option name="width" value="858" />
@@ -233,7 +234,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -585,8 +586,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MTG_api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62">
-          <caret line="13" column="10" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="10" />
+        <state relative-caret-position="469">
+          <caret line="279" column="19" lean-forward="true" selection-start-line="279" selection-start-column="19" selection-end-line="279" selection-end-column="19" />
           <folding>
             <element signature="e#272#282#0" expanded="true" />
           </folding>

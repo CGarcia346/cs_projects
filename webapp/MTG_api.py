@@ -253,11 +253,29 @@ def get_manacost(manacost_combo):
 
 @app.route("/color/<color_value>")
 def get_colors(color_value):
-    temp_list = []
-    for card in color_amount_list:
-        if card['color'] == color_value:
-            temp_list.append(card['name'])
-    return json.dumps(temp_list)
+
+    color_copy = color_amount_list.copy()
+    if "_" in color_value:
+        color_value = color_value.split("_")
+    else:
+        color_value = [color_value]
+
+    while color_value:
+        temp_list = []
+        for card in color_copy:
+
+            card_colors = card['color']
+
+            if color_value[0].lower() in card_colors:
+                temp_list.append(card)
+
+        color_value.pop(0)
+        color_copy = temp_list
+
+    final_list = []
+    for card in color_copy:
+        final_list.append(card['name'])
+    return json.dumps(final_list)
 
 @app.route("/color")
 def get_color_list():
