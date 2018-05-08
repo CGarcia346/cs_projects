@@ -122,7 +122,7 @@ def hello():
 def get_sets():
 
     sets_list = []
-    id = flask.request.args.get('id')
+    set_id = flask.request.args.get('set_id')
     name = flask.request.args.get('name')
     release_date = flask.request.args.get('releaseDate', type= str)
     border = flask.request.args.get('border', type = str)
@@ -145,12 +145,18 @@ def get_set(set_id):
     for set in sets:
         if set['id'] == set_id:
             set_dictionary = set.copy()
-            temp_list = []
-            for card in card_list:
-                if card['set_id'] == set_id:
-                    temp_list.append(card)
-            set_dictionary['cards'] = temp_list
-            break
+
+    set_dictionary['cards'] = []
+    cardAset = False
+    while cardAset:
+
+        for card in card_list:
+            if card['set_id'] == set_id:
+                set_dictionary['cards'].append(card)
+                cardAset = True
+            else:
+                cardAset = False
+
     return json.dumps(set_dictionary)
 
 
