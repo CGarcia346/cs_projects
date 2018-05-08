@@ -127,7 +127,7 @@ def get_sets():
     release_date = flask.request.args.get('releaseDate', type= str)
     border = flask.request.args.get('border', type = str)
     for set in sets:
-        if id is not None and id != set['id']:
+        if set_id is not None and set_id != set['id']:
             continue
         if name is not None and name != set['name']:
             continue
@@ -163,7 +163,7 @@ def get_artists():
     cards = flask.request.args.get('cards', type = str)
 
     for artist in artists:
-        if artist_id is not None and id != artist['artist_id']:
+        if artist_id is not None and artist_id != artist['artist_id']:
             continue
         if name is not None and name != artist['name']:
             continue
@@ -204,7 +204,7 @@ def get_cards():
     artist = flask.request.args.get('artist')
 
     for card in cards:
-        if card_id is not None and id != card['card_id']:
+        if card_id is not None and card_id != card['card_id']:
             continue
         if name is not None and name != card['name']:
             continue
@@ -212,7 +212,7 @@ def get_cards():
             continue
         if colors is not None and colors not in card['colors']:
             continue
-        if Type is not None and Type != card['type']:
+        if Type is not None and Type.lower().replace(" ", '') != card['type'].lower().replace(" ",""):
             continue
         if artist is not None and artist.lower().replace(" ", "") not in card['artist'].lower().replace(" ", ""):
             continue
