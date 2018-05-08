@@ -224,29 +224,56 @@ def get_cards():
 
 @app.route("/power/<power_value>")
 def get_power(power_value):
+
     temp_list = []
     for card in power_list:
-        if power_value - math.floor(power_value) > 0:
-            a_string = str(math.floor(power_value))
+        old = power_value
+        new = float(power_value)
+        if new - math.floor(new) > 0:
+            a_string = str(int(math.floor(new)))
+            if a_string == "0":
+                a_string = ""
             a_string = a_string + "½"
             power_value = a_string
-            
+
         if card['power'] == power_value:
             temp_list.append(card['name'])
+
+        power_value = old
+
     return json.dumps(temp_list)
 
 @app.route("/toughness/<toughness_value>")
 def get_toughness(toughness_value):
+
     temp_list = []
     for card in toughness_list:
+        old = toughness_value
+        new = float(toughness_value)
+        if new - math.floor(new) > 0:
+            a_string = str(int(math.floor(new)))
+            if a_string == "0":
+                a_string = ""
+            a_string = a_string + "½"
+            toughness_value = a_string
+
         if card['toughness'] == toughness_value:
             temp_list.append(card['name'])
+
+        toughness_value = old
+
     return json.dumps(temp_list)
 
 @app.route("/cmc/<cmc_value>")
 def get_cmc(cmc_value):
+
     temp_list = []
+
     for card in cmc_list:
+        if card['name'] == "Little Girl" and float(cmc_value) == 0.5:
+            temp_list.append(card['name'])
+            break
+
         if card['cmc'] == cmc_value:
             temp_list.append(card['name'])
     return json.dumps(temp_list)
@@ -256,6 +283,9 @@ This is incomplete
 '''
 @app.route("/manaCost/<manacost_combo>")
 def get_manacost(manacost_combo):
+
+    
+
     return json.dumps()
 
 @app.route("/color/<color_value>")
