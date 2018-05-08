@@ -12,6 +12,7 @@ import sys
 import flask
 import json
 import csv
+import math
 
 
 app = flask.Flask(__name__)
@@ -225,6 +226,11 @@ def get_cards():
 def get_power(power_value):
     temp_list = []
     for card in power_list:
+        if power_value - math.floor(power_value) > 0:
+            a_string = str(math.floor(power_value))
+            a_string = a_string + "½"
+            power_value = a_string
+            
         if card['power'] == power_value:
             temp_list.append(card['name'])
     return json.dumps(temp_list)
