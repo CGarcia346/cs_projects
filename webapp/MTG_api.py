@@ -147,15 +147,10 @@ def get_set(set_id):
             set_dictionary = set.copy()
 
     set_dictionary['cards'] = []
-    cardAset = False
-    while not cardAset:
 
-        for card in cards:
-            if card['set_id'] == set_id:
-                set_dictionary['cards'].append(card)
-                cardAset = True
-            else:
-                cardAset = False
+    for card in cards:
+        if card['set_id'] == set_id:
+            set_dictionary['cards'].append(card)
 
     return json.dumps(set_dictionary)
 
