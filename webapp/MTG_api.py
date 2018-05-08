@@ -148,9 +148,9 @@ def get_set(set_id):
 
     set_dictionary['cards'] = []
     cardAset = False
-    while cardAset:
+    while not cardAset:
 
-        for card in card_list:
+        for card in cards:
             if card['set_id'] == set_id:
                 set_dictionary['cards'].append(card)
                 cardAset = True

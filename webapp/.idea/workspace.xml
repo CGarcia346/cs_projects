@@ -17,8 +17,8 @@
       <file leaf-file-name="MTG_api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MTG_api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="394">
-              <caret line="157" column="16" selection-start-line="157" selection-start-column="16" selection-end-line="157" selection-end-column="16" />
+            <state relative-caret-position="309">
+              <caret line="152" column="25" selection-start-line="152" selection-start-column="25" selection-end-line="152" selection-end-column="25" />
               <folding>
                 <element signature="e#272#282#0" expanded="true" />
               </folding>
@@ -585,8 +585,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MTG_api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="394">
-          <caret line="157" column="16" selection-start-line="157" selection-start-column="16" selection-end-line="157" selection-end-column="16" />
+        <state relative-caret-position="309">
+          <caret line="152" column="25" selection-start-line="152" selection-start-column="25" selection-end-line="152" selection-end-column="25" />
           <folding>
             <element signature="e#272#282#0" expanded="true" />
           </folding>
