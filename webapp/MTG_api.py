@@ -154,15 +154,18 @@ def get_sets():
 def get_set(set_id):
 
     set_dictionary = {}
+    set_id = set_id
+
 
     for set in sets:
         if (set['id'] == set_id) or (set['name'] == set_id):
             set_dictionary = set.copy()
+            set_id = set['id']
 
     set_dictionary['cards'] = []
 
     for card in cards:
-        if card['set_id'] == set_id:
+        if (card['set_id'] == set_id)):
             set_dictionary['cards'].append(card)
 
     return json.dumps(set_dictionary)
@@ -179,7 +182,7 @@ def get_artists():
     for artist in artists:
         if artist_id is not None and artist_id != artist['artist_id']:
             continue
-        if name is not None and name != artist['name']:
+        if name is not None and name.lower.replace(" ","") not in artist['name'].lower.replace(" ", ""):
             continue
         if set is not None and set not in artist['sets']:
             continue
