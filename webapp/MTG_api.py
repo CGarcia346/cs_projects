@@ -114,6 +114,16 @@ with open('MTG_color_table.csv') as csvfile:
         new_dict["name"] = row[3]
         color_amount_list.append(new_dict)
 
+card_manacost = []
+with open('MTG_color_table.csv') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        new_dict = {}
+        new_dict['card_id'] = row[0]
+        new_dict['color_id'] = row[1]
+        new_dict['manacost'] = row[3]
+        card_manacost.append(new_dict)
+
 @app.route('/')
 def hello():
     return 'Welcome to the world of MAGIC THE GATHERING (use a tiny elf voice when reading this)'
@@ -142,9 +152,11 @@ def get_sets():
 
 @app.route('/set/<set_id>')
 def get_set(set_id):
+
     set_dictionary = {}
+
     for set in sets:
-        if set['id'] == set_id:
+        if (set['id'] == set_id) or (set['name'] == set_id):
             set_dictionary = set.copy()
 
     set_dictionary['cards'] = []
@@ -160,24 +172,24 @@ def get_set(set_id):
 def get_artists():
     artist_list = []
     artist_id = flask.request.args.get('artist_id')
-    name = flask.request.args.get('name')
-    sets = flask.request.args.get('sets', type= str)
-    cards = flask.request.args.get('cards', type = str)
+    name = flask.request.args.get('name', type=str)
+    set = flask.request.args.get('set', type= str)
+    card = flask.request.args.get('card', type = str)
 
     for artist in artists:
         if artist_id is not None and artist_id != artist['artist_id']:
             continue
         if name is not None and name != artist['name']:
             continue
-        if sets is not None and sets not in artist['sets']:
+        if set is not None and set not in artist['sets']:
             continue
-        if cards is not None and cards not in artist['cards']:
+        if card is not None and card not in artist['cards']:
             continue
         artist_list.append(artist)
 
     return json.dumps(artist_list)
 
-@app.route('/artists/<artist_id>')
+@app.route('/artist/<artist_id>')
 def get_artist(artist_id):
     temp_list = []
     for artist in artists:
@@ -284,7 +296,7 @@ This is incomplete
 @app.route("/manaCost/<manacost_combo>")
 def get_manacost(manacost_combo):
 
-    
+
 
     return json.dumps()
 
