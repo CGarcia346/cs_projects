@@ -194,9 +194,10 @@ def get_artists():
 
 @app.route('/artist/<artist_id>')
 def get_artist(artist_id):
+
     temp_list = []
     for artist in artists:
-        if artist['artist_id'] == artist_id:
+        if (artist['artist_id'] == artist_id) or (artist['name'].lower().replace(" ","") in artist_id.lower().replace(" ", "")):
             temp_list.append(artist)
 
     return json.dumps(temp_list)
