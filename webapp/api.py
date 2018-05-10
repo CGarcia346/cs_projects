@@ -197,7 +197,7 @@ def get_artist(artist_id):
 
     temp_list = []
     for artist in artists:
-        if (artist['artist_id'] == artist_id) or (artist['name'].lower().replace(" ","") in artist_id.lower().replace(" ", "")):
+        if (artist['artist_id'] == artist_id) or (artist_id.lower().replace(" ", "") in artist['name'].lower().replace(" ","")):
             temp_list.append(artist)
 
     return json.dumps(temp_list)
