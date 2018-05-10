@@ -217,19 +217,25 @@ def get_cards():
     name = flask.request.args.get('name')
     set_id = flask.request.args.get('set_id', type= str)
     Type = flask.request.args.get('type', type = str)
+    types = flask.request.args.get('types')
+    subtypes = flask.request.args.get('subtypes')
     colors = flask.request.args.get('colors')
     artist = flask.request.args.get('artist')
 
     for card in cards:
         if card_id is not None and card_id != card['card_id']:
             continue
-        if name is not None and name != card['name']:
+        if name is not None and name.lower().replace(" ", "") not in card['name'].lower().replace(" ", ""):
             continue
         if set_id is not None and set_id != card['set_id']:
             continue
         if colors is not None and colors not in card['colors']:
             continue
         if Type is not None and Type.lower().replace(" ", '') != card['type'].lower().replace(" ",""):
+            continue
+        if types is not None and types.lower().replace(" ", '') != card['types'].lower().replace(" ",""):
+            continue
+        if subtypes is not None and subtypes.lower().replace(" ", '') != card['subtypes'].lower().replace(" ",""):
             continue
         if artist is not None and artist.lower().replace(" ", "") not in card['artist'].lower().replace(" ", ""):
             continue
@@ -300,32 +306,44 @@ This is incomplete
 def get_manacost(manacost_combo):
 
     translated = []
+    amountc = 0
+    amountw = 0
+    amountu = 0
+    amountb = 0
+    amountr = 0
+    amountg = 0
+    amountn = 0
     for value in manacost_combo:
 
         if value == "C":
             type = "colorless"
+            amountc += 1
 
         elif value == "W":
             type = "white"
+            amountw += 1
 
         elif value == "U":
             type = 'blue'
+            amountu += 1
 
         elif value == "B":
             type = "black"
+            amountb += 1
 
         elif value == "R":
             type = 'red'
+            amountr += 1
 
         elif value == "G":
             type = "green"
+            amountg += 1
 
         else:
             type = "generic"
+            amountn += 1
 
         translated.append(color_list[type])
-
-
 
     return json.dumps(translated)
 
