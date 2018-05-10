@@ -231,11 +231,11 @@ def get_cards():
             continue
         if colors is not None and colors not in card['colors']:
             continue
-        if Type is not None and Type.lower().replace(" ", '') != card['type'].lower().replace(" ",""):
+        if Type is not None and Type.lower().replace(" ", '') not in card['type'].lower().replace(" ",""):
             continue
-        if types is not None and types.lower().replace(" ", '') != card['types'].lower().replace(" ",""):
+        if types is not None and types.lower().replace(" ", '') not in card['types'].lower().replace(" ",""):
             continue
-        if subtypes is not None and subtypes.lower().replace(" ", '') != card['subtypes'].lower().replace(" ",""):
+        if subtypes is not None and subtypes.lower().replace(" ", '') not in card['subtypes'].lower().replace(" ",""):
             continue
         if artist is not None and artist.lower().replace(" ", "") not in card['artist'].lower().replace(" ", ""):
             continue
