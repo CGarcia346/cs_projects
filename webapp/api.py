@@ -213,14 +213,14 @@ def get_card(card_id):
 def get_cards():
 
     card_list = []
-    card_id = flask.request.args.get('card_id')
-    name = flask.request.args.get('name')
-    set_id = flask.request.args.get('set_id', type= str)
-    Type = flask.request.args.get('type', type = str)
-    types = flask.request.args.get('types')
-    subtypes = flask.request.args.get('subtypes')
-    colors = flask.request.args.get('colors')
-    artist = flask.request.args.get('artist')
+    card_id = flask.request.args.get('card_id', default = 100000000000)
+    name = flask.request.args.get('name', default = "pokemon")
+    set_id = flask.request.args.get('set_id', default = 10000000000000, type= str)
+    Type = flask.request.args.get('type', default = 'empty', type = str)
+    types = flask.request.args.get('types', default = 'empty')
+    subtypes = flask.request.args.get('subtypes', default = "empty")
+    colors = flask.request.args.get('colors', default = 'empty')
+    artist = flask.request.args.get('artist', default = "empty")
 
     for card in cards:
         if card_id is not None and card_id != card['card_id']:
@@ -342,8 +342,8 @@ def get_manacost(manacost_combo):
         else:
             type = "generic"
             amountn += 1
-
-        translated.append(color_list[type])
+        if color_list[type] not in translated:
+            translated.append(color_list[type])
 
     return json.dumps(translated)
 
