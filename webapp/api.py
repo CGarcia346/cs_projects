@@ -132,10 +132,10 @@ def hello():
 def get_sets():
 
     sets_list = []
-    set_id = flask.request.args.get('set_id')
-    name = flask.request.args.get('name')
-    release_date = flask.request.args.get('releaseDate', type= str)
-    border = flask.request.args.get('border', type = str)
+    set_id = flask.request.args.get('set_id', default = "empty")
+    name = flask.request.args.get('name', default = "empty")
+    release_date = flask.request.args.get('releaseDate', default = "empty", type= str)
+    border = flask.request.args.get('border', default = "empty", type = str)
     for set in sets:
         if set_id is not None and set_id != set['id']:
             continue
@@ -174,10 +174,10 @@ def get_set(set_id):
 @app.route('/artists')
 def get_artists():
     artist_list = []
-    artist_id = flask.request.args.get('artist_id')
-    name = flask.request.args.get('name')
-    set = flask.request.args.get('set', type= str)
-    card = flask.request.args.get('card', type = str)
+    artist_id = flask.request.args.get('artist_id', default = "empty")
+    name = flask.request.args.get('name', default = "empty")
+    set = flask.request.args.get('set', default = "empty", type= str)
+    card = flask.request.args.get('card', default = "empty", type = str)
 
     for artist in artists:
         if artist_id is not None and artist_id != artist['artist_id']:
