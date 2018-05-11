@@ -343,8 +343,13 @@ def get_manacost(manacost_combo):
         else:
             type = "generic"
             amountn += 1
+
         if color_list[type] not in translated:
             translated.append(color_list[type])
+
+        
+
+
 
     return json.dumps(translated)
 
