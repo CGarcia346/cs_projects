@@ -94,13 +94,17 @@ with open('MTG_cmc_table.csv') as csvfile:
         new_dict["name"] = row[2]
         cmc_list.append(new_dict)
 
-color_list = {}
+color_to_id = {}
+id_to_color = {}
 with open('color.csv') as csvfile:
     reader = csv.reader(csvfile)
     new_dict = {}
+    other_dict = {}
     for row in reader:
         new_dict[row[1]] = row[0]
-    color_list = new_dict.copy()
+        other_dict[row[0]] = row[1]
+    color_to_id = new_dict.copy()
+    id_to_color = other_dict.copy()
 
 color_amount_list = []
 with open('MTG_color_table.csv') as csvfile:
@@ -114,14 +118,15 @@ with open('MTG_color_table.csv') as csvfile:
         color_amount_list.append(new_dict)
 
 card_manacost = []
-with open('MTG_color_table.csv') as csvfile:
+with open('MTG_manacost_table.csv') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
         new_dict = {}
         new_dict['card_id'] = row[0]
         new_dict['color_id'] = row[1]
-        new_dict['manacost'] = row[3]
+        new_dict['manacost'] = row[2]
         card_manacost.append(new_dict)
+
 
 @app.route('/')
 def hello():
@@ -344,14 +349,54 @@ def get_manacost(manacost_combo):
             type = "generic"
             amountn += 1
 
-        if color_list[type] not in translated:
-            translated.append(color_list[type])
+        if color_to_id[type] not in translated:
+            translated.append(color_to_id[type])
 
-        
+    cur_id = 0
+    manacost_truth = True
+    cardswv = []
 
+    for manacost in card_manacost:
+        prev_id = cur_id
+        cur_id = manacost['card_id']
+        cur_amount = manacost['manacost']
 
+        if ((cur_id == prev_id) and (manacost_truth is False)):
+            continue
 
-    return json.dumps(translated)
+        if cur_id != prev_id:
+            if manacost_truth is True:
+                a_card = cards[int(prev_id)]
+                cardswv.append(a_card['name'])
+            manacost_truth = True
+
+        if (manacost['color_id'] in translated) and (manacost_truth is True):
+            color_of_card = id_to_color[manacost['color_id']]
+
+            if color_of_card == "colorless":
+                wanted_amount = amountc
+            elif color_of_card == "white":
+                wanted_amount = amountw
+            elif color_of_card == "blue":
+                wanted_amount = amountu
+            elif color_of_card == "black":
+                wanted_amount = amountb
+            elif color_of_card == "red":
+                wanted_amount = "red"
+            elif color_of_card == "green":
+                wanted_amount = amountg
+            elif color_of_card == "generic":
+                wanted_amount = amountn
+
+            if cur_amount == wanted_amount:
+                manacost_truth = True
+            else:
+                manacost_truth = False
+
+        else:
+            manacost_truth = False
+
+    return json.dumps(cardswv)
 
 @app.route("/color/<color_value>")
 def get_colors(color_value):

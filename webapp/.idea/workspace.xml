@@ -18,8 +18,8 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="349" column="8" selection-start-line="349" selection-start-column="8" selection-end-line="349" selection-end-column="8" />
+            <state relative-caret-position="286">
+              <caret line="368" column="44" lean-forward="true" selection-start-line="368" selection-start-column="44" selection-end-line="368" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -74,9 +74,11 @@
       <find>number</find>
       <find>power</find>
       <find>colors</find>
+      <find>color_list</find>
     </findStrings>
     <replaceStrings>
       <replace>toughness</replace>
+      <replace>color_to_id</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -575,8 +577,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="349" column="8" selection-start-line="349" selection-start-column="8" selection-end-line="349" selection-end-column="8" />
+        <state relative-caret-position="286">
+          <caret line="368" column="44" lean-forward="true" selection-start-line="368" selection-start-column="44" selection-end-line="368" selection-end-column="44" />
         </state>
       </provider>
     </entry>
