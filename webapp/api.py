@@ -348,9 +348,8 @@ def get_manacost(manacost_combo):
 
         else:
             type = "generic"
-            try:
-                amountn = amountn + value
-            except:
+            amountn = amountn + value
+            if value == "X":
                 hasX = True
 
         if color_to_id[type] not in translated:
@@ -358,7 +357,12 @@ def get_manacost(manacost_combo):
 
     if hasX is True:
         amountn = amountn.replace("X", "")
-    amountn = int(amountn)
+
+    try:
+        amountn = int(amountn)
+    except:
+        print(hasX)
+
     cur_id = 0
     manacost_truth = True
     cardswv = []
@@ -401,7 +405,10 @@ def get_manacost(manacost_combo):
             elif color_of_card == "green":
                 wanted_amount = amountg
             elif color_of_card == "generic":
-                wanted_amount = amountn
+                if hasX:
+                    wanted_amount = None
+                else:
+                    wanted_amount = amountn
             fulfill.append(manacost['color_id'])
 
             if cur_amount == wanted_amount:
