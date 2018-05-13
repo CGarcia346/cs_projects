@@ -357,9 +357,15 @@ def get_manacost(manacost_combo):
     cardswv = []
 
     for manacost in card_manacost:
+
         prev_id = cur_id
         cur_id = manacost['card_id']
-        cur_amount = int(manacost['manacost'])
+
+        try:
+            cur_amount = int(manacost['manacost'])
+
+        except:
+            cur_amount = None
 
         if ((cur_id == prev_id) and (manacost_truth is False)):
             continue
