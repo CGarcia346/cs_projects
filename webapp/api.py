@@ -312,13 +312,14 @@ This is incomplete
 def get_manacost(manacost_combo):
 
     translated = []
+    hasX = False
     amountc = 0
     amountw = 0
     amountu = 0
     amountb = 0
     amountr = 0
     amountg = 0
-    amountn = 0
+    amountn = ""
     for value in manacost_combo:
 
         if value == "C":
@@ -347,14 +348,21 @@ def get_manacost(manacost_combo):
 
         else:
             type = "generic"
-            amountn += 1
+            try:
+                amountn = amountn + value
+            except:
+                hasX = True
 
         if color_to_id[type] not in translated:
             translated.append(color_to_id[type])
 
+    if hasX is True:
+        amountn = amountn.replace("X", "")
+    amountn = int(amountn)
     cur_id = 0
     manacost_truth = True
     cardswv = []
+    fulfill = []
 
     for manacost in card_manacost:
 
@@ -371,10 +379,11 @@ def get_manacost(manacost_combo):
             continue
 
         if cur_id != prev_id:
-            if manacost_truth is True:
+            if (manacost_truth is True) and (set(fulfill) == set(translated)):
                 a_card = cards[int(prev_id)]
                 cardswv.append(a_card['name'])
             manacost_truth = True
+            fulfill = []
 
         if (manacost['color_id'] in translated) and (manacost_truth is True):
             color_of_card = id_to_color[manacost['color_id']]
@@ -393,6 +402,7 @@ def get_manacost(manacost_combo):
                 wanted_amount = amountg
             elif color_of_card == "generic":
                 wanted_amount = amountn
+            fulfill.append(manacost['color_id'])
 
             if cur_amount == wanted_amount:
                 manacost_truth = True
