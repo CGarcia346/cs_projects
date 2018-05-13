@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6faa3821-9fb0-45c9-8fc2-4a4cb843f5f5" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/api.py" afterDir="false" />
-    </list>
+    <list default="true" id="6faa3821-9fb0-45c9-8fc2-4a4cb843f5f5" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,7 +15,7 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="933">
+            <state relative-caret-position="480">
               <caret line="388" column="39" lean-forward="true" selection-start-line="388" selection-start-column="39" selection-end-line="388" selection-end-column="39" />
             </state>
           </provider>
@@ -576,7 +574,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="933">
+        <state relative-caret-position="480">
           <caret line="388" column="39" lean-forward="true" selection-start-line="388" selection-start-column="39" selection-end-line="388" selection-end-column="39" />
         </state>
       </provider>
