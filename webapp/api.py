@@ -382,7 +382,7 @@ def get_manacost(manacost_combo):
             elif color_of_card == "black":
                 wanted_amount = amountb
             elif color_of_card == "red":
-                wanted_amount = "red"
+                wanted_amount = amountr
             elif color_of_card == "green":
                 wanted_amount = amountg
             elif color_of_card == "generic":
