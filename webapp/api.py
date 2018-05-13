@@ -312,7 +312,9 @@ This is incomplete
 def get_manacost(manacost_combo):
 
     translated = []
+    cardswv = []
     hasX = False
+    littleT = False
     amountc = 0
     amountw = 0
     amountu = 0
@@ -320,9 +322,15 @@ def get_manacost(manacost_combo):
     amountr = 0
     amountg = 0
     amountn = ""
+
     for value in manacost_combo:
 
-        if value == "C":
+        if value == "h":
+            cardswv.append("Little Girl")
+            littleT = True
+            break
+
+        elif value == "C":
             type = "colorless"
             amountc += 1
 
@@ -365,10 +373,14 @@ def get_manacost(manacost_combo):
 
     cur_id = 0
     manacost_truth = True
-    cardswv = []
+
     fulfill = []
 
+
     for manacost in card_manacost:
+
+        if littleT:
+            break
 
         prev_id = cur_id
         cur_id = manacost['card_id']
