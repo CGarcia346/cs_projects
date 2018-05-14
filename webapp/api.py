@@ -13,81 +13,116 @@ import flask
 import json
 import csv
 import math
-
+import psycopg2
+import config
 
 app = flask.Flask(__name__)
 
 # Who needs a database when you can just hard-code some actors and movies?
+def get_connection():
+    
+    connection = None
+    try:
+        connection = psycopg2.connect(database=config.database,
+                                      user=config.user,
+                                      password=config.password)
+    except Exception as e:
+        print(e, file=sys.stderr)
+    return connection
+
+def get_select_query_results(connection, query, parameters=None):
+
+    cursor = connection.cursor()
+    if parameters is not None:
+        cursor.execute(query, parameters)
+    else:
+        cursor.execute(query)
+    return cursor
+
+@app.after_request
+def set_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 sets = []
-with open('MTG_sets_table.csv') as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        new_dict = {}
-        new_dict["id"] = row[0]
-        new_dict['name'] = row[1]
-        new_dict['releaseDate'] = row[2]
-        new_dict['border'] = row[3]
-        sets.append(new_dict)
+
+connection = get_connection()
+cursor = connection.cursor()
+query = 'SELECT set_id, name, release_date, border FROM sets'
+cursor.execute(query)
+
+for row in cursor:
+    new_dict = {}
+    new_dict["id"] = row[0]
+    new_dict['name'] = row[1]
+    new_dict['releaseDate'] = row[2]
+    new_dict['border'] = row[3]
+    sets.append(new_dict)
 
 cards = []
-with open('MTG_cards_table.csv') as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        new_dict={}
-        new_dict['card_id'] = row[0]
-        new_dict['set_id'] = row[1]
-        new_dict['name'] = row[2]
-        new_dict['cards_set_number'] = row[3]
-        new_dict['colors'] = row[4]
-        new_dict['colorIdentity'] = row[5]
-        new_dict['manaCost'] = row[6]
-        new_dict['cmc']= row[7]
-        new_dict['type']= row[8]
-        new_dict['types']= row[9]
-        new_dict['subtypes']= row[10]
-        new_dict['text']= row[11]
-        new_dict['power']= row[12]
-        new_dict['toughness']= row[13]
-        new_dict['flavor']= row[14]
-        new_dict['artist']= row[15]
-        cards.append(new_dict)
+query = 'SELECT card_id, set_id, name, card_set_number, colors, colorIdentity, manacost, cmc, type, types, subtypes, text, power, toughness, flavor, artist FROM cards'
+
+cursor.execute(query)
+
+for row in cursor:
+    new_dict={}
+    new_dict['card_id'] = row[0]
+    new_dict['set_id'] = row[1]
+    new_dict['name'] = row[2]
+    new_dict['cards_set_number'] = row[3]
+    new_dict['colors'] = row[4]
+    new_dict['colorIdentity'] = row[5]
+    new_dict['manaCost'] = row[6]
+    new_dict['cmc']= row[7]
+    new_dict['type']= row[8]
+    new_dict['types']= row[9]
+    new_dict['subtypes']= row[10]
+    new_dict['text']= row[11]
+    new_dict['power']= row[12]
+    new_dict['toughness']= row[13]
+    new_dict['flavor']= row[14]
+    new_dict['artist']= row[15]
+    cards.append(new_dict)
 
 artists = []
-with open('MTG_artists_table.csv') as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        new_dict = {}
-        new_dict['artist_id'] = row[0]
-        new_dict['name'] = row[1]
-        new_dict['sets'] = row[2]
-        new_dict['cards'] = row[3]
-        artists.append(new_dict)
+query = 'SELECT artist_id, name, sets, cards FROM artists'
+cursor.execute(query)
+
+for row in cursor:
+    new_dict = {}
+    new_dict['artist_id'] = row[0]
+    new_dict['name'] = row[1]
+    new_dict['sets'] = row[2]
+    new_dict['cards'] = row[3]
+    artists.append(new_dict)
 
 power_list = []
-with open('MTG_power_table.csv') as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        new_dict = {}
-        new_dict["power"] = row[0]
-        new_dict["card_id"] = row[1]
-        new_dict["name"] = row[2]
-        power_list.append(new_dict)
+query = 'SELECT power, card_id, name FROM power'
+cursor.execute(query)
+
+for row in cursor:
+    new_dict = {}
+    new_dict["power"] = row[0]
+    new_dict["card_id"] = row[1]
+    new_dict["name"] = row[2]
+    power_list.append(new_dict)
 
 toughness_list = []
-with open('MTG_toughness_table.csv') as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        new_dict = {}
-        new_dict["toughness"] = row[0]
-        new_dict["card_id"] = row[1]
-        new_dict["name"] = row[2]
-        toughness_list.append(new_dict)
+query = 'SELECT toughness, card_id, name FROM toughness'
+cursor.execute(query)
+
+for row in cursor:
+    new_dict = {}
+    new_dict["toughness"] = row[0]
+    new_dict["card_id"] = row[1]
+    new_dict["name"] = row[2]
+    toughness_list.append(new_dict)
 
 cmc_list = []
-with open('MTG_cmc_table.csv') as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
+query = 'SELECT cmc, card_id, name FROM cmc'
+cursor.execute(query)
+
+for row in cursor:
         new_dict = {}
         new_dict["cmc"] = row[0]
         new_dict["card_id"] = row[1]
@@ -96,37 +131,41 @@ with open('MTG_cmc_table.csv') as csvfile:
 
 color_to_id = {}
 id_to_color = {}
-with open('color.csv') as csvfile:
-    reader = csv.reader(csvfile)
-    new_dict = {}
-    other_dict = {}
-    for row in reader:
-        new_dict[row[1]] = row[0]
-        other_dict[row[0]] = row[1]
-    color_to_id = new_dict.copy()
-    id_to_color = other_dict.copy()
+query = 'SELECT color_id, color FROM color'
+cursor.execute(query)
+
+new_dict = {}
+other_dict = {}
+for row in cursor:
+    new_dict[row[1]] = row[0]
+    other_dict[row[0]] = row[1]
+color_to_id = new_dict.copy()
+id_to_color = other_dict.copy()
 
 color_amount_list = []
-with open('MTG_color_table.csv') as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        new_dict = {}
-        new_dict["color_id"] = row[0]
-        new_dict["color"] = row[1]
-        new_dict["card_id"] = row[2]
-        new_dict["name"] = row[3]
-        color_amount_list.append(new_dict)
+query = 'SELECT color_id, color, card_id, name FROM colors'
+cursor.execute(query)
+
+for row in cursor:
+    new_dict = {}
+    new_dict["color_id"] = row[0]
+    new_dict["color"] = row[1]
+    new_dict["card_id"] = row[2]
+    new_dict["name"] = row[3]
+    color_amount_list.append(new_dict)
 
 card_manacost = []
-with open('MTG_manacost_table.csv') as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        new_dict = {}
-        new_dict['card_id'] = row[0]
-        new_dict['color_id'] = row[1]
-        new_dict['manacost'] = row[2]
-        card_manacost.append(new_dict)
+query = 'SELECT card_id, color_id, amount FROM manacost'
+cursor.execute(query)
 
+for row in cursor:
+    new_dict = {}
+    new_dict['card_id'] = row[0]
+    new_dict['color_id'] = row[1]
+    new_dict['manacost'] = row[2]
+    card_manacost.append(new_dict)
+
+connection.close()
 
 @app.route('/')
 def hello():
@@ -159,7 +198,6 @@ def get_set(set_id):
 
     set_dictionary = {}
     set_id = set_id
-
 
     for set in sets:
         if (set['id'] == set_id) or (set['name'] == set_id):
@@ -305,9 +343,7 @@ def get_cmc(cmc_value):
             temp_list.append(card['name'])
     return json.dumps(temp_list)
 
-'''
-This is incomplete
-'''
+
 @app.route("/manacost/<manacost_combo>")
 def get_manacost(manacost_combo):
 
@@ -322,9 +358,9 @@ def get_manacost(manacost_combo):
     amountr = 0
     amountg = 0
     amountn = ""
-
+    
     for value in manacost_combo:
-
+        
         if value == "h":
             cardswv.append("Little Girl")
             littleT = True
@@ -361,6 +397,7 @@ def get_manacost(manacost_combo):
                 hasX = True
 
         if color_to_id[type] not in translated:
+
             translated.append(color_to_id[type])
 
     if hasX is True:
@@ -371,11 +408,10 @@ def get_manacost(manacost_combo):
     except:
         print(hasX)
 
-    cur_id = 0
+    cur_id = "0"
     manacost_truth = True
 
     fulfill = []
-
 
     for manacost in card_manacost:
 
@@ -384,7 +420,6 @@ def get_manacost(manacost_combo):
 
         prev_id = cur_id
         cur_id = manacost['card_id']
-
         try:
             cur_amount = int(manacost['manacost'])
 
@@ -395,12 +430,14 @@ def get_manacost(manacost_combo):
             continue
 
         if cur_id != prev_id:
-            if (manacost_truth is True) and (set(fulfill) == set(translated)):
-                a_card = cards[int(prev_id)]
+            if ((manacost_truth is True) and (set(fulfill) == set(translated))):
+                for card in cards:
+                    if card['card_id'] == prev_id:
+                        a_card = card
                 cardswv.append(a_card['name'])
             manacost_truth = True
             fulfill = []
-
+        
         if (manacost['color_id'] in translated) and (manacost_truth is True):
             color_of_card = id_to_color[manacost['color_id']]
 
@@ -421,8 +458,9 @@ def get_manacost(manacost_combo):
                     wanted_amount = None
                 else:
                     wanted_amount = amountn
-            fulfill.append(manacost['color_id'])
 
+            fulfill.append(manacost['color_id'])
+            
             if cur_amount == wanted_amount:
                 manacost_truth = True
             else:
@@ -457,11 +495,11 @@ def get_colors(color_value):
     final_list = []
     for card in color_copy:
         final_list.append(card['name'])
-    return json.dumps(final_list)
+    return json.dumps(translated)
 
 @app.route("/color")
 def get_color_list():
-    return json.dumps(color_list)
+    return json.dumps(color_to_id)
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
