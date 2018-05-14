@@ -1,3 +1,4 @@
+
 initialize();
 
 function initialize() {
@@ -13,7 +14,10 @@ function getBaseURL() {
 }
 
 function onSetsButtonClicked(){
-	var url = getBaseURL() + '/sets/';
+	
+    table = false;
+
+    var url = getBaseURL() + '/sets';
 
 	fetch(url, {method: 'get'})
 
@@ -22,13 +26,14 @@ function onSetsButtonClicked(){
 	.then(function(setsList) {
         // Build the table body.
         var tableBody = '';
+        table = true;
         for (var k = 0; k < setsList.length; k++) {
+            
             tableBody += '<tr>';
-
-            tableBody += '<td><a onclick="getSets()</a></td>';
-
-            tableBody += '<td>' +setsList[k]['name'] + '-';
-
+            tableBody += '<td>' +setsList[k]['id'];
+            tableBody += '<td>' +setsList[k]['name'];
+            tableBody += '<td>' +setsList[k]['releaseDate'];
+            tableBody += '<td>' +setsList[k]['border'];
             tableBody += '</td>';
             tableBody += '</tr>';
         }
@@ -62,8 +67,8 @@ function getSets() {
             tableBody += '<tr>';
             tableBody += '<td>' + setsList[k]['id'] + '</td>';
             tableBody += '<td>' + setsList[k]['name'] + '</td>';
-						tableBody += '<td>' + setsList[k]['releaseDate'] + '</td>';
-						tableBody += '<td>' + setsList[k]['border'] + '</td>';
+            tableBody += '<td>' + setsList[k]['releaseDate'] + '</td>';
+			tableBody += '<td>' + setsList[k]['border'] + '</td>';
             tableBody += '</tr>';
         }
         var resultsTableElement = document.getElementById('results_table');
