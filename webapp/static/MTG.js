@@ -14,8 +14,6 @@ function getBaseURL() {
 }
 
 function onSetsButtonClicked(){
-	
-    table = false;
 
     var url = getBaseURL() + '/sets';
 
@@ -26,9 +24,9 @@ function onSetsButtonClicked(){
 	.then(function(setsList) {
         // Build the table body.
         var tableBody = '';
-        table = true;
+
         for (var k = 0; k < setsList.length; k++) {
-            
+
             tableBody += '<tr>';
             tableBody += '<td>' +setsList[k]['id'];
             tableBody += '<td>' +setsList[k]['name'];
@@ -40,9 +38,17 @@ function onSetsButtonClicked(){
 
         // Put the table body we just built inside the table that's already on the page.
         var resultsTableElement = document.getElementById('results_table');
-        if (resultsTableElement) {
-            resultsTableElement.innerHTML = tableBody;
-        }
+				var displayValue = table.style.display;
+
+				if (displayValue == 'none') {
+						table.style.display = 'block';
+				} else{
+						table.style.display = 'none';
+				}
+
+        //if (resultsTableElement) {
+          //  resultsTableElement.innerHTML = tableBody;
+        //}
     })
 
     // Log the error if anything went wrong during the fetch.
