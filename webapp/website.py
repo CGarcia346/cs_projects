@@ -13,6 +13,16 @@ def get_main_page():
     global api_port
     return flask.render_template('main.html', api_port=api_port)
 
+@app.route('/sets')
+def get_sets_page():
+    global api_port
+    return flask.render_template('sets.html', api_port=api_port)
+
+@app.route("/artists")
+def get_artists_page():
+    global api_port
+    return flask.render_template('artists.html', api_port=api_port)
+
 if __name__ == '__main__':
     if len(sys.argv) != 4:
         print('Usage: {0} host port api-port'.format(sys.argv[0]), file=sys.stderr)
