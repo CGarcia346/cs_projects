@@ -13,6 +13,11 @@ function getBaseURL() {
 	return baseURL;
 }
 
+function getBrowserURL(){
+    var browserURL = window.location.protocol + '//' + window.location.hostname + ':' + host port;
+    return browserURL;
+}
+
 function onSetsButtonClicked(){
 
     var url = getBaseURL() + '/sets';
@@ -22,13 +27,18 @@ function onSetsButtonClicked(){
 	.then((response) => response.json())
 
 	.then(function(setsList) {
+
         // Build the table body.
         var tableBody = '';
-
+        
+        tableBody = '<th> Name </th>';
+        tableBody += '<th> Release Date </th>';
+        tableBody += '<th> Border </th>';
+        
         for (var k = 0; k < setsList.length; k++) {
-
+       
             tableBody += '<tr>';
-            tableBody += '<td>' +setsList[k]['id'];
+            
             tableBody += '<td>' +setsList[k]['name'];
             tableBody += '<td>' +setsList[k]['releaseDate'];
             tableBody += '<td>' +setsList[k]['border'];
@@ -38,17 +48,18 @@ function onSetsButtonClicked(){
 
         // Put the table body we just built inside the table that's already on the page.
         var resultsTableElement = document.getElementById('results_table');
-				var displayValue = table.style.display;
 
-				if (displayValue == 'none') {
-						table.style.display = 'block';
-				} else{
-						table.style.display = 'none';
-				}
+        if (resultsTableElement) {
+            resultsTableElement.innerHTML = tableBody;
+        }
 
-        //if (resultsTableElement) {
-          //  resultsTableElement.innerHTML = tableBody;
-        //}
+        var displayValue = resultsTableElement.style.display;
+        if (displayValue == 'none') {
+            resultsTableElement.style.display = 'block';
+        } else {
+            resultsTableElement.style.display = 'none';
+        }
+        
     })
 
     // Log the error if anything went wrong during the fetch.
@@ -62,7 +73,7 @@ function getSets() {
     // repeating those comments here. Read through this code
     // and see if it makes sense to you.
     var url = getBaseURL() + '/sets';
-
+    
     fetch(url, {method: 'get'})
 
     .then((response) => response.json())
