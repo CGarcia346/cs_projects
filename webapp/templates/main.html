@@ -7,19 +7,44 @@
     
     <script type="text/javascript" src="{{ url_for('static', filename='MTG.js') }}" defer></script>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
     <title>MTG Database</title>
 </head>
 
 <body>
-    <h1>MAGIC THE GATHERING Database</h1>
-    <h2>Spring 2018</h2>
+    <center><h1>MAGIC THE GATHERING Database</h1></center>
+    
+    <p>
+    <center>
+    <form class='search-container' action="/card">
+        <input type='text' placeholder='Search...' name="name">
+        <button type='submit'><i class="fa fa-search"></i></button>
+    </form>
+    </center>
+    </p>
 
-    <h3>Sets &amp; Artists</h3>
+    <p>
+    <div class='divider'></div>
+    </p></center>
+    
+    <p>
+    <center>
+        <a href="/advancesearch">Advanced Search</a>
+        <div class="extra_divider"></div>
+        <a href="/random">Random Card</a>
+    </center>
+    </p>
+    <p>
+    <div class="divider"></div>
+    </p>
 
-    <p><a href='/sets' class ='button buttonLink' id="sets_button">Go to Sets</a></p>
-    <p><button class="buttonLink" id="artists_button"> Go to Artists</button></p>
-
-    <p><table id="results_table"></table></p>
-
+    <p>
+    <center>
+    <a href='/sets' class ='button buttonLink' id="sets_button">Go to Sets</a>
+    <div class ='divider'></div>
+    
+    <a href='/artists' class="button buttonLink" id="artists_button"> Go to Artists</a>
+    </center>
+    </p>
   </body>
 </html>

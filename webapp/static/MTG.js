@@ -6,16 +6,19 @@ function initialize() {
 	if (element) {
 		element.onclick = onSetsButtonClicked;
 	}
+    var element = document.getElementById('results_table');
+    if(element) {
+        getSets();
+    }
+    element = document.getElementById('artists_table');
+    if (element) {
+        getArtists();
+    }
 }
 
 function getBaseURL() {
 	var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + api_port;
 	return baseURL;
-}
-
-function getBrowserURL(){
-    var browserURL = window.location.protocol + '//' + window.location.hostname + ':' + host port;
-    return browserURL;
 }
 
 function onSetsButtonClicked(){
@@ -54,11 +57,6 @@ function onSetsButtonClicked(){
         }
 
         var displayValue = resultsTableElement.style.display;
-        if (displayValue == 'none') {
-            resultsTableElement.style.display = 'block';
-        } else {
-            resultsTableElement.style.display = 'none';
-        }
         
     })
 
@@ -79,7 +77,10 @@ function getSets() {
     .then((response) => response.json())
 
     .then(function(setsList) {
-        var tableBody = '<tr><th>' + setsList + '</th></tr>';
+        var tableBody = '<th> ID </th>';
+        tableBody+= '<th> Name </th>';
+        tableBody += '<th> Release Date </th>';
+        tableBody += '<th> Border </th>';
         for (var k = 0; k < setsList.length; k++) {
             tableBody += '<tr>';
             tableBody += '<td>' + setsList[k]['id'] + '</td>';
@@ -98,3 +99,31 @@ function getSets() {
         console.log(error);
     });
 }
+
+function getArtists() {
+
+    var url = getBaseURL() + '/artists';
+    fetch(url, {method: 'get'})
+    .then((response) => response.json())
+
+    .then(function(artistsList) {
+        var tableBody = '<th> Artist ID </th>';
+        tableBody += '<th> Name </th>';
+
+        for(var i = 0; i < artistsList.length; i++) {
+            tableBody += '<tr>';
+            tableBody += '<td>' + artistsList[i]['artist_id'] + '</td>';
+            tableBody += '<td>' + artistsList[i]['name'] + '</td>';
+            tableBody += '</tr>';
+        }
+        var artistTable = document.getElementById('artists_table');
+        if (artistTable) {
+            artistTable.innerHTML = tableBody;
+        }
+    })
+
+    .catch(function(error) {
+        console.log(error);
+    });
+}   
+

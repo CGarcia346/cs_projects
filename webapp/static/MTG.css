@@ -38,3 +38,43 @@ a:hover {
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
+
+form.search-container input[type=text]{
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+
+    width: 50%;
+    background: #f1f1f1;
+}
+
+form.search-container button{
+    width:10%;
+    padding: 10px;
+    background: #2196f3;
+    color:white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor:pointer;
+}
+
+form.search-container button:hover {
+    background: #0b7dda;
+}
+
+form.search-container::after{
+    content: '';
+    clear: both;
+    display: table;
+    width:10%;
+}
+.divider{
+    width: 5px;
+    height:auto;
+    display:inline-block;
+}
+.extradivider {
+    width: 40px:
+    display:inline-block;
+}
