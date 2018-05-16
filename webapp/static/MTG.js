@@ -14,6 +14,10 @@ function initialize() {
     if (element) {
         getArtists();
     }
+    element = document.getElementById('random_table');
+    if (element){
+        getRandom();
+    }
 }
 
 function getBaseURL() {
@@ -126,4 +130,31 @@ function getArtists() {
         console.log(error);
     });
 }   
+function getRandom() {
+    var url = getBaseURL() + '/random';
+    fetch(url, {method: 'get'})
+    .then((response) => response.json())
+    .then(function(card){
+        var tableBody = '<tr>' + '<td>' + 'Name' + '</td>' + '<td>' +card['name'] + '</td>' + '</tr>';
+        tableBody += '<tr>' + '<td>' + 'Colors' + '</td>' + '<td>' + card['colors'] + '</td>' + '</tr>';
+        tableBody += '<tr>' + '<td>' + 'Color Identity' + '</td>' + '<td>' + card['colorIdentity'] + '</td>' +  '</tr>';
 
+        tableBody += '<tr>' + '<td>' + 'Manacost' + '</td>' + '<td>' +  card['manaCost'] + '</td>' + '</tr>';
+        tableBody += '<tr>' + '<td>' + 'CMC' + '</td>' + '<td>' + card['cmc'] + '</td>' + '</tr>';
+        tableBody += '<tr>' + '<td>' + 'Type' + '</td>' + '<td>' + card['type'] + '</td>' + '</tr>';
+        tableBody += '<tr>' + '<td>' + 'Types' + '</td>' +'<td>'+ card['types'] + '</td>' + '</tr>';
+        tableBody += '<tr>' + '<td>' + 'Subtypes' + '</td>' + '<td>' + card['subtypes'] + '</td>' + '</tr>';
+        tableBody+= '<tr>' + '<td>' + 'Text' + '</td>' + '<td>' + card['text'] + '</td>' + '</tr>';
+        tableBody+= '<tr>' + '<td>' + 'Power' + '</td>' + '<td>' + card['power'] + '</td>' + '</tr>';
+        tableBody+= '<tr>' + '<td>' + 'Toughness' + '</td>' + '<td>' + card['toughness'] + '</td>' + '</tr>';
+        tableBody+= '<tr>' + '<td>' + 'Flavor Text' + '</td>' + '<td>' + card['flavor'] + '</td>' + '</tr>';
+        tableBody += '<tr>' + '<td>' + 'Artist' + '</td>' + '<td>' + card['artist'] + '</td>' + '</tr>';
+        var randomTable = document.getElementById('random_table');
+        if(randomTable){
+            randomTable.innerHTML = tableBody;
+        }
+    })
+    .catch(function(error){
+        console.log(error);
+    });
+}

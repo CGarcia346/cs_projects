@@ -23,6 +23,21 @@ def get_artists_page():
     global api_port
     return flask.render_template('artists.html', api_port=api_port)
 
+@app.route('/random')
+def get_random():
+    global api_port
+    return flask.render_template('random.html', api_port=api_port)
+
+@app.route('/card')
+def get_card():
+    global api_port
+    return flask.render_template('card.html', api_port=api_port)
+
+@app.route('/advancesearch')
+def get_advanced():
+    global api_port
+    return flask.render_template('advancedsearch.html', api_port=api_port)
+
 if __name__ == '__main__':
     if len(sys.argv) != 4:
         print('Usage: {0} host port api-port'.format(sys.argv[0]), file=sys.stderr)
