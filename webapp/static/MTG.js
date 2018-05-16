@@ -18,9 +18,9 @@ function initialize() {
     if (element){
         getRandom();
     }
-		element = document.getElementById('card_table');
-		if (element){
-        getCard();
+	element = document.getElementById('search');
+	if (element){
+        getCard(element);
     }
 }
 
@@ -109,7 +109,7 @@ function getSets() {
 }
 
 function getArtists() {
-
+    
     var url = getBaseURL() + '/artists';
     fetch(url, {method: 'get'})
     .then((response) => response.json())
@@ -162,38 +162,39 @@ function getRandom() {
     });
 }
 
-function getCard() {
-    var url = getBaseURL() + '/card?';
-		var filter = document.getElementById('search');
-		url = url + filter;
-		var searchable = filter.replace("name=", "");
-
+function getCard(some_search) {
+    
+    var x = some_search.elements[0].value;
+    var searching = getElementById('search');
+    var url = getBaseURL() + '/cards?name=';
+	url = url + x;
+    var search = searching.value;
+    document.getElementById('card_table').innerHTML = url;
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(cards){
 
 				for( var i = 0; i < cards.length; i++){
-					if(cards['name'] == searchable){
-						var tableBody = '<tr>' + '<td>' + 'Name' + '</td>' + '<td>' +card['name'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Colors' + '</td>' + '<td>' + card['colors'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Color Identity' + '</td>' + '<td>' + card['colorIdentity'] + '</td>' +  '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Manacost' + '</td>' + '<td>' +  card['manaCost'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'CMC' + '</td>' + '<td>' + card['cmc'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Type' + '</td>' + '<td>' + card['type'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Types' + '</td>' +'<td>'+ card['types'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Subtypes' + '</td>' + '<td>' + card['subtypes'] + '</td>' + '</tr>';
-						tableBody+= '<tr>' + '<td>' + 'Text' + '</td>' + '<td>' + card['text'] + '</td>' + '</tr>';
-						tableBody+= '<tr>' + '<td>' + 'Power' + '</td>' + '<td>' + card['power'] + '</td>' + '</tr>';
-						tableBody+= '<tr>' + '<td>' + 'Toughness' + '</td>' + '<td>' + card['toughness'] + '</td>' + '</tr>';
-						tableBody+= '<tr>' + '<td>' + 'Flavor Text' + '</td>' + '<td>' + card['flavor'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Artist' + '</td>' + '<td>' + card['artist'] + '</td>' + '</tr>';
-						break;
-					}
+			
+						var tableBody = '<tr>' + '<td>' + 'Name' + '</td>' + '<td>' +cards[i]['name'] + '</td>' + '</tr>';
+						tableBody += '<tr>' + '<td>' + 'Colors' + '</td>' + '<td>' + cards[i]['colors'] + '</td>' + '</tr>';
+						tableBody += '<tr>' + '<td>' + 'Color Identity' + '</td>' + '<td>' + cards[i]['colorIdentity'] + '</td>' +  '</tr>';
+						tableBody += '<tr>' + '<td>' + 'Manacost' + '</td>' + '<td>' +  cards[i]['manaCost'] + '</td>' + '</tr>';
+						tableBody += '<tr>' + '<td>' + 'CMC' + '</td>' + '<td>' + cards[i]['cmc'] + '</td>' + '</tr>';
+						tableBody += '<tr>' + '<td>' + 'Type' + '</td>' + '<td>' + cards[i]['type'] + '</td>' + '</tr>';
+						tableBody += '<tr>' + '<td>' + 'Types' + '</td>' +'<td>'+ cards[i]['types'] + '</td>' + '</tr>';
+						tableBody += '<tr>' + '<td>' + 'Subtypes' + '</td>' + '<td>' + cards[i]['subtypes'] + '</td>' + '</tr>';
+						tableBody+= '<tr>' + '<td>' + 'Text' + '</td>' + '<td>' + cards[i]['text'] + '</td>' + '</tr>';
+						tableBody+= '<tr>' + '<td>' + 'Power' + '</td>' + '<td>' + cards[i]['power'] + '</td>' + '</tr>';
+						tableBody+= '<tr>' + '<td>' + 'Toughness' + '</td>' + '<td>' + cards[i]['toughness'] + '</td>' + '</tr>';
+						tableBody+= '<tr>' + '<td>' + 'Flavor Text' + '</td>' + '<td>' + cards[i]['flavor'] + '</td>' + '</tr>';
+						tableBody += '<tr>' + '<td>' + 'Artist' + '</td>' + '<td>' + cards[i]'artist'] + '</td>' + '</tr>';
+						
 				}
 
-        var randomTable = document.getElementById('card_table');
-        if(randomTable){
-            randomTable.innerHTML = tableBody;
+        var cardTable = document.getElementById('card_table');
+        if(cardTable){
+            cardTable.innerHTML = tableBody;
         }
     })
     .catch(function(error){
