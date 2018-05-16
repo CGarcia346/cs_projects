@@ -1,0 +1,90 @@
+Joey Cook Gallardo
+Carlos Garcia
+
+CREATE TABLE sets(
+set_id integer,
+set_name text,
+release_date text,
+border text);
+
+note for card table:
+
+We intially had cmc, power and toughness listed as integers, but some sets in magic
+have symbols such as "*" in a creature's power and toughness so we had to change 
+the type to text. In the case of cmc, Unglued and Unhinged have cards that cost 1/2 a mana
+therefore we had to change the cmc to a float.
+
+CREATE TABLE cards(
+card_id integer,
+set_id integer,
+card_name text,
+card_set_number text,
+colors text,
+color_identity text,
+mana_cost text,
+cmc float,
+type text,
+types text,
+subtypes text,
+text text,
+power text,
+toughness text,
+flavor text,
+artist text);
+
+CREATE TABLE artists(
+artistid integer,
+artist_name text,
+set_name text,
+card_name text);
+
+CREATE TABLE cmc(
+cmc float,
+card_id integer,
+card_name text);
+
+CREATE TABLE colors(
+color_id integer,
+card_color text,
+card_id, integer,
+card_name text;)
+
+CREATE TABLE type(
+type_id integer,
+type text,
+card_id integer,
+card_name);
+
+CREATE TABLE power(
+power text 
+card_id integer
+card_name text);
+
+CREATE TABLE toughness(
+toughness text 
+card_id integer
+card_name text);
+
+CREATE TABLE manacost(
+card_id integer
+color_id integer
+amount text
+
+CREATE TABLE color_table(
+color_id integer
+color text
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
