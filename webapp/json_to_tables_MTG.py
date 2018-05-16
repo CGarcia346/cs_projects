@@ -12,19 +12,22 @@ import sys
 import json
 import csv
 
-def save_sets_table_as_csv(sets, csv_file_name):
+
+
+def save_sets_table_as_csv(sets, csv_file_name, sortedList):
 
     output_file = open(csv_file_name, 'w')
     writer = csv.writer(output_file)
-    ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
     id = 0
+    while sortedList:
+        for key in sets:
+            if sortedList:
+                if sets[key]['name'] == sortedList[0]:
+                    set_row = [id, sets[key]['name'],  sets[key]['releaseDate'],  sets[key]['border']]
+                    writer.writerow(set_row)
+                    id += 1
+                    sortedList.remove(sortedList[0])
 
-    for key in sets:
-
-        if (sets[key]['type'] not in ban):
-            set_row = [id, sets[key]['name'],  sets[key]['releaseDate'],  sets[key]['border']]
-            writer.writerow(set_row)
-            id += 1
 
     output_file.close()
 
@@ -113,6 +116,8 @@ def save_artist_table_as_csv(sets, csv_file_name):
     ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
     artist_list = []
     artists = {}
+    temp_list = []
+    artist_id = 0
 
     for key in sets:
         if (sets[key]['type'] not in ban):
@@ -121,16 +126,24 @@ def save_artist_table_as_csv(sets, csv_file_name):
             for card in cards:
                 if card["artist"] not in artists:
                     artist_list.append(card['artist'])
-                    artists[card["artist"]] = {"id":artist_list.index(card['artist']), 'a_set': [card['name']],
+                    artists[card["artist"]] = {"id": artist_list.index(card['artist']), 'a_set': [card['name']],
                                                'c_set': [card['name']]}
                 else:
                     if sets[key]['name'] not in artists[card['artist']]['a_set']:
                         artists[card["artist"]]['a_set'].append(sets[key]['name'])
                     artists[card["artist"]]['c_set'].append(card['name'])
-
     for artist in artists:
-        set_row = [artists[artist]['id'], artist, artists[artist]['a_set'], artists[artist]['c_set']]
-        writer.writerow(set_row)
+        temp_list.append(artist)
+    temp_list.sort()
+    while temp_list:
+        for artist in artists:
+            if temp_list:
+                if artist == temp_list[0]:
+                    artists[artist]['id'] = artist_id
+                    set_row = [artists[artist]['id'], artist, artists[artist]['a_set'], artists[artist]['c_set']]
+                    writer.writerow(set_row)
+                    temp_list.remove(temp_list[0])
+                    artist_id += 1
 
     output_file.close()
 
@@ -389,13 +402,23 @@ def save_linking_table_as_csv(books, authors, csv_file_name):
                 writer.writerow(table_row)
     '''
     pass
+def sortList(data, csv_file_name):
+    ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
+    temp_list = []
+    for key in data:
+        if (data[key]['type'] not in ban):
+            temp_list.append(data[key]['name'])
+    temp_list.sort()
+    return temp_list
 
 if __name__ == '__main__':
     # Turn JSON string into Python objects
     data = json.loads(open('AllSets.json').read())
 
+    sortedList = sortList(data, 'MTG_sets_table.csv')
+
     # Save the tables
-    save_sets_table_as_csv(data, 'MTG_sets_table.csv')
+    save_sets_table_as_csv(data, 'MTG_sets_table.csv', sortedList)
     save_cards_table_as_csv(data, 'MTG_cards_table.csv')
     save_artist_table_as_csv(data, 'MTG_artists_table.csv')
     save_cmc_table_as_csv(data, 'MTG_cmc_table.csv')

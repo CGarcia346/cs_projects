@@ -15,6 +15,7 @@ import csv
 import math
 import psycopg2
 import config
+import random
 
 app = flask.Flask(__name__)
 
@@ -500,6 +501,12 @@ def get_colors(color_value):
 @app.route("/color")
 def get_color_list():
     return json.dumps(color_to_id)
+@app.route("/random")
+def get_random():
+    limit = len(cards) - 1
+    card = random.randint(0, limit)
+    randomcard = cards[card]
+    return json.dumps(randomcard)
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
