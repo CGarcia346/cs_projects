@@ -1,0 +1,280 @@
+Joey Cook Gallardo and Carlos Garcia
+
+NOTE: This is a different data set. Data can be found at same URL but clicking on “All Sets”. Therefore, we changed our user stories to suit our new data set. We are continuously working on our structure for using our API so this is subject to change
+
+Felipe clicks on a search bar for names and then types in the name of a card; returns closest matches in a list alphabetically
+
+Pepe clicks on sets and sees a list of sets linked to all the cards in the set
+
+Pepa clicks on artists and is returned a list of artists with links to either all the sets they appear in or the cards they have done
+
+Felipe clicks on cards and sees a list of all cards with links to each individual card
+
+Pepa clicks on color and will see a list of colors that contain links to all cards with those colors. 
+
+Felipe has clicked on a color and the result is a list of cards containing the color or colors prioritized by white, blue, black, red, green
+
+Pepe clicks on cmc and will see a list of converted mana cast values and associated cards, the cmc values will be a link to all the cards with that cmc
+
+Pepa clicks on power and will see a list of power values linked to a list of cards with the power value clicked
+
+Pepe clicks on toughness and will see a list of toughness values linked to a list of cards with the toughness value clicked
+
+Endpoint: /artists
+Summary: Returns the complete list of artists in the database
+
+ResponseFormat: a JSON list of artists dictionaries. Each artist dictionary will 
+have keys "artist id", "name", "sets", and "cards". 
+
+A typical response to this query will look like this.
+
+[
+    {"artist id": 1, "name": "Jon Avon",
+        "sets": [Battle for Zendikar, Ravnica...], "cards": [Plains, Mountain...]},
+    {"artist id": 2, "name": "Zoltan Boros",
+	"sets": [Return to Ravnica, Gatecrash...], "cards": [Firefist Striker, Rakdos Cackler...]},
+	...
+]
+
+Endpoint: /artist/<artist_id>
+
+Summary: Returns the information of an artist in the database
+
+ResponseFormat: a specific artist’s dictionary. The artist’s dictionary will 
+have keys "artist id", "name", "sets", and "cards". 
+
+A typical response to a query like /artists/1 type will look like this.
+
+[
+    {"artist id": 1, "name": "Jon Avon",
+        "sets": [Battle for Zendikar, Ravnica...], "cards": [Plains, Mountain...]}
+]
+
+Endpoint: /sets
+
+Summary: Returns the complete list of sets in the database
+
+ResponseFormat: a JSON list of set dictionaries. Each dictionary will 
+have keys "id", "name", "cards", and "release date" 
+
+A typical response to this query will look like this.
+
+[
+    {"set id": 1, "name": "Return to Ravnica",
+        "cards": [Supreme Verdict, Azorius Charm...], "release date": [10/05/2012]},
+    {"set id": 2, "name": "Alpha", 
+	"cards": [Black Lotus, Mox Ruby...], "release date": [8/05/1993]},
+	...
+]
+
+Endpoint: /sets/<set_id>
+
+Summary: Returns the information on a set in the database
+
+ResponseFormat: A specific set’s dictionary. The sets dictionary will 
+have keys "set id", "name", "cards", and "release date". 
+
+A typical response to a query like /sets/1 type will look like this.
+
+[
+    {"set id": 1, "name": "Return to Ravnica",
+        "cards": [Supreme Verdict, Azorius Charm...], "release date": [10/05/2012]},
+]
+
+Endpoint: /cards
+
+Summary: Returns the complete list of cards in the database
+
+ResponseFormat: a JSON list of card dictionaries. Each card dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to this query will look like this.
+
+[
+	{“card id”: 1, “sets”: [Alpha, Beta, Revised..] , “name”: Black Lotus, “toughness”: none, “power”: none,”cmc”: 0,”manaCost”: 0, “text”: “T, Sacrifice Black Lotus: Add three mana of any one color.”, “flavor”:none, “type”: “artifact”, “types”, “subtypes”: none, “artists”: “Christopher Rush”}.
+	{“card id”: 2, “sets”: [Alpha, Beta, Revised...] , “name”: Lightning Bolt, “toughness”: none, “power”: none,”cmc”: 1,”manaCost”: “R”, “Lightning Bolt deals 3 damage to any target.”, “flavor”: ”The sparkmage shrieked, calling on the rage of the storms of his youth. To his surprise, the sky responded with a fierce energy he'd never thought to see again.”..., “type”: “instant”, “types”, “subtypes”: none, “artists”: “Christopher Rush”}
+	...
+]
+
+Endpoint:/cards/<card_id>
+
+Summary: Returns the information of a card in the database
+
+ResponseFormat: A cards information in the dictionary. The card’s dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to this query will look like this.
+
+[
+{“card id”: 1, “sets”: [Alpha, Beta, Revised..] , “name”: Black Lotus, “toughness”: none, “power”: none,”cmc”: 0,”manaCost”: 0, “text”: “T, Sacrifice Black Lotus: Add three mana of any one color.”, “flavor”:none, “type”: “artifact”, “types”, “subtypes”: none, “artists”: “Christopher Rush”}.
+]
+
+Endpoint: /power
+
+Summary: Returns all the cards with power in the database
+
+ResponseFormat: A Json list of cards dictionaries. The card’s dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to this query will look like this.
+
+[ 
+{“card id”: 500, “name”: Soldier of the Pantheon, “sets”: “Theros”, “, “toughness”: 1, “power”: 2 ,”cmc”: 1,”manaCost”: “W”, “text”: “Whenever an opponent casts a multicolored spell, you gain 1 life.”, “flavor”: “I hear the gods' voices in my dreams each night, and I offer bloody trophies on their altars each day.”..., “type”: “creature”, “subtypes”: “Human”, “Soldier”, “artists”: “Eric Deschamps”},
+
+“card id”: 500, “name”: Boon Satyr, “sets”: “Theros”,  toughness”: 2, “power”: 4 ,”cmc”: 3, ”manaCost”: “1[G] [G]”, “text”: “Flash Bestow 3 [G] [G] (If you cast this card for its bestow cost, it's an Aura spell with enchant creature. It becomes a creature again if it's not attached to a creature.) Enchanted creature gets +4/+2.”, “flavor”: none , “type”: “creature”, “subtypes”: “Satyr”, “artists”: “Wesley Burt”}
+	…
+]
+
+Endpoint: /power/<power_value>
+
+Summary: Returns all the cards with the same power in the database
+
+ResponseFormat: A Json list of cards with the same toughness. The card’s dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to a query like /power/2 will look like this.
+
+[ 
+{“card id”: 500, “name”: Soldier of the Pantheon, “sets”: “Theros”, “, “toughness”: 1, “power”: 2 ,”cmc”: 1,”manaCost”: “W”, “text”: “Whenever an opponent casts a multicolored spell, you gain 1 life.”, “flavor”: “I hear the gods' voices in my dreams each night, and I offer bloody trophies on their altars each day.”..., “type”: “creature”, “subtypes”: “Human”, “Soldier”, “artists”: “Eric Deschamps”}
+]
+
+Endpoint: /toughness
+
+Summary: Returns all the cards with toughness in the database
+
+ResponseFormat: A Json list of cards dictionaries. The card’s dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to this query will look like this.
+
+[ 
+{“card id”: 500, “name”: Soldier of the Pantheon, “sets”: “Theros”, “, “toughness”: 1, “power”: 2 ,”cmc”: 1,”manaCost”: “W”, “text”: “Whenever an opponent casts a multicolored spell, you gain 1 life.”, “flavor”: “I hear the gods' voices in my dreams each night, and I offer bloody trophies on their altars each day.”..., “type”: “creature”, “subtypes”: “Human”, “Soldier”, “artists”: “Eric Deschamps”},
+
+“card id”: 500, “name”: Boon Satyr, “sets”: “Theros”,  toughness”: 2, “power”: 4 ,”cmc”: 3, ”manaCost”: “1[G] [G]”, “text”: “Flash Bestow 3 [G] [G] (If you cast this card for its bestow cost, it's an Aura spell with enchant creature. It becomes a creature again if it's not attached to a creature.) Enchanted creature gets +4/+2.”, “flavor”: none , “type”: “creature”, “subtypes”: “Satyr”, “artists”: “Wesley Burt”}
+	…
+]
+
+Endpoint: /toughness/<toughness_value>
+
+Summary: Returns all the cards with the same toughness in the database
+
+ResponseFormat: A Json list of cards with the same toughness. The card’s dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to a query like /toughness/1 will look like this.
+
+[ 
+{“card id”: 500, “name”: Soldier of the Pantheon, “sets”: “Theros”, “, “toughness”: 1, “power”: 2 ,”cmc”: 1,”manaCost”: “W”, “text”: “Whenever an opponent casts a multicolored spell, you gain 1 life.”, “flavor”: “I hear the gods' voices in my dreams each night, and I offer bloody trophies on their altars each day.”..., “type”: “creature”, “subtypes”: “Human”, “Soldier”, “artists”: “Eric Deschamps”}
+]
+
+Endpoint: /cmc
+
+Summary: Returns the complete list of cards in the database with converted mana cost
+
+ResponseFormat: a JSON list of card dictionaries. Each card dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to this query will look like this.
+
+[ 
+{“card id”: 1, “name”: Abjure, “sets”: [Weatherlight], “artists”: Ted Naifeh, “cmc”:1, manaCost”: {U}, “text::””As an additional cost to cast this spell, sacrifice a blue permanent.
+Counter target spell.”, “flavor”: “Mirri's hackles rose as Ertai continued expounding his virtues. "If that arrogant brat doesn't shut up soon," she growled to herself, "I'm going to have to kill him.”", “type”: Instant, “types”: Instant} ,  
+
+{“card id”: 2, “name”: Aboshan's Desire, “sets”: [Odyssey], “artists”: Ciruelo, “cmc”:1, manaCost”: {U}, “text::”Enchant creature. Enchanted creature has flying.
+Threshold — Enchanted creature has shroud as long as seven or more cards are in your graveyard. (It can't be the target of spells or abilities.)”, “type”: Enchantment-Aura, “types”: Enchantment} ,
+. . . . . .
+]
+
+Endpoint: /cmc/<cmc_value>
+
+Summary: Returns the information of a card in the database with given mana cost
+
+ResponseFormat: a JSON list of card dictionaries. Each card dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to a query like /cmc/1 type will look like this.
+
+[ 
+{“card id”: 1, “name”: Abjure, “sets”: [Weatherlight], “artists”: Ted Naifeh, “cmc”:1, manaCost”: {U}, “text::””As an additional cost to cast this spell, sacrifice a blue permanent.
+Counter target spell.”, “flavor”: “Mirri's hackles rose as Ertai continued expounding his virtues. "If that arrogant brat doesn't shut up soon," she growled to herself, "I'm going to have to kill him.”", “type”: Instant, “types”: Instant} ,
+
+{“card id”: 2, “name”: Aboshan's Desire, “sets”: [Odyssey], “artists”: Ciruelo, “cmc”:1, manaCost”: {U}, “text::”Enchant creature. Enchanted creature has flying.
+Threshold — Enchanted creature has shroud as long as seven or more cards are in your graveyard. (It can't be the target of spells or abilities.)”, “type”: Enchantment-Aura, “types”: Enchantment} ,
+. . . . . .
+]
+
+Endpoint: /manaCost
+
+Summary: Returns the complete list of cards in the database with mana cost
+
+ResponseFormat: a JSON list of card dictionaries. Each card dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to this query will look like this.
+
+[
+{“card id”: 1, “name”: Abjure, “sets”: [Weatherlight], “artists”: Ted Naifeh, “cmc”:1, manaCost”: {U}, “text::””As an additional cost to cast this spell, sacrifice a blue permanent.
+Counter target spell.”, “flavor”: “Mirri's hackles rose as Ertai continued expounding his virtues. "If that arrogant brat doesn't shut up soon," she growled to herself, "I'm going to have to kill him.”", “type”: Instant, “types”: Instant} ,
+
+{“card id”: 2, “name”: Aboshan's Desire, “sets”: [Odyssey], “artists”: Ciruelo, “cmc”:1, manaCost”: {U}, “text::”Enchant creature. Enchanted creature has flying.
+Threshold — Enchanted creature has shroud as long as seven or more cards are in your graveyard. (It can't be the target of spells or abilities.)”, “type”: Enchantment-Aura, “types”: Enchantment} ,
+. . . . . .
+]
+
+
+Endpoint:/manaCost/<manaCost_combo>
+
+Summary: Returns the information of a card in the database with given mana cost combination
+
+ResponseFormat: a JSON list of card dictionaries. Each card dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to a query like /manaCost/U type will look like this.
+
+[ 
+{“card id”: 1, “name”: Abjure, “sets”: [Weatherlight], “artists”: Ted Naifeh, “cmc”:1, manaCost”: {U}, “text::””As an additional cost to cast this spell, sacrifice a blue permanent.
+Counter target spell.”, “flavor”: “Mirri's hackles rose as Ertai continued expounding his virtues. "If that arrogant brat doesn't shut up soon," she growled to herself, "I'm going to have to kill him.”", “type”: Instant, “types”: Instant} ,
+
+ {“card id”: 2, “name”: Aboshan's Desire, “sets”: [Odyssey], “artists”: Ciruelo, “cmc”:1, manaCost”: {U}, “text::”Enchant creature. Enchanted creature has flying.
+Threshold — Enchanted creature has shroud as long as seven or more cards are in your graveyard. (It can't be the target of spells or abilities.)”, “type”: Enchantment-Aura, “types”: Enchantment} ,
+
+. . . . . .
+]
+
+Endpoint:/color
+
+Summary: Returns all cards that have color in the database
+
+ResponseFormat: a JSON list of card dictionaries. Each card dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to a query will look like this.
+
+[ 
+{“card id”: 1, “name”: Abjure, “sets”: [Weatherlight], “artists”: Ted Naifeh, “cmc”:1, manaCost”: {U}, “text::””As an additional cost to cast this spell, sacrifice a blue permanent.
+Counter target spell.”, “flavor”: “Mirri's hackles rose as Ertai continued expounding his virtues. "If that arrogant brat doesn't shut up soon," she growled to herself, "I'm going to have to kill him.”", “type”: Instant, “types”: Instant} ,
+
+ {“card id”: 2, “name”: Aboshan's Desire, “sets”: [Odyssey], “artists”: Ciruelo, “cmc”:1, manaCost”: {U}, “text::”Enchant creature. Enchanted creature has flying.
+Threshold — Enchanted creature has shroud as long as seven or more cards are in your graveyard. (It can't be the target of spells or abilities.)”, “type”: Enchantment-Aura, “types”: Enchantment} ,
+
+. . . . . .
+]
+
+Endpoint:/color/<color_value>
+
+Summary: Returns all cards that have the same color in the database
+
+ResponseFormat: a JSON list of card dictionaries. Each card dictionary will 
+have keys "card id", "sets", "name",”toughness”, “power”, “cmc”, “manaCost”, “text”, “flavor”, “type”, “types”, “subtypes”, and “artists”. If a given card does not contain one of the above keys the entry will be none.
+
+A typical response to a query like /cmc/1 type will look like this.
+
+[ 
+{“card id”: 1, “name”: Abjure, “sets”: [Weatherlight], “artists”: Ted Naifeh, “cmc”:1, manaCost”: {U}, “text::””As an additional cost to cast this spell, sacrifice a blue permanent.
+Counter target spell.”, “flavor”: “Mirri's hackles rose as Ertai continued expounding his virtues. "If that arrogant brat doesn't shut up soon," she growled to herself, "I'm going to have to kill him.”", “type”: Instant, “types”: Instant} ,
+
+ {“card id”: 2, “name”: Aboshan's Desire, “sets”: [Odyssey], “artists”: Ciruelo, “cmc”:1, manaCost”: {U}, “text::”Enchant creature. Enchanted creature has flying.
+Threshold — Enchanted creature has shroud as long as seven or more cards are in your graveyard. (It can't be the target of spells or abilities.)”, “type”: Enchantment-Aura, “types”: Enchantment} ,
+
+. . . . . .
+]
