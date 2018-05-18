@@ -18,10 +18,10 @@ function initialize() {
     if (element){
         getRandom();
     }
-	element = document.getElementById('search');
-	if (element){
-        getCard(element);
-    }
+	//element = document.getElementById('search');
+	//if (element){
+        //getCard();
+    //}
 }
 
 function getBaseURL() {
@@ -109,7 +109,7 @@ function getSets() {
 }
 
 function getArtists() {
-    
+
     var url = getBaseURL() + '/artists';
     fetch(url, {method: 'get'})
     .then((response) => response.json())
@@ -162,20 +162,19 @@ function getRandom() {
     });
 }
 
-function getCard(some_search) {
-    
-    var x = some_search.elements[0].value;
-    var searching = getElementById('search');
-    var url = getBaseURL() + '/cards?name=';
-	url = url + x;
-    var search = searching.value;
-    document.getElementById('card_table').innerHTML = url;
+function getCard() {
+
+    var searchname = document.getElementById('search');
+    var x = searchname.elements[0].value;
+
+    var url = getBaseURL() + '/cards?name=' + x;
+
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(cards){
 
 				for( var i = 0; i < cards.length; i++){
-			
+						if(x == cards[i]['name']){
 						var tableBody = '<tr>' + '<td>' + 'Name' + '</td>' + '<td>' +cards[i]['name'] + '</td>' + '</tr>';
 						tableBody += '<tr>' + '<td>' + 'Colors' + '</td>' + '<td>' + cards[i]['colors'] + '</td>' + '</tr>';
 						tableBody += '<tr>' + '<td>' + 'Color Identity' + '</td>' + '<td>' + cards[i]['colorIdentity'] + '</td>' +  '</tr>';
@@ -188,8 +187,8 @@ function getCard(some_search) {
 						tableBody+= '<tr>' + '<td>' + 'Power' + '</td>' + '<td>' + cards[i]['power'] + '</td>' + '</tr>';
 						tableBody+= '<tr>' + '<td>' + 'Toughness' + '</td>' + '<td>' + cards[i]['toughness'] + '</td>' + '</tr>';
 						tableBody+= '<tr>' + '<td>' + 'Flavor Text' + '</td>' + '<td>' + cards[i]['flavor'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Artist' + '</td>' + '<td>' + cards[i]'artist'] + '</td>' + '</tr>';
-						
+						tableBody += '<tr>' + '<td>' + 'Artist' + '</td>' + '<td>' + cards[i]['artist'] + '</td>' + '</tr>';
+					}
 				}
 
         var cardTable = document.getElementById('card_table');
@@ -200,4 +199,9 @@ function getCard(some_search) {
     .catch(function(error){
         console.log(error);
     });
+}
+
+function onInputClick(){
+
+
 }
