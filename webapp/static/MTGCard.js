@@ -27,11 +27,14 @@ function initialize() {
         var text = cards[i]['text']
         var flavor = cards[i]['flavor']
         var link = '<a href= /set/' +setid + '>' + setid + '</a>'
+        var nameLink = '<a href=/card?name=' + name + '&set_id=' + setid + '>' + name + '</a>'
+        var artistLink = '<a href=/artist/' + artist + '>' + artist + '</a>'
+
                 if(searchText == name){
 					tableBody += '<tr>'
                     tableBody += '<td>' + link + '</td>'
-					tableBody += '<td>' + name + '</td>'
-                    tableBody += '<td>' + artist + '</td>'
+					tableBody += '<td>' + nameLink + '</td>'
+                    tableBody += '<td>' + artistLink + '</td>'
                     tableBody += '<td>' + text + '</td>'
                     tableBody += '<td>' + flavor + '</td>'
 					tableBody += '</tr>'
@@ -41,8 +44,8 @@ function initialize() {
                     if(cards[i]['name'].startsWith(searchText)){
                         priority += '<tr>'
                         priority += '<td>' + link + '</td>'
-                        priority += '<td>' + name + '</td>'
-                        priority += '<td>' + artist + '</td>'
+                        priority += '<td>' + nameLink + '</td>'
+                        priority += '<td>' + artistLink + '</td>'
                         priority += '<td>' + text + '</td>'
                         priority += '<td>' + flavor + '</tf>'
                         priority += '</tr>'
@@ -50,8 +53,8 @@ function initialize() {
                     else{
                         subBody += '<tr>'
                         subBody += '<td>' + link +'</td>'
-                        subBody += '<td>' + name +'</td>'
-                        subBody += '<td>' + artist + '</td>'
+                        subBody += '<td>' + nameLink +'</td>'
+                        subBody += '<td>' + artistLink + '</td>'
                         subBody += '<td>' + text + '</td>'
                         subBody += '<td>' + flavor + '</td>'
                         subBody += '</tr>'

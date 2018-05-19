@@ -28,10 +28,10 @@ def get_random():
     global api_port
     return flask.render_template('random.html', api_port=api_port)
 
-@app.route('/card')
+@app.route('/cards')
 def get_card():
     global api_port
-    return flask.render_template('card.html', api_port=api_port)
+    return flask.render_template('cards.html', api_port=api_port)
 
 @app.route('/advancesearch')
 def get_advanced():
