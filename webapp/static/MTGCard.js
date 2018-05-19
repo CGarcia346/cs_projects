@@ -2,19 +2,18 @@
 initialize();
 
 function initialize() {
+
     var url = new URL(window.location.href);
     var searchText = url.searchParams.get('name');
     var searchname = document.getElementById('search');
-    var x = searchname.elements[0].value;
-
-    var url = getBaseURL() + '/cards?name=' + x;
+    var url = getBaseURL() + '/cards?name=' + searchText;
 
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(cards){
 
 				for( var i = 0; i < cards.length; i++){
-						if(x == cards[i]['name']){
+						if(searchText == cards[i]['name']){
 						var tableBody = '<tr>' + '<td>' + 'Name' + '</td>' + '<td>' +cards[i]['name'] + '</td>' + '</tr>';
 						tableBody += '<tr>' + '<td>' + 'Colors' + '</td>' + '<td>' + cards[i]['colors'] + '</td>' + '</tr>';
 						tableBody += '<tr>' + '<td>' + 'Color Identity' + '</td>' + '<td>' + cards[i]['colorIdentity'] + '</td>' +  '</tr>';
