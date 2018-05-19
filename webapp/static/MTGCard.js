@@ -7,27 +7,27 @@ function initialize() {
     var searchText = url.searchParams.get('name');
     var searchname = document.getElementById('search');
     var url = getBaseURL() + '/cards?name=' + searchText;
-
+    var setName = getBaseURL() + '/sets'
     fetch(url, {method: 'get'})
     .then((response) => response.json())
     .then(function(cards){
 
+    fetch(setName, {method: 'get'})
+    var setList() = .then((response) => response.json())
+
+    var tableBody = '<th>' + 'Set' + '</th>'
+    tableBody += '<th>' + 'Card Name' + '</th>'
+    tableBody += '<th>' + 'Artist' + '</th>'
+
+
 				for( var i = 0; i < cards.length; i++){
-						if(searchText == cards[i]['name']){
-						var tableBody = '<tr>' + '<td>' + 'Name' + '</td>' + '<td>' +cards[i]['name'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Colors' + '</td>' + '<td>' + cards[i]['colors'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Color Identity' + '</td>' + '<td>' + cards[i]['colorIdentity'] + '</td>' +  '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Manacost' + '</td>' + '<td>' +  cards[i]['manaCost'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'CMC' + '</td>' + '<td>' + cards[i]['cmc'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Type' + '</td>' + '<td>' + cards[i]['type'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Types' + '</td>' +'<td>'+ cards[i]['types'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Subtypes' + '</td>' + '<td>' + cards[i]['subtypes'] + '</td>' + '</tr>';
-						tableBody+= '<tr>' + '<td>' + 'Text' + '</td>' + '<td>' + cards[i]['text'] + '</td>' + '</tr>';
-						tableBody+= '<tr>' + '<td>' + 'Power' + '</td>' + '<td>' + cards[i]['power'] + '</td>' + '</tr>';
-						tableBody+= '<tr>' + '<td>' + 'Toughness' + '</td>' + '<td>' + cards[i]['toughness'] + '</td>' + '</tr>';
-						tableBody+= '<tr>' + '<td>' + 'Flavor Text' + '</td>' + '<td>' + cards[i]['flavor'] + '</td>' + '</tr>';
-						tableBody += '<tr>' + '<td>' + 'Artist' + '</td>' + '<td>' + cards[i]['artist'] + '</td>' + '</tr>';
-					}
+						var tableBody += '<tr>';
+						var setID = cards[i]['set_id']
+            setName = setList[setID]
+            tableBody += '<td>' + setName + '</td>';
+						tableBody += '<td>' +cards[i]['name'] + '</td>';
+            tableBody += '<td>' +cards[i]['Artist'] + '</td>';
+						tableBody += '</tr>';
 				}
 
         var cardTable = document.getElementById('card_table');
