@@ -18,10 +18,7 @@ function initialize() {
     if (element){
         getRandom();
     }
-	//element = document.getElementById('search');
-	//if (element){
-        //getCard();
-    //}
+
 }
 
 function getBaseURL() {
@@ -199,9 +196,4 @@ function getCard() {
     .catch(function(error){
         console.log(error);
     });
-}
-
-function onInputClick(){
-
-
 }
