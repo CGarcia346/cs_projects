@@ -4,6 +4,13 @@ table{
 	border-collapse: collapse;
 }
 
+.colordiv {
+    background-color: lightgrey;
+    width:800px;
+    height:900px; 
+    padding: 25px;
+    margin 25px;
+}
 th, td {
     border-bottom: 1px solid #ddd;
     padding: 15px;
