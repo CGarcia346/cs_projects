@@ -21,43 +21,45 @@ function initialize() {
     var subBody = ""
 	var priority = ""
     for( var i = 0; i < cards.length; i++){
-        var setid = cards[i]['set_id']
-        var name = cards[i]['name']
-        var artist = cards[i]['artist']
-        var text = cards[i]['text']
-        var flavor = cards[i]['flavor']
-        var link = '<a href= /set/' +setid + '>' + setid + '</a>'
-        var nameLink = '<a href=/card?name=' + name + '&set_id=' + setid + '>' + name + '</a>'
-        var artistLink = '<a href=/artist/' + artist + '>' + artist + '</a>'
+        var setid = cards[i]['set_id'];
+        var name = cards[i]['name'];
+        var sname = name.replace(" ", "");
+        var artist = cards[i]['artist'];
+        var sartist = artist.replace(" ","");
+        var text = cards[i]['text'];
+        var flavor = cards[i]['flavor'];
+        var link = '<a href= /set?id=' +setid + '>' + setid + '</a>';
+        var nameLink = '<a href=/card?name=' + sname + '&set_id=' + setid + '>' + name + '</a>';
+        var artistLink = '<a href=/artist?name=' + sartist + '>' + artist + '</a>';
 
                 if(searchText == name){
 					tableBody += '<tr>'
-                    tableBody += '<td>' + link + '</td>'
-					tableBody += '<td>' + nameLink + '</td>'
-                    tableBody += '<td>' + artistLink + '</td>'
-                    tableBody += '<td>' + text + '</td>'
-                    tableBody += '<td>' + flavor + '</td>'
-					tableBody += '</tr>'
+                    tableBody += '<td>' + link + '</td>';
+					tableBody += '<td>' + nameLink + '</td>';
+                    tableBody += '<td>' + artistLink + '</td>';
+                    tableBody += '<td>' + text + '</td>';
+                    tableBody += '<td>' + flavor + '</td>';
+					tableBody += '</tr>';
                 }
                 else{
                     
                     if(cards[i]['name'].startsWith(searchText)){
-                        priority += '<tr>'
-                        priority += '<td>' + link + '</td>'
-                        priority += '<td>' + nameLink + '</td>'
-                        priority += '<td>' + artistLink + '</td>'
-                        priority += '<td>' + text + '</td>'
-                        priority += '<td>' + flavor + '</tf>'
-                        priority += '</tr>'
+                        priority += '<tr>';
+                        priority += '<td>' + link + '</td>';
+                        priority += '<td>' + nameLink + '</td>';
+                        priority += '<td>' + artistLink + '</td>';
+                        priority += '<td>' + text + '</td>';
+                        priority += '<td>' + flavor + '</tf>';
+                        priority += '</tr>';
                     }
                     else{
-                        subBody += '<tr>'
-                        subBody += '<td>' + link +'</td>'
-                        subBody += '<td>' + nameLink +'</td>'
-                        subBody += '<td>' + artistLink + '</td>'
-                        subBody += '<td>' + text + '</td>'
-                        subBody += '<td>' + flavor + '</td>'
-                        subBody += '</tr>'
+                        subBody += '<tr>';
+                        subBody += '<td>' + link +'</td>';
+                        subBody += '<td>' + nameLink +'</td>';
+                        subBody += '<td>' + artistLink + '</td>';
+                        subBody += '<td>' + text + '</td>';
+                        subBody += '<td>' + flavor + '</td>';
+                        subBody += '</tr>';
                     }
                 }
 			}

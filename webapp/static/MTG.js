@@ -18,7 +18,11 @@ function initialize() {
     if (element){
         getRandom();
     }
-
+    
+    element = document.getElementById('set_table');
+    if (element){
+        getASet();
+    }
 }
 
 function getBaseURL() {
@@ -192,6 +196,37 @@ function getCard() {
         if(cardTable){
             cardTable.innerHTML = tableBody;
         }
+    })
+    .catch(function(error){
+        console.log(error);
+    });
+}
+
+function getASet(){
+    
+    var set = document.getElementById('set_table');
+    var path = window.location.href;
+    path = path.substring(path.indexOf('=') + 1);
+    var url = getBaseURL() + '/set/' + path;
+    
+    fetch(url, {method: 'get'})
+    .then((response) => response.json())
+    .then(function(set) {
+        var tableBody = '<tr><td>Name</td><td>' + set['name'] + '</td></tr>';
+        tableBody += '<tr><td>Release Date</td><td>' + set['releaseDate'] + '</td></tr>';
+        tableBody += '<tr><td>Border</td><td>' + set['border'] + '</td></tr>';
+        tableBody += '<th>Card Number</th><th>Card Name</th>'
+        
+        for(var card= 0; card<set['cards'].length; card++){
+            tableBody += '<tr><td>' + set['cards'][card]['cards_set_number'] + '</td>';
+            tableBody += '<td>' + set['cards'][card]['name'] + '</td></tr>';
+        }
+
+
+    var setTable = document.getElementById('set_table');
+    if(setTable){
+        setTable.innerHTML = tableBody;
+    }
     })
     .catch(function(error){
         console.log(error);

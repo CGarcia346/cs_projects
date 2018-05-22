@@ -28,10 +28,6 @@ def get_random():
     global api_port
     return flask.render_template('random.html', api_port=api_port)
 
-@app.route('/card')
-def get_card_data():
-    global api_port
-    return flask.render_template('card.html', api_port=api_port)
 @app.route('/cards')
 def get_card():
     global api_port
@@ -42,6 +38,21 @@ def get_advanced():
     global api_port
     return flask.render_template('advancedsearch.html', api_port=api_port)
 
+@app.route('/set')
+def get_set():
+    global api_port
+    return flask.render_template('set_data.html', api_port=api_port)
+
+@app.route('/card')
+def get_a_card():
+    global api_port
+    return flask.render_template('card_data.html', api_port=api_port)
+
+@app.route('/artist')
+def get_artist():
+    global api_port
+    return flask.render_template('artist_data.html', api_port=api_port)
+
 if __name__ == '__main__':
     if len(sys.argv) != 4:
         print('Usage: {0} host port api-port'.format(sys.argv[0]), file=sys.stderr)
@@ -50,4 +61,4 @@ if __name__ == '__main__':
     host = sys.argv[1]
     port = sys.argv[2]
     api_port = sys.argv[3]
-app.run(host=host, port=port)
+    app.run(host=host, port=port)
