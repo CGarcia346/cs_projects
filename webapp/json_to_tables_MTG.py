@@ -35,14 +35,12 @@ def save_cards_table_as_csv(sets, csv_file_name):
 
     output_file = open(csv_file_name, 'w')
     writer = csv.writer(output_file)
-    ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
     set_id = 0
     card_id = 0
 
-    for key in sets:
 
-        if (sets[key]['type'] not in ban):
-            cards = sets[key]['cards']
+    for dict in sets:
+            cards = dict['cards']
 
             for card in cards:
                 if "number" in card:
@@ -154,12 +152,10 @@ def save_cmc_table_as_csv(sets, csv_file_name):
     ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
     card_id = 0
 
-    for key in sets:
+    for dict in sets:
 
-        if sets[key]['type'] not in ban:
-            cards = sets[key]['cards']
-
-            for card in cards:
+        cards = dict['cards']
+        for card in cards:
                 set_row = [card["cmc"], card_id, card["name"]]
                 writer.writerow(set_row)
                 card_id += 1
@@ -174,12 +170,11 @@ def save_color_table_as_csv(sets, csv_file_name):
     card_id = 0
     color_list = []
 
-    for key in sets:
+    for dict in sets:
 
-        if sets[key]['type'] not in ban:
-            cards = sets[key]['cards']
+        cards = dict['cards']
 
-            for card in cards:
+        for card in cards:
                 if "colors" in card:
 
                     if card["colors"] not in color_list:
@@ -207,11 +202,11 @@ def save_type_table_as_csv(sets, csv_file_name):
     card_id = 0
     type_list = []
 
-    for key in sets:
-        if sets[key]['type'] not in ban:
-            cards = sets[key]['cards']
+    for dict in sets:
 
-            for card in cards:
+        cards = dict['cards']
+
+        for card in cards:
 
                 if card["type"] not in type_list:
                     type_list.append(card["type"])
@@ -232,18 +227,17 @@ def save_power_table_as_csv(sets, csv_file_name):
     ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
     card_id = 0
 
-    for key in sets:
+    for dict in sets:
 
-        if sets[key]['type'] not in ban:
-            cards = sets[key]['cards']
+        cards = dict['cards']
 
-            for card in cards:
+        for card in cards:
 
-                if 'power' in card:
-                    set_row = [card["power"], card_id, card["name"]]
-                    writer.writerow(set_row)
+            if 'power' in card:
+                set_row = [card["power"], card_id, card["name"]]
+                writer.writerow(set_row)
 
-                card_id += 1
+            card_id += 1
 
     output_file.close()
 
@@ -254,18 +248,17 @@ def save_toughness_table_as_csv(sets, csv_file_name):
     ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
     card_id = 0
 
-    for key in sets:
+    for dict in sets:
 
-        if sets[key]['type'] not in ban:
-            cards = sets[key]['cards']
+        cards = dict['cards']
 
-            for card in cards:
+        for card in cards:
 
-                if 'toughness' in card:
-                    set_row = [card["toughness"], card_id, card["name"]]
-                    writer.writerow(set_row)
+            if 'toughness' in card:
+                set_row = [card["toughness"], card_id, card["name"]]
+                writer.writerow(set_row)
 
-                card_id += 1
+            card_id += 1
 
     output_file.close()
 
@@ -276,11 +269,11 @@ def save_manacost_table(sets, csv_file_name):
     ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
     card_id = 0
 
-    for key in sets:
+    for dict in sets:
 
-        if sets[key]['type'] not in ban:
-            cards = sets[key]['cards']
-            for card in cards:
+        cards = dict['cards']
+
+        for card in cards:
                 if 'manaCost' in card:
                     manaCost = card['manaCost']
 
@@ -411,20 +404,38 @@ def sortList(data, csv_file_name):
     temp_list.sort()
     return temp_list
 
+def sortDics(data, csv_file_name):
+    ban = ["promo", "duel deck", "reprint", "box", "from the vault", "premium deck", "starter", "masters", "masterpiece"]
+    temp_list = []
+    sortedList = []
+    for key in data:
+        if (data[key]['type'] not in ban):
+            temp_list.append(data[key]['name'])
+    temp_list.sort()
+
+    while temp_list:
+        for key in data:
+            if temp_list:
+                if temp_list[0] == data[key]['name']:
+                    sortedList.append(data[key])
+                    temp_list.remove(temp_list[0])
+    return sortedList
+
 if __name__ == '__main__':
     # Turn JSON string into Python objects
     data = json.loads(open('AllSets.json').read())
 
     sortedList = sortList(data, 'MTG_sets_table.csv')
+    dicList = sortDics(data, 'MTG_sets_table.csv')
 
     # Save the tables
     save_sets_table_as_csv(data, 'MTG_sets_table.csv', sortedList)
-    save_cards_table_as_csv(data, 'MTG_cards_table.csv')
+    save_cards_table_as_csv(dicList, 'MTG_cards_table.csv')
     save_artist_table_as_csv(data, 'MTG_artists_table.csv')
-    save_cmc_table_as_csv(data, 'MTG_cmc_table.csv')
-    save_power_table_as_csv(data, 'MTG_power_table.csv')
-    save_toughness_table_as_csv(data, 'MTG_toughness_table.csv')
-    save_color_table_as_csv(data, 'MTG_color_table.csv')
-    save_type_table_as_csv(data, 'MTG_type_table.csv')
-    save_manacost_table(data, 'MTG_manacost_table.csv')
+    save_cmc_table_as_csv(dicList, 'MTG_cmc_table.csv')
+    save_power_table_as_csv(dicList, 'MTG_power_table.csv')
+    save_toughness_table_as_csv(dicList, 'MTG_toughness_table.csv')
+    save_color_table_as_csv(dicList, 'MTG_color_table.csv')
+    save_type_table_as_csv(dicList, 'MTG_type_table.csv')
+    save_manacost_table(dicList, 'MTG_manacost_table.csv')
     create_color_table()
