@@ -40,7 +40,6 @@ function onSetsButtonClicked(){
 
 	.then(function(setsList) {
 
-        // Build the table body.
         var tableBody = '';
 
         tableBody = '<th> Name </th>';
@@ -57,8 +56,7 @@ function onSetsButtonClicked(){
             tableBody += '</td>';
             tableBody += '</tr>';
         }
-
-        // Put the table body we just built inside the table that's already on the page.
+        
         var resultsTableElement = document.getElementById('results_table');
 
         if (resultsTableElement) {
@@ -69,16 +67,13 @@ function onSetsButtonClicked(){
 
     })
 
-    // Log the error if anything went wrong during the fetch.
     .catch(function(error) {
         console.log(error);
     });
 }
 
 function getSets() {
-    // Very similar pattern to onAuthorsButtonClicked, so I'm not
-    // repeating those comments here. Read through this code
-    // and see if it makes sense to you.
+    
     var url = getBaseURL() + '/sets';
 
     fetch(url, {method: 'get'})
@@ -90,10 +85,13 @@ function getSets() {
         tableBody+= '<th> Name </th>';
         tableBody += '<th> Release Date </th>';
         tableBody += '<th> Border </th>';
+        
         for (var k = 0; k < setsList.length; k++) {
+            var slink = '<a href = /set?id=' + setsList[k]['id'] + '>';
+           
             tableBody += '<tr>';
             tableBody += '<td>' + setsList[k]['id'] + '</td>';
-            tableBody += '<td>' + setsList[k]['name'] + '</td>';
+            tableBody += '<td>' + slink + setsList[k]['name'] + '</a>' + '</td>';
             tableBody += '<td>' + setsList[k]['releaseDate'] + '</td>';
 			tableBody += '<td>' + setsList[k]['border'] + '</td>';
             tableBody += '</tr>';
@@ -120,9 +118,12 @@ function getArtists() {
         tableBody += '<th> Name </th>';
 
         for(var i = 0; i < artistsList.length; i++) {
+            var name = artistsList[i]['name'].replace(' ', '');
+
+            var artistLink = '<a href = /artist?name=' + name +'>' + artistsList[i]['name']+'</a>';
             tableBody += '<tr>';
             tableBody += '<td>' + artistsList[i]['artist_id'] + '</td>';
-            tableBody += '<td>' + artistsList[i]['name'] + '</td>';
+            tableBody += '<td>' + artistLink + '</td>';
             tableBody += '</tr>';
         }
         var artistTable = document.getElementById('artists_table');
@@ -135,6 +136,7 @@ function getArtists() {
         console.log(error);
     });
 }
+
 function getRandom() {
     var url = getBaseURL() + '/random';
     fetch(url, {method: 'get'})
