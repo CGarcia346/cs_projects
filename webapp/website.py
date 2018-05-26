@@ -33,11 +33,6 @@ def get_card():
     global api_port
     return flask.render_template('cards.html', api_port=api_port)
 
-@app.route('/advancedsearch')
-def get_advanced():
-    global api_port
-    return flask.render_template('advancedsearch.html', api_port=api_port)
-
 @app.route('/set')
 def get_set():
     global api_port
