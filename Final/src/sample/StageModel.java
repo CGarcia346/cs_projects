@@ -13,6 +13,9 @@ public class StageModel  {
     private ArrayList[][] moveable;
     private boolean gameOver;
 
+    public StageModel(int row, int column){
+
+    }
     /**
      * Starts a game for the user
      */
@@ -21,7 +24,7 @@ public class StageModel  {
     }
 
     /**
-     * Short one line description.
+     * retrieves the positions of the Characters
      * @param  character
      * @return position of the characters
      */
@@ -39,17 +42,28 @@ public class StageModel  {
     }
     /**
      * Moves a character to a different position
-     * @param  character
      * @param  row
      * @param  column
      */
-    public void moveCharacter(Player character, int row, int column){
+    public void moveCharacter(int row, int column){
     }
 
     /**
      * Sets up the stage
      */
     private void initialize(){
+
+    }
+
+    public boolean isGameOver(){
+
+    }
+
+    public boolean complete(){
+
+    }
+
+    public void replay(){
 
     }
 }

@@ -10,10 +10,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("game.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
+        Parent root = loader.load();
+        primaryStage.setTitle("Battle!");
+
+        Controller controller = loader.getController();
+        root.setOnKeyPressed(controller);
+        double sceneWidth = controller.getBoardWidth() + 20.0;
+        double sceneHeight = controller.getBoardHeight() + 100.0;
+        primaryStage.setScene(new Scene(root, sceneWidth, sceneHeight));
         primaryStage.show();
+        root.requestFocus();
     }
 
 
