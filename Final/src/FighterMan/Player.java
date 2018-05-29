@@ -1,4 +1,4 @@
-package sample;
+package FighterMan;
 
 import java.util.*;
 import java.util.Random;

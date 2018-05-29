@@ -1,4 +1,4 @@
-package sample;
+package FighterMan;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,7 +14,6 @@ public class StageModel  {
     private boolean gameOver;
 
     public StageModel(int row, int column){
-
     }
     /**
      * Starts a game for the user
@@ -56,14 +55,21 @@ public class StageModel  {
     }
 
     public boolean isGameOver(){
-
+        return false;
     }
 
     public boolean complete(){
-
+        return true;
     }
 
     public void replay(){
+
+    }
+
+    public void attack(){
+
+    }
+    public void spAttack(){
 
     }
 }

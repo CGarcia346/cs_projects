@@ -1,4 +1,4 @@
-package sample;
+package FighterMan;
 
 public interface PlayerInterface{
 
