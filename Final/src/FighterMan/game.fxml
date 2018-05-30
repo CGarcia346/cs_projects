@@ -16,6 +16,7 @@
 
     <center>
         <View fx:id="View" rowCount="30" columnCount="40"/>
+        <AnchorPane
     </center>
 
     <bottom>
