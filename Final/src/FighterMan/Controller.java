@@ -3,6 +3,7 @@ package FighterMan;
 import javafx.fxml.FXML;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import java.util.*;
@@ -10,14 +11,18 @@ import java.util.*;
 public class Controller implements EventHandler<KeyEvent> {
 
     @FXML private View View;
+    @FXML private ImageView boardImageView;
     private StageModel StageModel;
     private List<Player> Combatants= new ArrayList<Player>();
+    
     public Controller(){
 
     }
     
     public void initialize() {
         this.StageModel = new StageModel(this.View.getRowCount(), this.View.getColumnCount());
+        this.boardImageView.setFitWidth(this.View.getLayoutBounds().getWidth());
+        this.boardImageView.setFitHeight(this.View.getLayoutBounds().getHeight());
         this.update();
     }
 
