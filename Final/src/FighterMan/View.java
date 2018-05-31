@@ -22,7 +22,7 @@ public class View extends Group {
      * retrieves of our characters for our view
      */
     public View() {
-        this.user = new Image(getClass().getResourceAsStream("/res/Demo.png"));
+        this.user = new Image(getClass().getResourceAsStream("/res/Boxer.png"));
     }
     public int getRowCount() {
         return this.rowCount;
@@ -41,8 +41,8 @@ public class View extends Group {
     /**
      * initializes player sprite and starting location
      */
-    private void initializerPlayer() {
-
+    private void initializePlayer() {
+        this.cellViews[13][10].setImage(this.user);
     }
     /**
      * initializes stage graphic
@@ -59,9 +59,12 @@ public class View extends Group {
                     imageView.setFitHeight(CELL_WIDTH);
                     this.cellViews[row][column] = imageView;
                     this.getChildren().add(imageView);
+
                 }
             }
+            initializePlayer();
         }
+
     }
     /**
      * Updates graphical changes of stage

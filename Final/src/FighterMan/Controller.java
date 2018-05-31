@@ -14,7 +14,7 @@ public class Controller implements EventHandler<KeyEvent> {
     @FXML private ImageView boardImageView;
     private StageModel StageModel;
     private List<Player> Combatants= new ArrayList<Player>();
-    
+
     public Controller(){
 
     }
