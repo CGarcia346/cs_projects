@@ -11,18 +11,22 @@ import javafx.scene.image.ImageView;
 
 
 public class View extends Group {
-    public final static double CELL_WIDTH = 20.0;
 
+    public final static double CELL_WIDTH = 20.0;
     @FXML private int rowCount;
     @FXML private int columnCount;
     private ImageView[][] cellViews;
     private Image user;
+    private Image enemy;
+    private Image enemy_2;
+    private Image enemy_3;
 
     /**
      * retrieves of our characters for our view
      */
     public View() {
         this.user = new Image(getClass().getResourceAsStream("/res/Boxer.png"));
+        this.enemy = new Image(getClass().getResourceAsStream("/res/BoxerE.png"));
     }
     public int getRowCount() {
         return this.rowCount;
@@ -42,7 +46,8 @@ public class View extends Group {
      * initializes player sprite and starting location
      */
     private void initializePlayer() {
-        this.cellViews[13][10].setImage(this.user);
+        this.cellViews[6][9].setImage(this.user);
+        this.cellViews[6][32].setImage(this.enemy);
     }
     /**
      * initializes stage graphic
@@ -55,8 +60,7 @@ public class View extends Group {
                     ImageView imageView = new ImageView();
                     imageView.setX((double)column * CELL_WIDTH);
                     imageView.setY((double)row * CELL_WIDTH);
-                    imageView.setFitWidth(CELL_WIDTH);
-                    imageView.setFitHeight(CELL_WIDTH);
+
                     this.cellViews[row][column] = imageView;
                     this.getChildren().add(imageView);
 
@@ -75,6 +79,9 @@ public class View extends Group {
     /**
      * Updates graphical changes of player
      */
-    public void updateCharacters(Player model){
+    public void updateCharacters(Player prevModel, Player model){
+        int row = model.get_row();
+        int column = model.get_column();
+        this.cellViews[row][column].setImage(this.user);
     }
 }

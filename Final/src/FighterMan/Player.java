@@ -8,14 +8,23 @@ import java.util.Random;
 public class Player implements PlayerInterface{
 
     private int HP  = 100;
-    private int row;
-    private int column;
+    private int row = 6;
+    private int column = 8;
     private boolean dead;
+
+    public int get_row(){
+        return this.row;
+    }
+
+    public int get_column(){
+        return this.column;
+    }
     /**
      * Moves a character to a position
      * @param  row
      * @param  column
      */
+
     public void move(int row, int column){
 
     }

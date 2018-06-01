@@ -23,8 +23,7 @@
         <ImageView fx:id="boardImageView" AnchorPane.leftAnchor="125" AnchorPane.topAnchor="200" preserveRatio="true">
             <image><Image url="/res/3D_Board.png" /></image>
         </ImageView>
-
-            <View fx:id="View" rowCount="30" columnCount="40"/>
+            <View fx:id="View" rowCount="30" columnCount="50"/>
         </StackPane>
 
     </center>

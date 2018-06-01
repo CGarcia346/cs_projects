@@ -23,6 +23,8 @@ public class Controller implements EventHandler<KeyEvent> {
         this.StageModel = new StageModel(this.View.getRowCount(), this.View.getColumnCount());
         this.boardImageView.setFitWidth(this.View.getLayoutBounds().getWidth());
         this.boardImageView.setFitHeight(this.View.getLayoutBounds().getHeight());
+        Player user = new Player();
+        this.Combatants.add(user);
         this.update();
     }
 
@@ -39,13 +41,13 @@ public class Controller implements EventHandler<KeyEvent> {
         boolean keyRecognized = true;
         KeyCode code = keyEvent.getCode();
         if (code == KeyCode.LEFT || code == KeyCode.A) {
-            this.StageModel.moveCharacter(0, -1);
+            this.StageModel.moveCharacter(0, -3);
         } else if (code == KeyCode.RIGHT || code == KeyCode.D) {
-            this.StageModel.moveCharacter(0, 1);
+            this.StageModel.moveCharacter(0, 3);
         } else if (code == KeyCode.UP || code == KeyCode.W) {
-            this.StageModel.moveCharacter(-1, 0);
+            this.StageModel.moveCharacter(-3, 0);
         } else if (code == KeyCode.DOWN || code == KeyCode.S) {
-            this.StageModel.moveCharacter(1, 0);
+            this.StageModel.moveCharacter(3, 0);
         } else if (code == KeyCode.E){
             this.StageModel.attack();
         } else if (code == KeyCode.F){
@@ -69,6 +71,6 @@ public class Controller implements EventHandler<KeyEvent> {
     }
 
     private void update(){
-
+        this.View.updateCharacters(this.Combatants.get(0));
     }
 }
