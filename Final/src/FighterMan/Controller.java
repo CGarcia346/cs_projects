@@ -10,30 +10,27 @@ import java.util.*;
 
 public class Controller implements EventHandler<KeyEvent> {
 
-    @FXML private View View;
+    @FXML private View view;
     @FXML private ImageView boardImageView;
-    private StageModel StageModel;
-    private List<Player> Combatants= new ArrayList<Player>();
+    private StageModel stageModel;
 
     public Controller(){
 
     }
     
     public void initialize() {
-        this.StageModel = new StageModel(this.View.getRowCount(), this.View.getColumnCount());
-        this.boardImageView.setFitWidth(this.View.getLayoutBounds().getWidth());
-        this.boardImageView.setFitHeight(this.View.getLayoutBounds().getHeight());
-        Player user = new Player();
-        this.Combatants.add(user);
+        this.stageModel = new StageModel(this.view.getRowCount(), this.view.getColumnCount());
+        this.boardImageView.setFitWidth(this.view.getLayoutBounds().getWidth());
+        this.boardImageView.setFitHeight(this.view.getLayoutBounds().getHeight());
         this.update();
     }
 
     public double getBoardWidth() {
-        return View.CELL_WIDTH * this.View.getColumnCount();
+        return view.CELL_WIDTH * this.view.getColumnCount();
     }
 
     public double getBoardHeight() {
-        return View.CELL_WIDTH * this.View.getRowCount();
+        return view.CELL_WIDTH * this.view.getRowCount();
     }
 
     @Override
@@ -41,25 +38,28 @@ public class Controller implements EventHandler<KeyEvent> {
         boolean keyRecognized = true;
         KeyCode code = keyEvent.getCode();
         if (code == KeyCode.LEFT || code == KeyCode.A) {
-            this.StageModel.moveCharacter(0, -3);
+            this.stageModel.moveCharacter(0, -1);
         } else if (code == KeyCode.RIGHT || code == KeyCode.D) {
-            this.StageModel.moveCharacter(0, 3);
+            this.stageModel.moveCharacter(0, 1);
         } else if (code == KeyCode.UP || code == KeyCode.W) {
-            this.StageModel.moveCharacter(-3, 0);
+            this.stageModel.moveCharacter(-1, 0);
         } else if (code == KeyCode.DOWN || code == KeyCode.S) {
-            this.StageModel.moveCharacter(3, 0);
+            this.stageModel.moveCharacter(1, 0);
         } else if (code == KeyCode.E){
-            this.StageModel.attack();
+            this.stageModel.attack();
         } else if (code == KeyCode.F){
-            this.StageModel.spAttack();
+            this.stageModel.spAttack();
         } else if (code == KeyCode.R) {
-            if (this.StageModel.isGameOver()) {
-                this.StageModel.startNewGame();
+            if (this.stageModel.isGameOver()) {
+                this.stageModel.startNewGame();
             }
         } else if (code == KeyCode.L) {
-            if (this.StageModel.complete()) {
-                this.StageModel.replay();
+            if (this.stageModel.complete()) {
+                this.stageModel.replay();
             }
+        }
+        else if (code == KeyCode.G) {
+                this.stageModel.startNewGame();
         } else {
             keyRecognized = false;
         }
@@ -71,6 +71,6 @@ public class Controller implements EventHandler<KeyEvent> {
     }
 
     private void update(){
-        this.View.updateCharacters(this.Combatants.get(0));
+        this.view.updateStage(this.stageModel);
     }
 }

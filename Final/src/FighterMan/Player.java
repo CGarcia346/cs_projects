@@ -7,9 +7,10 @@ import java.util.Random;
  */
 public class Player implements PlayerInterface{
 
+
     private int HP  = 100;
-    private int row = 6;
-    private int column = 8;
+    private int row;
+    private int column;
     private boolean dead;
 
     public int get_row(){

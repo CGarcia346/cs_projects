@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 
 public class View extends Group {
 
-    public final static double CELL_WIDTH = 20.0;
+    public final static double CELL_WIDTH = 50.0;
     @FXML private int rowCount;
     @FXML private int columnCount;
     private ImageView[][] cellViews;
@@ -42,13 +42,7 @@ public class View extends Group {
         this.columnCount = columnCount;
         this.initializeGrid();
     }
-    /**
-     * initializes player sprite and starting location
-     */
-    private void initializePlayer() {
-        this.cellViews[6][9].setImage(this.user);
-        this.cellViews[6][32].setImage(this.enemy);
-    }
+
     /**
      * initializes stage graphic
      */
@@ -60,13 +54,13 @@ public class View extends Group {
                     ImageView imageView = new ImageView();
                     imageView.setX((double)column * CELL_WIDTH);
                     imageView.setY((double)row * CELL_WIDTH);
-
+                    imageView.setFitWidth(CELL_WIDTH);
+                    imageView.setFitHeight(CELL_WIDTH);
                     this.cellViews[row][column] = imageView;
                     this.getChildren().add(imageView);
 
                 }
             }
-            initializePlayer();
         }
 
     }
@@ -75,13 +69,24 @@ public class View extends Group {
      */
     public void updateStage(StageModel model) {
 
+        assert model.getRowCount() == this.rowCount && model.getColumnCount() == this.columnCount;
+        for (int row = 0; row < this.rowCount; row++) {
+            for (int column = 0; column < this.columnCount; column++) {
+                StageModel.CellValue cellValue = model.getCellValue(row, column);
+                if (cellValue == StageModel.CellValue.USER) {
+                    this.cellViews[row][column].setImage(this.user);
+                } else if (cellValue == StageModel.CellValue.ENEMY) {
+                    this.cellViews[row][column].setImage(this.enemy);
+                } else {
+                    this.cellViews[row][column].setImage(null);
+                }
+            }
+        }
     }
     /**
      * Updates graphical changes of player
      */
-    public void updateCharacters(Player prevModel, Player model){
-        int row = model.get_row();
-        int column = model.get_column();
-        this.cellViews[row][column].setImage(this.user);
+    public void updateCharacters(){
+
     }
 }

@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("game.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("2DFighter.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Battle!");
 
