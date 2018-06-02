@@ -19,10 +19,6 @@ public class StageModel  {
     private int userRow;
     private int userColumn;
     private int actionCredit;
-    private int playerHP;
-    private int enemy1HP;
-    private int enemy2HP;
-    private int enemy3HP;
 
     private ArrayList[][] moveable;
 
@@ -71,15 +67,6 @@ public class StageModel  {
             Player enemy = new Player();
             this.cells[5][6] = CellValue.ENEMY1;
             combatants.add(enemy);
-        }
-        else if(this.level == 2){
-            this.cells[5][6] = CellValue.ENEMY1;
-            this.cells[4][6] = CellValue.ENEMY2;
-        }
-        else if(this.level == 3){
-            this.cells[5][6] = CellValue.ENEMY1;
-            this.cells[4][6] = CellValue.ENEMY2;
-            this.cells[6][6] = CellValue.ENEMY3;
         }
 
     }
@@ -202,6 +189,19 @@ public class StageModel  {
         return success;
     }
 
+    public void levelcontinue(){
+
+        if(this.level == 2){
+            this.cells[5][6] = CellValue.ENEMY1;
+            this.cells[4][6] = CellValue.ENEMY2;
+        }
+        else if(this.level == 3){
+            this.cells[5][6] = CellValue.ENEMY1;
+            this.cells[4][6] = CellValue.ENEMY2;
+            this.cells[6][6] = CellValue.ENEMY3;
+        }
+    }
+
     public boolean isWinner(){
         return this.winner;
     }
@@ -218,5 +218,9 @@ public class StageModel  {
     public CellValue getCellValue(int row, int column) {
         assert row >= 0 && row < this.cells.length && column >= 0 && column < this.cells[0].length;
         return this.cells[row][column];
+    }
+    public int getPlayerHP(){
+        return this.combatants.get(0).getHP();
+
     }
 }
