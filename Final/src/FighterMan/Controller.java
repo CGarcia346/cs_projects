@@ -57,12 +57,13 @@ public class Controller implements EventHandler<KeyEvent> {
             }
         } else if (code == KeyCode.L) {
             if (this.stageModel.levelComplete()) {
-                this.stageModel.levelcontinue();
+                this.stageModel.levelContinue();
             }
-        }
-        else if (code == KeyCode.G) {
-                this.stageModel.startNewGame();
-        } else {
+        }else if (code == KeyCode.R) {
+            if (this.stageModel.isWinner()) {
+                //this.stageModel.restart();
+            }
+        }else {
             keyRecognized = false;
         }
 
@@ -79,7 +80,10 @@ public class Controller implements EventHandler<KeyEvent> {
             this.messageLabel.setText("Game Over. Hit G to start a new game.");
         } else if (this.stageModel.levelComplete()) {
             this.messageLabel.setText("Nice job! Hit L to start the next level.");
-        } else {
+        }
+        else if (this.stageModel.isWinner()){
+            this.messageLabel.setText("You're a WINNER!");
+        } else{
             this.messageLabel.setText("Use the keys surrounding the S to run from the daleks.");
         }
     }

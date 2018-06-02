@@ -13,7 +13,7 @@ public class Player implements PlayerInterface{
     private int spAttackDamage = 20;
     private int attackRange = 2;
     private int spAttackRange = 1;
-    private boolean dead;
+    private boolean dead = false;
 
     /**
      * A character's attack
