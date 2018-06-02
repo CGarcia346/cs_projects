@@ -9,7 +9,7 @@ import java.util.Random;
 public class StageModel  {
 
     public enum CellValue {
-        EMPTY, USER, ENEMY
+        EMPTY, USER, ENEMY1, ENEMY2, ENEMY3
     };
     private CellValue[][] cells;
     private ArrayList<Player> combatants= new ArrayList<Player>();
@@ -20,10 +20,13 @@ public class StageModel  {
     private int userColumn;
     private int actionCredit;
     private int playerHP;
-    private int enemyHP;
+    private int enemy1HP;
+    private int enemy2HP;
+    private int enemy3HP;
 
     private ArrayList[][] moveable;
 
+    private boolean winner;
     private boolean gameOver;
 
     public StageModel(int rowCount, int columnCount){
@@ -66,17 +69,17 @@ public class StageModel  {
 
         if(this.level == 1){
             Player enemy = new Player();
-            this.cells[5][6] = CellValue.ENEMY;
+            this.cells[5][6] = CellValue.ENEMY1;
             combatants.add(enemy);
         }
         else if(this.level == 2){
-            this.cells[5][6] = CellValue.ENEMY;
-            this.cells[4][6] = CellValue.ENEMY;
+            this.cells[5][6] = CellValue.ENEMY1;
+            this.cells[4][6] = CellValue.ENEMY2;
         }
         else if(this.level == 3){
-            this.cells[5][6] = CellValue.ENEMY;
-            this.cells[4][6] = CellValue.ENEMY;
-            this.cells[6][6] = CellValue.ENEMY;
+            this.cells[5][6] = CellValue.ENEMY1;
+            this.cells[4][6] = CellValue.ENEMY2;
+            this.cells[6][6] = CellValue.ENEMY3;
         }
 
     }
@@ -154,10 +157,53 @@ public class StageModel  {
     }
 
     public void attack(){
-
+        int player = this.turn;
+        Player attacker = this.combatants.get(player);
+        int damage = attacker.attack();
+        int range = attacker.getAttackRange();
+        int receiver = this.userColumn + range;
+        CellValue locationHit= getCellValue(this.userRow, receiver);
+        if(locationHit == CellValue.ENEMY1){
+            this.combatants.get(1).takeDamage(damage);
+        }
+        else if(locationHit == CellValue.ENEMY2){
+            this.combatants.get(2).takeDamage(damage);
+        }
+        else if(locationHit == CellValue.ENEMY3){
+            this.combatants.get(3).takeDamage(damage);
+        }
     }
+
     public void spAttack(){
 
+    }
+
+    public boolean levelComplete(){
+        boolean success = false;
+        if(this.level == 1){
+            if(this.combatants.get(1).isDead()){
+                this.level++;
+                success = true;
+            }
+        }
+
+        else if(this.level == 2){
+            if(this.combatants.get(1).isDead() && this.combatants.get(2).isDead()){
+                this.level++;
+                success = true;
+            }
+        }
+        else if(this.level == 3){
+            if(this.combatants.get(1).isDead() && this.combatants.get(2).isDead() && this.combatants.get(3).isDead()){
+                success = true;
+                winner = true;
+            }
+        }
+        return success;
+    }
+
+    public boolean isWinner(){
+        return this.winner;
     }
 
     public int getRowCount() {

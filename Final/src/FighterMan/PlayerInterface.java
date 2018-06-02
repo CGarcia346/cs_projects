@@ -3,7 +3,9 @@ package FighterMan;
 public interface PlayerInterface{
 
     public int attack();
+    public int getAttackRange();
     public int spAttack();
-    public void move(int row, int column);
+    public int getSpAttackRange();
     public void takeDamage(int damage);
+    public boolean isDead();
 }

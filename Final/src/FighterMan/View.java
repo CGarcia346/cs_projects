@@ -75,7 +75,7 @@ public class View extends Group {
                 StageModel.CellValue cellValue = model.getCellValue(row, column);
                 if (cellValue == StageModel.CellValue.USER) {
                     this.cellViews[row][column].setImage(this.user);
-                } else if (cellValue == StageModel.CellValue.ENEMY) {
+                } else if (cellValue == StageModel.CellValue.ENEMY1) {
                     this.cellViews[row][column].setImage(this.enemy);
                 } else {
                     this.cellViews[row][column].setImage(null);

@@ -9,44 +9,37 @@ public class Player implements PlayerInterface{
 
 
     private int HP  = 100;
-    private int row;
-    private int column;
+    private int attackDamage = 10;
+    private int spAttackDamage = 20;
+    private int attackRange = 2;
+    private int spAttackRange = 1;
     private boolean dead;
 
-    public int get_row(){
-        return this.row;
-    }
-
-    public int get_column(){
-        return this.column;
-    }
-    /**
-     * Moves a character to a position
-     * @param  row
-     * @param  column
-     */
-
-    public void move(int row, int column){
-
-    }
     /**
      * A character's attack
      */
     public int attack(){
-        return 25;
+        return this.attackDamage;
+    }
+
+    public int getAttackRange(){
+        return this.attackRange;
     }
     /**
      * A character's special attack
      */
     public int spAttack(){
-        return 15;
+        return this.spAttackDamage;
+    }
+
+    public int getSpAttackRange(){
+        return this.spAttackRange;
     }
     /**
      * Returns the HP of a character
-     * @return Description text text text.
      */
     public int getHP(){
-        return HP;
+        return this.HP;
     }
     /**
      * Reduces the HP of a character who has taken damage
@@ -54,13 +47,14 @@ public class Player implements PlayerInterface{
      * @param  damage
      */
     public void takeDamage(int damage){
-        HP = HP - damage;
+        this.HP = this.HP - damage;
+        if(this.HP <= 0){
+            this.dead = true;
+            this.HP = 0;
+        }
     }
-    /**
-     * Checks to see if the player is able to move into the
-     * location wanted
-     */
-    public void canMove(){
 
+    public boolean isDead(){
+        return this.dead;
     }
 }
