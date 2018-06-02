@@ -6,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import java.util.*;
 
 public class Controller implements EventHandler<KeyEvent> {
 
@@ -14,6 +13,7 @@ public class Controller implements EventHandler<KeyEvent> {
     @FXML private ImageView boardImageView;
     @FXML private Label scoreLabel;
     @FXML private Label messageLabel;
+    @FXML private Label alertLabel;
     private StageModel stageModel;
 
     public Controller(){
@@ -55,6 +55,8 @@ public class Controller implements EventHandler<KeyEvent> {
             if (this.stageModel.isGameOver()) {
                 this.stageModel.startNewGame();
             }
+        } else if (code == KeyCode.G) {
+            this.stageModel.startNewGame();
         } else if (code == KeyCode.L) {
             if (this.stageModel.levelComplete()) {
                 this.stageModel.levelContinue();
@@ -75,7 +77,12 @@ public class Controller implements EventHandler<KeyEvent> {
 
     private void update(){
         this.view.updateStage(this.stageModel);
-        this.scoreLabel.setText(String.format("Your HP: %d", this.stageModel.getPlayerHP()));
+        this.scoreLabel.setText(String.format("HP: %d" + " AC: %d", this.stageModel.getPlayerHP(), this.stageModel.getPlayerActionCredits()));
+        if (this.stageModel.getInsufficientCredits() == true) {
+            this.alertLabel.setText("insufficient Credits");
+        } else {
+            this.alertLabel.setText("");
+        }
         if (this.stageModel.isGameOver()) {
             this.messageLabel.setText("Game Over. Hit G to start a new game.");
         } else if (this.stageModel.levelComplete()) {
@@ -84,7 +91,7 @@ public class Controller implements EventHandler<KeyEvent> {
         else if (this.stageModel.isWinner()){
             this.messageLabel.setText("You're a WINNER!");
         } else{
-            this.messageLabel.setText("Use the keys surrounding the S to run from the daleks.");
+            this.messageLabel.setText("Fight!");
         }
     }
 }

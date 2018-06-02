@@ -68,7 +68,6 @@ public class View extends Group {
      * Updates graphical changes of stage
      */
     public void updateStage(StageModel model) {
-
         assert model.getRowCount() == this.rowCount && model.getColumnCount() == this.columnCount;
         for (int row = 0; row < this.rowCount; row++) {
             for (int column = 0; column < this.columnCount; column++) {
@@ -86,7 +85,7 @@ public class View extends Group {
     /**
      * Updates graphical changes of player
      */
-    public void updateCharacters(){
+    public void updatePlayers(){
 
     }
 }
