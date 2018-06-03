@@ -99,7 +99,7 @@ public class Controller implements EventHandler<KeyEvent> {
         else if (this.stageModel.isWinner()){
             this.messageLabel.setText("You're a WINNER!");
         } else{
-            this.messageLabel.setText("Fight!");
+            this.messageLabel.setText(String.format("Enemy-1:HP- %d", this.stageModel.getEnemy1HP()));
         }
     }
 }

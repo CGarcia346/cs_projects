@@ -41,17 +41,12 @@ public class StageModel  {
     }
     public boolean isTurnOver() {
         if (this.gameOver || this.turn != 0 || this.actionCredit == 0 || this.endedTurn) {
-            if(this.actionCredit == 0){
-                this.actionCredit = 10;
-                this.turn++;
-                return true;
-            }
-            else if(this.endedTurn){
-                this.actionCredit = 10;
-                this.endedTurn = false;
-                this.turn++;
-                return true;
-            }
+
+            this.actionCredit = 10;
+            this.actionCredit = 10;
+            this.endedTurn = false;
+            this.turn++;
+            return true;
         }
         return false;
     }
@@ -71,7 +66,7 @@ public class StageModel  {
             }
         }
 
-        // Place the runner
+        this.combatants.clear();
         Player user = new Player();
         this.actionCredit = 10;
         this.turn = 0;
@@ -164,12 +159,12 @@ public class StageModel  {
 
 
             this.cells[this.userRow][this.userColumn] = CellValue.EMPTY;
+            if (!(this.userRow == newRow && this.userColumn == newColumn)) {
+                this.actionCredit--;
+            }
             this.userRow = newRow;
             this.userColumn = newColumn;
             this.cells[this.userRow][this.userColumn] = CellValue.USER;
-            this.actionCredit--;
-        } else {
-            enemyTurn();
         }
     }
 
@@ -333,6 +328,10 @@ public class StageModel  {
     public boolean endTurn(){
         this.endedTurn = true;
         return this.endedTurn;
+    }
+
+    public int getEnemy1HP(){
+        return this.combatants.get(1).getHP();
     }
 
     public int whoseTurn(){
