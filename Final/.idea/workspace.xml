@@ -128,8 +128,8 @@
       <file leaf-file-name="StageModel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/FighterMan/StageModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="261" column="8" selection-start-line="261" selection-start-column="8" selection-end-line="261" selection-end-column="23" />
+            <state relative-caret-position="115">
+              <caret line="363" column="46" lean-forward="true" selection-start-line="363" selection-start-column="46" selection-end-line="363" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#300#308#0" expanded="true" />
@@ -203,8 +203,8 @@
       <find>endturn</find>
       <find>enemyTurn</find>
       <find>endedturn</find>
-      <find>enemy1</find>
       <find>turn++</find>
+      <find>enemy1</find>
     </findStrings>
     <replaceStrings>
       <replace>StageModel</replace>
@@ -658,8 +658,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/FighterMan/StageModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="261" column="8" selection-start-line="261" selection-start-column="8" selection-end-line="261" selection-end-column="23" />
+        <state relative-caret-position="115">
+          <caret line="363" column="46" lean-forward="true" selection-start-line="363" selection-start-column="46" selection-end-line="363" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#300#308#0" expanded="true" />
