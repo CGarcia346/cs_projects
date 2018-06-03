@@ -24,6 +24,7 @@ public class StageModel  {
 
     private boolean winner;
     private boolean gameOver;
+    private boolean endedTurn;
 
     public StageModel(int rowCount, int columnCount){
         assert rowCount > 0 && columnCount > 0;
@@ -39,13 +40,18 @@ public class StageModel  {
         this.initialize();
     }
     public boolean isTurnOver() {
-        if (this.gameOver || this.turn != 0 || this.actionCredit == 0) {
+        if (this.gameOver || this.turn != 0 || this.actionCredit == 0 || this.endedTurn) {
             if(this.actionCredit == 0){
                 this.actionCredit = 10;
                 this.turn++;
                 return true;
             }
-            return true;
+            else if(this.endedTurn){
+                this.actionCredit = 10;
+                this.endedTurn = false;
+                this.turn++;
+                return true;
+            }
         }
         return false;
     }
@@ -102,6 +108,35 @@ public class StageModel  {
     public void updateHPBar(int HP, Player character){
 
     }
+    public void enemyTurn(){
+
+        if (this.turn > this.combatants.size()-1){
+            this.turn = 0;
+        }
+        else if(this.turn == 1){
+            moveEnemy1();
+            turn++;
+        }
+        else if(this.turn == 2){
+            moveEnemy1();
+            turn++;
+        }
+        else if(this.turn == 3){
+            moveEnemy1();
+            turn++;
+        }
+
+    }
+    public void moveEnemy1() {
+        for (int row = 4; row < 7; row++) {
+            for (int column = 5; column < 8; column++) {
+                if (this.cells[row][column] == CellValue.ENEMY1) {
+                    this.cells[row][column] = CellValue.EMPTY;
+                    }
+                }
+            }
+        this.cells[this.userRow][6] = CellValue.ENEMY1;
+    }
 
     /**
      * Moves a character to a different position
@@ -134,7 +169,7 @@ public class StageModel  {
             this.cells[this.userRow][this.userColumn] = CellValue.USER;
             this.actionCredit--;
         } else {
-            return;
+            enemyTurn();
         }
     }
 
@@ -275,6 +310,7 @@ public class StageModel  {
         assert row >= 0 && row < this.cells.length && column >= 0 && column < this.cells[0].length;
         return this.cells[row][column];
     }
+
     public int getPlayerHP(){
         return this.combatants.get(0).getHP();
 
@@ -289,5 +325,17 @@ public class StageModel  {
         } else {
             return false;
         }
+    }
+    public int getTurn(){
+        return this.turn;
+    }
+
+    public boolean endTurn(){
+        this.endedTurn = true;
+        return this.endedTurn;
+    }
+
+    public int whoseTurn(){
+        return this.turn;
     }
 }

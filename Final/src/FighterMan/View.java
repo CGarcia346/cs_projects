@@ -76,6 +76,10 @@ public class View extends Group {
                     this.cellViews[row][column].setImage(this.user);
                 } else if (cellValue == StageModel.CellValue.ENEMY1) {
                     this.cellViews[row][column].setImage(this.enemy);
+                } else if (cellValue == StageModel.CellValue.ENEMY2) {
+                    this.cellViews[row][column].setImage(this.enemy);
+                } else if (cellValue == StageModel.CellValue.ENEMY3) {
+                    this.cellViews[row][column].setImage(this.enemy);
                 } else {
                     this.cellViews[row][column].setImage(null);
                 }

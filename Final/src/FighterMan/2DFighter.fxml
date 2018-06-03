@@ -17,10 +17,10 @@
             prefHeight="400.0" prefWidth="600.0">
 
     <top>
-        <BorderPane prefHeight="35" style="-fx-background-color: #0B5091; -fx-padding: 10px, 5px, 10px, 5px" >
-            <left><Label fx:id="scoreLabel" style="-fx-font-size: 150%; -fx-text-fill: white" /></left>
+        <BorderPane prefHeight="50" style="-fx-background-color: #0B5091; -fx-padding: 10px, 5px, 10px, 5px" >
+            <left><Label fx:id="scoreLabel" style="-fx-font-size: 100%; -fx-text-fill: white" /></left>
             <center><Label fx:id="alertLabel" style="-fx-font-size: 150%; -fx-text-fill: white"/></center>
-            <right><Label fx:id="messageLabel" style="-fx-font-size: 150%; -fx-text-fill: white"/></right>
+            <right><Label fx:id="messageLabel" style="-fx-font-size: 100%; -fx-text-fill: white"/></right>
 
         </BorderPane>
     </top>

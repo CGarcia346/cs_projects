@@ -39,47 +39,55 @@ public class Controller implements EventHandler<KeyEvent> {
     public void handle(KeyEvent keyEvent) {
         boolean keyRecognized = true;
         KeyCode code = keyEvent.getCode();
-        if (code == KeyCode.LEFT || code == KeyCode.A) {
-            this.stageModel.moveCharacter(0, -1);
-        } else if (code == KeyCode.RIGHT || code == KeyCode.D) {
-            this.stageModel.moveCharacter(0, 1);
-        } else if (code == KeyCode.UP || code == KeyCode.W) {
-            this.stageModel.moveCharacter(-1, 0);
-        } else if (code == KeyCode.DOWN || code == KeyCode.S) {
-            this.stageModel.moveCharacter(1, 0);
-        } else if (code == KeyCode.E){
-            this.stageModel.attack();
-        } else if (code == KeyCode.F){
-            this.stageModel.spAttack();
-        } else if (code == KeyCode.R) {
-            if (this.stageModel.isGameOver()) {
+        if (this.stageModel.getTurn() == 0) {
+            if (code == KeyCode.LEFT || code == KeyCode.A) {
+                this.stageModel.moveCharacter(0, -1);
+            } else if (code == KeyCode.RIGHT || code == KeyCode.D) {
+                this.stageModel.moveCharacter(0, 1);
+            } else if (code == KeyCode.UP || code == KeyCode.W) {
+                this.stageModel.moveCharacter(-1, 0);
+            } else if (code == KeyCode.DOWN || code == KeyCode.S) {
+                this.stageModel.moveCharacter(1, 0);
+            } else if (code == KeyCode.E) {
+                this.stageModel.attack();
+            } else if (code == KeyCode.F) {
+                this.stageModel.spAttack();
+            }  else if (code == KeyCode.O) {
+                this.stageModel.endTurn();
+            } else if (code == KeyCode.R) {
+                if (this.stageModel.isGameOver()) {
+                    this.stageModel.startNewGame();
+                }
+            } else if (code == KeyCode.G) {
                 this.stageModel.startNewGame();
+            } else if (code == KeyCode.L) {
+                if (this.stageModel.levelComplete()) {
+                    this.stageModel.levelContinue();
+                }
+            } else if (code == KeyCode.R) {
+                if (this.stageModel.isWinner()) {
+                    //this.stageModel.restart();
+                }
+            } else {
+                keyRecognized = false;
             }
-        } else if (code == KeyCode.G) {
-            this.stageModel.startNewGame();
-        } else if (code == KeyCode.L) {
-            if (this.stageModel.levelComplete()) {
-                this.stageModel.levelContinue();
-            }
-        }else if (code == KeyCode.R) {
-            if (this.stageModel.isWinner()) {
-                //this.stageModel.restart();
-            }
-        }else {
-            keyRecognized = false;
-        }
 
-        if (keyRecognized) {
-            this.update();
-            keyEvent.consume();
+            if (keyRecognized) {
+                this.update();
+                keyEvent.consume();
+            }
+        }
+        else{
+            stageModel.enemyTurn();
         }
     }
 
     private void update(){
         this.view.updateStage(this.stageModel);
-        this.scoreLabel.setText(String.format("HP: %d" + " AC: %d", this.stageModel.getPlayerHP(), this.stageModel.getPlayerActionCredits()));
+        this.scoreLabel.setText(String.format("HP: %d" + "|| AC: %d" + "\n Turn: %d", this.stageModel.getPlayerHP(),
+                this.stageModel.getPlayerActionCredits(), this.stageModel.whoseTurn()));
         if (this.stageModel.getInsufficientCredits() == true) {
-            this.alertLabel.setText("insufficient Credits");
+            this.alertLabel.setText("Insufficient Credits");
         } else {
             this.alertLabel.setText("");
         }
