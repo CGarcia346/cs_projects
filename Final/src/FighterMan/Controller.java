@@ -77,13 +77,19 @@ public class Controller implements EventHandler<KeyEvent> {
                 keyEvent.consume();
             }
         }
-        else{
-            stageModel.enemyTurn();
-        }
     }
 
     private void update(){
         this.view.updateStage(this.stageModel);
+        while(this.stageModel.whoseTurn() != 0){
+            stageModel.enemyTurn();
+            this.view.updateStage(this.stageModel);
+            this.updateDisplay();
+        }
+        this.updateDisplay();
+    }
+
+    private void updateDisplay(){
         this.scoreLabel.setText(String.format("HP: %d" + "|| AC: %d" + "\n Turn: %d", this.stageModel.getPlayerHP(),
                 this.stageModel.getPlayerActionCredits(), this.stageModel.whoseTurn()));
         if (this.stageModel.getInsufficientCredits() == true) {
