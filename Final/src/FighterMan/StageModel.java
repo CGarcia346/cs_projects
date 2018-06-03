@@ -223,10 +223,12 @@ public class StageModel  {
             change = -1;
         }
         CellValue origin = getCellValue(curRow, curColumn);
-        if(CellValue.EMPTY == getCellValue(curRow, curColumn + change)){
-            this.cells[curRow][curColumn+change] = origin;
-            this.cells[curRow][curColumn] = CellValue.EMPTY;
-            return true;
+        if(curColumn + change >= 5){
+            if(CellValue.EMPTY == getCellValue(curRow, curColumn + change)){
+                this.cells[curRow][curColumn+change] = origin;
+                this.cells[curRow][curColumn] = CellValue.EMPTY;
+                return true;
+            }
         }
         return false;
     }
@@ -252,7 +254,9 @@ public class StageModel  {
         else if(eColumn != this.userColumn && changeColumn(eRow, eColumn, columnDiff) && this.actionCredit - 1 > 0){
             this.actionCredit--;
         }
-        this.endTurn();
+        else{
+            this.endTurn();
+        }
 
     }
 
