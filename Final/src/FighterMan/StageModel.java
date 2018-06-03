@@ -1,5 +1,7 @@
 package FighterMan;
 
+import javafx.scene.control.Cell;
+
 import java.util.ArrayList;
 
 /**
@@ -194,23 +196,65 @@ public class StageModel  {
         }
 
     }
-    public void moveEnemy1() {
-        int eRow;
-        int eColumn;
+
+    private boolean changeRow(int curRow, int curColumn, int direction){
+        int change = 0;
+        if(direction < 0){
+            change = 1;
+        }
+        else if(direction > 0){
+            change = -1;
+        }
+        CellValue origin = getCellValue(curRow, curColumn);
+        if(CellValue.EMPTY == getCellValue(curRow + change, curColumn)){
+            this.cells[curRow+change][curColumn] = origin;
+            this.cells[curRow][curColumn] = CellValue.EMPTY;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean changeColumn(int curRow, int curColumn, int direction){
+        int change = 0;
+        if(direction < 0){
+            change = 1;
+        }
+        else if(direction > 0){
+            change = -1;
+        }
+        CellValue origin = getCellValue(curRow, curColumn);
+        if(CellValue.EMPTY == getCellValue(curRow, curColumn + change)){
+            this.cells[curRow][curColumn+change] = origin;
+            this.cells[curRow][curColumn] = CellValue.EMPTY;
+            return true;
+        }
+        return false;
+    }
+
+    private void moveEnemy1() {
+        int eRow = 88;
+        int eColumn = 22;
         for (int row = 4; row < 7; row++) {
             for (int column = 5; column < 8; column++) {
                 if (this.cells[row][column] == CellValue.ENEMY1) {
-                    this.cells[row][column] = CellValue.EMPTY;
                     eRow = row;
                     eColumn = column;
-                    }
                 }
             }
-        this.cells[this.userRow][6] = CellValue.ENEMY1;
-        this.turn++;
+        }
+        int enemyRange = this.combatants.get(1).getAttackRange();
+        int enemySRange = this.combatants.get(1).getSpAttackRange();
+        int rowDiff = eRow - this.userRow;
+        int columnDiff = eColumn - this.userColumn;
+        if(eRow != this.userRow && changeRow(eRow, eColumn, rowDiff) && this.actionCredit - 1 > 0){
+            this.actionCredit--;
+        }
+        else if(eColumn != this.userColumn && changeColumn(eRow, eColumn, columnDiff) && this.actionCredit - 1 > 0){
+            this.actionCredit--;
+        }
+        this.endTurn();
+
     }
-
-
 
     public boolean isGameOver(){
         return false;

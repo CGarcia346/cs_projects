@@ -82,9 +82,11 @@ public class Controller implements EventHandler<KeyEvent> {
     private void update(){
         this.view.updateStage(this.stageModel);
         while(this.stageModel.whoseTurn() != 0){
-            stageModel.enemyTurn();
-            this.view.updateStage(this.stageModel);
-            this.updateDisplay();
+            while(this.stageModel.isTurnOver()) {
+                stageModel.enemyTurn();
+                this.view.updateStage(this.stageModel);
+                this.updateDisplay();
+            }
         }
         this.updateDisplay();
     }
