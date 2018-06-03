@@ -249,14 +249,17 @@ public class StageModel  {
         int rowDiff = eRow - this.userRow;
         int columnDiff = eColumn - this.userColumn;
         if(eRow != this.userRow && changeRow(eRow, eColumn, rowDiff) && this.actionCredit - 1 > 0){
+            System.out.println(this.actionCredit);
             this.actionCredit--;
         }
         else if(eColumn != this.userColumn && changeColumn(eRow, eColumn, columnDiff) && this.actionCredit - 1 > 0){
+            System.out.println(this.actionCredit);
             this.actionCredit--;
         }
         else{
-            this.endTurn();
+            System.out.println("?");
         }
+        this.endTurn();
 
     }
 
