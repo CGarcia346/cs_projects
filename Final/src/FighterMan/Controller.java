@@ -52,6 +52,8 @@ public class Controller implements EventHandler<KeyEvent> {
         } else if (code == KeyCode.F) {
             this.stageModel.spAttack();
         }  else if (code == KeyCode.R) {
+            this.stageModel.longAttack();
+        }  else if (code == KeyCode.Q) {
             this.stageModel.endTurn();
         } else if (code == KeyCode.G) {
             this.stageModel.startNewGame();

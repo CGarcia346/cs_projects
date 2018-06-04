@@ -11,7 +11,7 @@ import java.util.Random;
 public class StageModel  {
 
     public enum CellValue {
-        EMPTY, USER, ENEMY, ATTACK
+        EMPTY, USER, ENEMY, ATTACK, LONGATTACK
     };
     private CellValue[][] cells;
     private ArrayList<Player> combatants= new ArrayList<Player>();
@@ -25,6 +25,7 @@ public class StageModel  {
     private boolean attack;
     private boolean eAttack;
     private boolean displayAttack;
+    private boolean displayLongAttack;
 
     private int turn;
     private int actionCredit;
@@ -261,6 +262,61 @@ public class StageModel  {
             }
         }
     }
+<<<<<<< HEAD
+=======
+
+    private void playerLongAttack() {
+        if (isTurnOver() == false) {
+            int player = this.turn;
+            Player attacker = this.combatants.get(player);
+            if ((this.actionCredit - 2) > -1) {
+                int damage = attacker.longAttack();
+                this.attack = true;
+                int range = attacker.getLongAttackRange();
+                int receiver = this.userColumn + range;
+                CellValue locationHit = getCellValue(this.userRow, receiver);
+                CellValue attackDisplay = getCellValue(this.userRow, receiver - 1);
+                if (attackDisplay == CellValue.EMPTY) {
+                    this.cells[this.userRow][receiver - 1] = CellValue.LONGATTACK;
+                    this.displayLongAttack = true;
+                }
+                if (locationHit == CellValue.ENEMY) {
+                    this.eHit = true;
+                    this.combatants.get(1).takeDamage(damage);
+                }
+                this.actionCredit = this.actionCredit - 2;
+            } else {
+                this.insufficientCredits = true;
+            }
+        }
+    }
+
+    private void enemyLongAttack() {
+        if (isTurnOver() == false) {
+            int player = this.turn;
+            Player attacker = this.combatants.get(player);
+            if ((this.actionCredit - 2) > -1) {
+                int damage = attacker.longAttack();
+                this.attack = true;
+                int range = -attacker.getLongAttackRange();
+                int receiver = this.enemyColumn + range;
+                CellValue locationHit = getCellValue(this.enemyRow, receiver);
+                CellValue attackDisplay = getCellValue(this.enemyRow, receiver + 1);
+                if (attackDisplay == CellValue.EMPTY) {
+                    this.cells[this.enemyRow][receiver + 1] = CellValue.LONGATTACK;
+                    this.displayLongAttack = true;
+                }
+                if (locationHit == CellValue.ENEMY) {
+                    this.eHit = true;
+                    this.combatants.get(0).takeDamage(damage);
+                }
+                this.actionCredit = this.actionCredit - 2;
+            } else {
+                this.insufficientCredits = true;
+            }
+        }
+    }
+>>>>>>> 6b275cd98e31e7c3c35a1e69e8aa32b57231a57f
 
     public void attack(){
 
@@ -278,6 +334,15 @@ public class StageModel  {
         }
         else if(this.turn == 1){
             enemySpAttack();
+        }
+    }
+
+    public void longAttack(){
+        if(this.turn == 0){
+            playerLongAttack();
+        }
+        else if(this.turn == 1){
+            enemyLongAttack();
         }
     }
 
@@ -379,6 +444,14 @@ public class StageModel  {
     public boolean isDisplayAttack() {
         if (this.displayAttack) {
             this.displayAttack = false;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isLongAttack(){
+        if(this.displayLongAttack){
+            this.displayLongAttack = false;
             return true;
         }
         return false;
