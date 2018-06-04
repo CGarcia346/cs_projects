@@ -262,8 +262,6 @@ public class StageModel  {
             }
         }
     }
-<<<<<<< HEAD
-=======
 
     private void playerLongAttack() {
         if (isTurnOver() == false) {
@@ -316,7 +314,6 @@ public class StageModel  {
             }
         }
     }
->>>>>>> 6b275cd98e31e7c3c35a1e69e8aa32b57231a57f
 
     public void attack(){
 
