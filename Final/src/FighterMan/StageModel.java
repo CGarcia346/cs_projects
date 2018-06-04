@@ -226,11 +226,13 @@ public class StageModel  {
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 5) > -1) {
                 int damage = attacker.spAttack();
+                this.attack = true;
                 int range = attacker.getSpAttackRange();
                 int receiver = this.userColumn + range;
                 CellValue locationHit = getCellValue(this.userRow, receiver);
                 if (locationHit == CellValue.ENEMY) {
                     this.combatants.get(1).takeDamage(damage);
+                    this.eHit = true;
                 }
                 this.actionCredit = this.actionCredit - 5;
             } else {
@@ -244,11 +246,13 @@ public class StageModel  {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 5) > -1) {
+                this.eAttack = true;
                 int damage = attacker.spAttack();
                 int range = -attacker.getSpAttackRange();
                 int receiver = this.enemyColumn + range;
                 CellValue locationHit = getCellValue(this.enemyRow, receiver);
                 if (locationHit == CellValue.USER) {
+                    this.hit = true;
                     this.combatants.get(0).takeDamage(damage);
                 }
                 this.actionCredit = this.actionCredit - 5;
