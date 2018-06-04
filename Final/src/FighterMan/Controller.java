@@ -64,10 +64,6 @@ public class Controller implements EventHandler<KeyEvent> {
                 if (this.stageModel.levelComplete()) {
                     this.stageModel.levelContinue();
                 }
-            } else if (code == KeyCode.R) {
-                if (this.stageModel.isWinner()) {
-                    //this.stageModel.restart();
-                }
             } else {
                 keyRecognized = false;
             }
@@ -82,18 +78,28 @@ public class Controller implements EventHandler<KeyEvent> {
     private void update(){
         this.view.updateStage(this.stageModel);
         while(this.stageModel.whoseTurn() != 0){
-            while(this.stageModel.getPlayerActionCredits() > 0 && this.stageModel.isTurnOver()) {
-                stageModel.enemyTurn();
+            while(this.stageModel.getPlayerActionCredits() > 0 && this.stageModel.nextAction()) {
+                this.stageModel.enemyTurn();
                 this.view.updateStage(this.stageModel);
                 this.updateDisplay();
             }
+
+            if(this.stageModel.getTurn() > this.stageModel.listSize() - 1){
+                this.stageModel.enemyTurn();
+                this.view.updateStage(this.stageModel);
+                this.updateDisplay();
+                break;
+            }
+            this.view.updateStage(this.stageModel);
+            this.updateDisplay();
         }
         this.updateDisplay();
+
     }
 
     private void updateDisplay(){
         this.scoreLabel.setText(String.format("HP: %d" + "|| AC: %d" + "\n Turn: %d", this.stageModel.getPlayerHP(),
-                this.stageModel.getPlayerActionCredits(), this.stageModel.whoseTurn()));
+                this.stageModel.getPlayerActionCredits(), this.stageModel.getTurn()));
         if (this.stageModel.getInsufficientCredits() == true) {
             this.alertLabel.setText("Insufficient Credits");
         } else {
@@ -107,7 +113,18 @@ public class Controller implements EventHandler<KeyEvent> {
         else if (this.stageModel.isWinner()){
             this.messageLabel.setText("You're a WINNER!");
         } else{
-            this.messageLabel.setText(String.format("Enemy-1:HP- %d", this.stageModel.getEnemy1HP()));
+            this.messageLabel.setText(String.format("Enemy 1 HP: %d", this.stageModel.getEnemy1HP()));
+        }
+    }
+
+    private void slowDown(){
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
         }
     }
 }

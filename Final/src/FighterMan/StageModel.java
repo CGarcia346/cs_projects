@@ -3,6 +3,7 @@ package FighterMan;
 import javafx.scene.control.Cell;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Model of the Stage and characters within it
@@ -111,11 +112,14 @@ public class StageModel  {
     }
 
     public boolean isTurnOver() {
-        if (this.gameOver || this.actionCredit == 0 || this.endedTurn) {
+        if (this.gameOver || this.actionCredit == 0 || this.endedTurn || !this.nextAction) {
             if(this.endedTurn){
                 this.endedTurn = false;
             }
-            else{
+            if(!this.nextAction){
+                this.nextAction = true;
+            }
+            if (this.actionCredit == 0){
                 this.endTurn();
             }
             this.actionCredit = 10;
@@ -182,6 +186,7 @@ public class StageModel  {
 
     public void enemyTurn(){
 
+        this.nextAction = true;
         if (this.turn > this.combatants.size()-1){
             this.turn = 0;
         }
@@ -249,20 +254,73 @@ public class StageModel  {
         int rowDiff = eRow - this.userRow;
         int columnDiff = eColumn - this.userColumn;
         if(eRow != this.userRow && changeRow(eRow, eColumn, rowDiff) && this.actionCredit - 1 > 0){
-            System.out.println(this.actionCredit);
             this.actionCredit--;
         }
         else if(eColumn != this.userColumn && changeColumn(eRow, eColumn, columnDiff) && this.actionCredit - 1 > 0){
-            System.out.println(this.actionCredit);
             this.actionCredit--;
         }
-        else{
-            System.out.println("?");
+        else if(eColumn-enemyRange == this.userColumn || eColumn-enemySRange == this.userColumn){
+            System.out.println("attackBug");
+            if(eColumn-enemySRange == this.userColumn){
+                spAttack();
+            }
+            attack();
+
+            this.retreat = true;
         }
-        this.endTurn();
+        else if(this.actionCredit > 0 && this.retreat){
+            Random rand = new Random();
+            int randomNum = rand.nextInt(3);
+            for(int i = 0; i < randomNum; i++){
+                changeColumn(eRow, eColumn, )
+            }
+            this.retreat = false;
+        }
+        else{
+            this.nextAction = false;
+            this.endTurn();
+        }
 
     }
 
+    private void enemyAttack(){
+        if (isTurnOver() == false) {
+            int player = this.turn;
+            Player attacker = this.combatants.get(player);
+            int eRow = 1000;
+            int eColumn = 100;
+            if ((this.actionCredit - 3) > -1) {
+                if (this.turn == 1) {
+                    CellValue valAttacker = CellValue.ENEMY1;
+                }
+                for(int row = 4; row < 8; row ++) {
+                    for (int column = 4; column < 8; column++) {
+                        if (getCellValue(row, column) == CellValue.ENEMY1) {
+                            eRow = row;
+                            eColumn = column;
+                        }
+                    }
+                }
+                int damage = attacker.attack();
+                int range = -attacker.getAttackRange();
+                int receiver = eColumn + range;
+                CellValue locationHit = getCellValue(eRow, receiver);
+                if (locationHit == CellValue.ENEMY1) {
+                    this.combatants.get(1).takeDamage(damage);
+                } else if (locationHit == CellValue.ENEMY2) {
+                    this.combatants.get(2).takeDamage(damage);
+                } else if (locationHit == CellValue.ENEMY3) {
+                    this.combatants.get(3).takeDamage(damage);
+                }
+                else if(locationHit == CellValue.USER){
+                    this.combatants.get(0).takeDamage(damage);
+                }
+                this.actionCredit = this.actionCredit - 3;
+            } else {
+                this.insufficientCredits = true;
+            }
+        }
+    }
     public boolean isGameOver(){
         return false;
     }
@@ -389,12 +447,30 @@ public class StageModel  {
 
     public boolean endTurn(){
         this.endedTurn = true;
-        this.turn++;
+        if(this.turn > this.combatants.size()-1){
+            this.turn = 0;
+        }
+        else{
+            this.turn++;
+        }
+        this.actionCredit = 10;
         return this.endedTurn;
     }
 
     public int whoseTurn(){
         return this.turn;
     }
+
+    private boolean nextAction = true;
+    public boolean nextAction(){
+        return this.nextAction;
+    }
+
+    public int listSize(){
+        return this.combatants.size() - 1;
+    }
+
+    private boolean retreat = false;
+
 
 }

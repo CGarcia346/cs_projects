@@ -86,10 +86,5 @@ public class View extends Group {
             }
         }
     }
-    /**
-     * Updates graphical changes of player
-     */
-    public void updatePlayers(){
 
-    }
 }
