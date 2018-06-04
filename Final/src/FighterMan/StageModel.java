@@ -169,7 +169,7 @@ public class StageModel  {
     }
 
     private void playerAttack() {
-        if (isTurnOver() == false) {
+        if (isTurnOver() == false && !this.combatants.get(0).isDead()) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 3) > -1) {
@@ -195,7 +195,7 @@ public class StageModel  {
     }
 
     private void enemyAttack() {
-        if (isTurnOver() == false) {
+        if (isTurnOver() == false && !this.combatants.get(1).isDead()) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 3) > -1) {
@@ -222,7 +222,7 @@ public class StageModel  {
 
 
     private void playerSpAttack() {
-        if (isTurnOver() == false) {
+        if (isTurnOver() == false && !this.combatants.get(0).isDead()) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 5) > -1) {
@@ -243,7 +243,7 @@ public class StageModel  {
     }
 
     private void enemySpAttack() {
-        if (isTurnOver() == false) {
+        if (isTurnOver() == false && !this.combatants.get(1).isDead()) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 5) > -1) {
@@ -264,7 +264,7 @@ public class StageModel  {
     }
 
     private void playerLongAttack() {
-        if (isTurnOver() == false) {
+        if (isTurnOver() == false && !this.combatants.get(0).isDead()) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 2) > -1) {
@@ -290,12 +290,12 @@ public class StageModel  {
     }
 
     private void enemyLongAttack() {
-        if (isTurnOver() == false) {
+        if (isTurnOver() == false && !this.combatants.get(1).isDead()) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 2) > -1) {
                 int damage = attacker.longAttack();
-                this.attack = true;
+                this.eAttack = true;
                 int range = -attacker.getLongAttackRange();
                 int receiver = this.enemyColumn + range;
                 CellValue locationHit = getCellValue(this.enemyRow, receiver);
@@ -304,8 +304,8 @@ public class StageModel  {
                     this.cells[this.enemyRow][receiver + 1] = CellValue.LONGATTACK;
                     this.displayLongAttack = true;
                 }
-                if (locationHit == CellValue.ENEMY) {
-                    this.eHit = true;
+                if (locationHit == CellValue.USER) {
+                    this.hit = true;
                     this.combatants.get(0).takeDamage(damage);
                 }
                 this.actionCredit = this.actionCredit - 2;
@@ -424,6 +424,7 @@ public class StageModel  {
         }
         return false;
     }
+
     public boolean isHit(){
         if(this.hit){
             this.hit = false;
@@ -453,6 +454,7 @@ public class StageModel  {
         }
         return false;
     }
+
     public void setEmpty(int row, int column) {
         this.cells[row][column] = CellValue.EMPTY;
     }

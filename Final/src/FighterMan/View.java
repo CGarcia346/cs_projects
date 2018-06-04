@@ -138,9 +138,9 @@ public class View extends Group {
                             this.cellViews[row][column].setImage(eAttack);
                             model.setEmpty(row, column);
                         }
-                    } else {
-                        this.cellViews[row][column].setImage(null);
                     }
+                } else {
+                    this.cellViews[row][column].setImage(null);
                 }
             }
         }
