@@ -261,9 +261,6 @@ public class StageModel  {
             }
         }
     }
-    private void PlayerLAttack() {
-
-    }
 
     public void attack(){
 

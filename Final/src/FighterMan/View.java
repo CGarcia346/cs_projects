@@ -19,6 +19,7 @@ public class View extends Group {
     private Image user;
     private Image enemy;
     private Image attack;
+    private Image lAttack;
 
     /**
      * retrieves of our characters for our view
@@ -27,6 +28,7 @@ public class View extends Group {
         this.user = new Image(getClass().getResourceAsStream("/res/Boxer.png"));
         this.enemy = new Image(getClass().getResourceAsStream("/res/BoxerE.png"));
         this.attack = new Image(getClass().getResourceAsStream("/res/BoxerATK.png"));
+        this.lAttack = new Image(getClass().getResourceAsStream("/res/BoxerATKL.png"));
     }
     public int getRowCount() {
         return this.rowCount;
@@ -82,19 +84,19 @@ public class View extends Group {
                         Image hit = new Image(getClass().getResourceAsStream("/res/BoxerHurt.png"));
                         this.cellViews[row][column].setImage(hit);
                     } else {
-                            if (model.getPlayerHP() > 0 && model.getPlayerHP() <= 50 ) {
-                                Image bruised = new Image(getClass().getResourceAsStream("/res/BoxerBruised.png"));
-                                this.cellViews[row][column].setImage(bruised);
-                            } else if (model.getPlayerHP() == 0) {
-                                Image dead = new Image(getClass().getResourceAsStream("/res/BoxerDead.png"));
-                                this.cellViews[row][column].setImage(dead);
-                            } else {
-                                this.cellViews[row][column].setImage(this.user);
-                            }
+                        if (model.getPlayerHP() > 0 && model.getPlayerHP() <= 50) {
+                            Image bruised = new Image(getClass().getResourceAsStream("/res/BoxerBruised.png"));
+                            this.cellViews[row][column].setImage(bruised);
+                        } else if (model.getPlayerHP() == 0) {
+                            Image dead = new Image(getClass().getResourceAsStream("/res/BoxerDead.png"));
+                            this.cellViews[row][column].setImage(dead);
+                        } else {
+                            this.cellViews[row][column].setImage(this.user);
+                        }
 
                     }
                 } else if (cellValue == StageModel.CellValue.ENEMY) {
-                    if(model.isEnemyAttack()) {
+                    if (model.isEnemyAttack()) {
                         if (model.getTurn() == 1) {
                             Image eNormalAttack = new Image(getClass().getResourceAsStream("/res/BoxerPunchE.png"));
                             this.cellViews[row][column].setImage(eNormalAttack);
@@ -103,10 +105,10 @@ public class View extends Group {
                         Image eHit = new Image(getClass().getResourceAsStream("/res/BoxerHurtE.png"));
                         this.cellViews[row][column].setImage(eHit);
                     } else {
-                        if(model.getEnemyHP() > 0 && model.getEnemyHP() <= 50){
+                        if (model.getEnemyHP() > 0 && model.getEnemyHP() <= 50) {
                             Image bruised = new Image(getClass().getResourceAsStream("/res/BoxerBruisedE.png"));
                             this.cellViews[row][column].setImage(bruised);
-                        } else if(model.getEnemyHP() == 0){
+                        } else if (model.getEnemyHP() == 0) {
                             Image dead = new Image(getClass().getResourceAsStream("/res/BoxerDeadE.png"));
                             this.cellViews[row][column].setImage(dead);
                         } else {
@@ -115,7 +117,7 @@ public class View extends Group {
                     }
                 } else if (cellValue == StageModel.CellValue.ATTACK) {
                     if (model.isDisplayAttack()) {
-                        if (model.getTurn() == 0 ) {
+                        if (model.getTurn() == 0) {
                             this.cellViews[row][column].setImage(this.attack);
                             model.setEmpty(row, column);
                         } else {
@@ -126,11 +128,21 @@ public class View extends Group {
 
                     }
 
-                } else {
-                    this.cellViews[row][column].setImage(null);
+                } else if (cellValue == StageModel.CellValue.LONGATTACK) {
+                    if (model.isLongAttack()) {
+                        if (model.getTurn() == 0) {
+                            this.cellViews[row][column].setImage(this.lAttack);
+                            model.setEmpty(row, column);
+                        } else {
+                            Image eAttack = new Image(getClass().getResourceAsStream("/res/BoxerATKLE.png"));
+                            this.cellViews[row][column].setImage(eAttack);
+                            model.setEmpty(row, column);
+                        }
+                    } else {
+                        this.cellViews[row][column].setImage(null);
+                    }
                 }
             }
         }
     }
-
 }
