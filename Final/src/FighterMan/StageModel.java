@@ -21,7 +21,9 @@ public class StageModel  {
     private int enemyColumn;
 
     private boolean hit;
+    private boolean eHit;
     private boolean attack;
+    private boolean eAttack;
     private boolean displayAttack;
 
     private int turn;
@@ -171,15 +173,17 @@ public class StageModel  {
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 3) > -1) {
                 int damage = attacker.attack();
+                this.attack = true;
                 int range = attacker.getAttackRange();
                 int receiver = this.userColumn + range;
                 CellValue locationHit = getCellValue(this.userRow, receiver);
                 CellValue attackDisplay = getCellValue(this.userRow, receiver - 1);
                 if (attackDisplay == CellValue.EMPTY) {
                     this.cells[this.userRow][receiver - 1] = CellValue.ATTACK;
+                    this.displayAttack = true;
                 }
                 if (locationHit == CellValue.ENEMY) {
-                    this.hit = true;
+                    this.eHit = true;
                     this.combatants.get(1).takeDamage(damage);
                 }
                 this.actionCredit = this.actionCredit - 3;
@@ -195,6 +199,7 @@ public class StageModel  {
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 3) > -1) {
                 int damage = attacker.attack();
+                this.eAttack = true;
                 int range = -attacker.getAttackRange();
                 int receiver = this.enemyColumn + range;
                 CellValue locationHit = getCellValue(this.enemyRow, receiver);
@@ -339,7 +344,20 @@ public class StageModel  {
         this.actionCredit = 10;
         return this.endedTurn;
     }
-
+    public boolean isAttack() {
+        if(this.attack) {
+            this.attack = false;
+            return true;
+        }
+        return false;
+    }
+    public boolean isEnemyAttack() {
+        if(this.eAttack) {
+            this.eAttack = false;
+            return true;
+        }
+        return false;
+    }
     public boolean isHit(){
         if(this.hit){
             this.hit = false;
@@ -347,6 +365,22 @@ public class StageModel  {
         }
         return false;
     }
-
+    public boolean isEnemyHit(){
+        if(this.eHit){
+            this.eHit = false;
+            return true;
+        }
+        return false;
+    }
+    public boolean isDisplayAttack() {
+        if (this.displayAttack) {
+            this.displayAttack = false;
+            return true;
+        }
+        return false;
+    }
+    public void setEmpty(int row, int column) {
+        this.cells[row][column] = CellValue.EMPTY;
+    }
 
 }

@@ -73,27 +73,59 @@ public class View extends Group {
             for (int column = 0; column < this.columnCount; column++) {
                 StageModel.CellValue cellValue = model.getCellValue(row, column);
                 if (cellValue == StageModel.CellValue.USER) {
-                    if(model.getPlayerHP() <= 50){
-                        Image bruised = new Image(getClass().getResourceAsStream("/res/BoxerBruised.png"));
-                        this.cellViews[row][column].setImage(bruised);
-                    }else if(model.getPlayerHP() == 0){
-                        Image dead = new Image(getClass().getResourceAsStream("/res/BoxerDead.png"));
-                        this.cellViews[row][column].setImage(dead);
-                    }else {
-                        this.cellViews[row][column].setImage(this.user);
+                    if (model.isAttack()) {
+                        if (model.getTurn() == 0) {
+                            Image normalAttack = new Image(getClass().getResourceAsStream("/res/BoxerPunch.png"));
+                            this.cellViews[row][column].setImage(normalAttack);
+                        }
+                    } else if (model.isHit()) {
+                        Image hit = new Image(getClass().getResourceAsStream("/res/BoxerHurt.png"));
+                        this.cellViews[row][column].setImage(hit);
+                    } else {
+                            if (model.getPlayerHP() > 0 && model.getPlayerHP() <= 50 ) {
+                                Image bruised = new Image(getClass().getResourceAsStream("/res/BoxerBruised.png"));
+                                this.cellViews[row][column].setImage(bruised);
+                            } else if (model.getPlayerHP() == 0) {
+                                Image dead = new Image(getClass().getResourceAsStream("/res/BoxerDead.png"));
+                                this.cellViews[row][column].setImage(dead);
+                            } else {
+                                this.cellViews[row][column].setImage(this.user);
+                            }
+
                     }
                 } else if (cellValue == StageModel.CellValue.ENEMY) {
-                    if(model.getEnemyHP() <= 50){
-                        Image bruised = new Image(getClass().getResourceAsStream("/res/BoxerBruisedE.png"));
-                        this.cellViews[row][column].setImage(bruised);
-                    }else if(model.getEnemyHP() == 0){
-                        Image dead = new Image(getClass().getResourceAsStream("/res/BoxerDeadE.png"));
-                        this.cellViews[row][column].setImage(dead);
-                    }else {
-                        this.cellViews[row][column].setImage(this.enemy);
+                    if(model.isEnemyAttack()) {
+                        if (model.getTurn() == 1) {
+                            Image eNormalAttack = new Image(getClass().getResourceAsStream("/res/BoxerPunchE.png"));
+                            this.cellViews[row][column].setImage(eNormalAttack);
+                        }
+                    } else if (model.isEnemyHit()) {
+                        Image eHit = new Image(getClass().getResourceAsStream("/res/BoxerHurtE.png"));
+                        this.cellViews[row][column].setImage(eHit);
+                    } else {
+                        if(model.getEnemyHP() > 0 && model.getEnemyHP() <= 50){
+                            Image bruised = new Image(getClass().getResourceAsStream("/res/BoxerBruisedE.png"));
+                            this.cellViews[row][column].setImage(bruised);
+                        } else if(model.getEnemyHP() == 0){
+                            Image dead = new Image(getClass().getResourceAsStream("/res/BoxerDeadE.png"));
+                            this.cellViews[row][column].setImage(dead);
+                        } else {
+                            this.cellViews[row][column].setImage(this.enemy);
+                        }
                     }
                 } else if (cellValue == StageModel.CellValue.ATTACK) {
-                    this.cellViews[row][column].setImage(this.attack);
+                    if (model.isDisplayAttack()) {
+                        if (model.getTurn() == 0 ) {
+                            this.cellViews[row][column].setImage(this.attack);
+                            model.setEmpty(row, column);
+                        } else {
+                            Image eAttack = new Image(getClass().getResourceAsStream("/res/BoxerATKE.png"));
+                            this.cellViews[row][column].setImage(eAttack);
+                            model.setEmpty(row, column);
+                        }
+
+                    }
+
                 } else {
                     this.cellViews[row][column].setImage(null);
                 }
