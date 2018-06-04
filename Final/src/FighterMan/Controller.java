@@ -72,6 +72,9 @@ public class Controller implements EventHandler<KeyEvent> {
         this.updateDisplay();
     }
 
+    /**
+     * Updates the Border Displays according to current game status
+     */
     private void updateDisplay(){
         this.scoreLabel.setText(String.format("HP: %d" + "|| AC: %d" + "\n Turn: %d", this.stageModel.getPlayerHP(),
                 this.stageModel.getPlayerActionCredits(), this.stageModel.getTurn()));
@@ -95,14 +98,4 @@ public class Controller implements EventHandler<KeyEvent> {
         this.messageLabel.setText(String.format("Player 2 HP: %d", this.stageModel.getEnemyHP()));
     }
 
-    private void slowDown(){
-        try
-        {
-            Thread.sleep(1000);
-        }
-        catch(InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
-        }
-    }
 }

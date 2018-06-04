@@ -22,7 +22,7 @@ public class View extends Group {
     private Image lAttack;
 
     /**
-     * retrieves of our characters for our view
+     * retrieves the images we created for the view of our characters
      */
     public View() {
         this.user = new Image(getClass().getResourceAsStream("/res/Boxer.png"));
@@ -74,6 +74,10 @@ public class View extends Group {
         for (int row = 0; row < this.rowCount; row++) {
             for (int column = 0; column < this.columnCount; column++) {
                 StageModel.CellValue cellValue = model.getCellValue(row, column);
+                /**
+                 * Displays the version of player 1 in reference to the health as well as the special attack and if the
+                 * player is hit
+                 */
                 if (cellValue == StageModel.CellValue.USER) {
                     if (model.isAttack()) {
                         if (model.getTurn() == 0) {
@@ -95,7 +99,12 @@ public class View extends Group {
                         }
 
                     }
-                } else if (cellValue == StageModel.CellValue.ENEMY) {
+
+                } /**
+                 * Displays the version of player 2 in reference to the health as well as the sp attack and if the player
+                 * is hit
+                 */
+                else if (cellValue == StageModel.CellValue.ENEMY) {
                     if (model.isEnemyAttack()) {
                         if (model.getTurn() == 1) {
                             Image eNormalAttack = new Image(getClass().getResourceAsStream("/res/BoxerPunchE.png"));
@@ -115,7 +124,11 @@ public class View extends Group {
                             this.cellViews[row][column].setImage(this.enemy);
                         }
                     }
-                } else if (cellValue == StageModel.CellValue.ATTACK) {
+                }
+                /**
+                 * Displays the regular attack depending on whose turn
+                 */
+                else if (cellValue == StageModel.CellValue.ATTACK) {
                     if (model.isDisplayAttack()) {
                         if (model.getTurn() == 0) {
                             this.cellViews[row][column].setImage(this.attack);
@@ -128,7 +141,11 @@ public class View extends Group {
 
                     }
 
-                } else if (cellValue == StageModel.CellValue.LONGATTACK) {
+                }
+                /**
+                 * Displays the long range attack depending on whose turn
+                 */
+                else if (cellValue == StageModel.CellValue.LONGATTACK) {
                     if (model.isLongAttack()) {
                         if (model.getTurn() == 0) {
                             this.cellViews[row][column].setImage(this.lAttack);

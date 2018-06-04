@@ -17,9 +17,6 @@ public class Player implements PlayerInterface{
     private int spAttackRange = 1;
     private boolean dead = false;
 
-    /**
-     * A character's attack
-     */
     public int attack(){
         return this.attackDamage;
     }
@@ -27,9 +24,7 @@ public class Player implements PlayerInterface{
     public int getAttackRange(){
         return this.attackRange;
     }
-    /**
-     * A character's special attack
-     */
+
     public int spAttack(){
         return this.spAttackDamage;
     }
@@ -45,9 +40,7 @@ public class Player implements PlayerInterface{
     public int getLongAttackRange(){
         return this.longAttackRange;
     }
-    /**
-     * Returns the HP of a character
-     */
+
     public int getHP(){
         return this.HP;
     }

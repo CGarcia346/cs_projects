@@ -169,7 +169,7 @@ public class StageModel  {
     }
 
     private void playerAttack() {
-        if (isTurnOver() == false && !this.combatants.get(0).isDead()) {
+        if (isTurnOver() == false && (!this.combatants.get(0).isDead() || !this.combatants.get(1).isDead())) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 3) > -1) {
@@ -195,7 +195,7 @@ public class StageModel  {
     }
 
     private void enemyAttack() {
-        if (isTurnOver() == false && !this.combatants.get(1).isDead()) {
+        if (isTurnOver() == false && (!this.combatants.get(0).isDead() || !this.combatants.get(1).isDead())) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 3) > -1) {
@@ -222,7 +222,7 @@ public class StageModel  {
 
 
     private void playerSpAttack() {
-        if (isTurnOver() == false && !this.combatants.get(0).isDead()) {
+        if (isTurnOver() == false &&(!this.combatants.get(0).isDead() || !this.combatants.get(1).isDead())) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 5) > -1) {
@@ -243,7 +243,7 @@ public class StageModel  {
     }
 
     private void enemySpAttack() {
-        if (isTurnOver() == false && !this.combatants.get(1).isDead()) {
+        if (isTurnOver() == false && (!this.combatants.get(0).isDead() || !this.combatants.get(1).isDead())) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 5) > -1) {
@@ -264,7 +264,7 @@ public class StageModel  {
     }
 
     private void playerLongAttack() {
-        if (isTurnOver() == false && !this.combatants.get(0).isDead()) {
+        if (isTurnOver() == false && (!this.combatants.get(0).isDead() || !this.combatants.get(1).isDead())) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 2) > -1) {
@@ -290,7 +290,7 @@ public class StageModel  {
     }
 
     private void enemyLongAttack() {
-        if (isTurnOver() == false && !this.combatants.get(1).isDead()) {
+        if (isTurnOver() == false && (!this.combatants.get(0).isDead() || !this.combatants.get(1).isDead())) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
             if ((this.actionCredit - 2) > -1) {
