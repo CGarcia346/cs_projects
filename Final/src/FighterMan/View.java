@@ -18,8 +18,7 @@ public class View extends Group {
     private ImageView[][] cellViews;
     private Image user;
     private Image enemy;
-    private Image enemy_2;
-    private Image enemy_3;
+    private Image attack;
 
     /**
      * retrieves of our characters for our view
@@ -27,6 +26,7 @@ public class View extends Group {
     public View() {
         this.user = new Image(getClass().getResourceAsStream("/res/Boxer.png"));
         this.enemy = new Image(getClass().getResourceAsStream("/res/BoxerE.png"));
+        this.attack = new Image(getClass().getResourceAsStream("/res/BoxerATK.png"));
     }
     public int getRowCount() {
         return this.rowCount;
@@ -73,13 +73,27 @@ public class View extends Group {
             for (int column = 0; column < this.columnCount; column++) {
                 StageModel.CellValue cellValue = model.getCellValue(row, column);
                 if (cellValue == StageModel.CellValue.USER) {
-                    this.cellViews[row][column].setImage(this.user);
-                } else if (cellValue == StageModel.CellValue.ENEMY1) {
-                    this.cellViews[row][column].setImage(this.enemy);
-                } else if (cellValue == StageModel.CellValue.ENEMY2) {
-                    this.cellViews[row][column].setImage(this.enemy);
-                } else if (cellValue == StageModel.CellValue.ENEMY3) {
-                    this.cellViews[row][column].setImage(this.enemy);
+                    if(model.getPlayerHP() <= 50){
+                        Image bruised = new Image(getClass().getResourceAsStream("/res/BoxerBruised.png"));
+                        this.cellViews[row][column].setImage(bruised);
+                    }else if(model.getPlayerHP() == 0){
+                        Image dead = new Image(getClass().getResourceAsStream("/res/BoxerDead.png"));
+                        this.cellViews[row][column].setImage(dead);
+                    }else {
+                        this.cellViews[row][column].setImage(this.user);
+                    }
+                } else if (cellValue == StageModel.CellValue.ENEMY) {
+                    if(model.getEnemyHP() <= 50){
+                        Image bruised = new Image(getClass().getResourceAsStream("/res/BoxerBruisedE.png"));
+                        this.cellViews[row][column].setImage(bruised);
+                    }else if(model.getEnemyHP() == 0){
+                        Image dead = new Image(getClass().getResourceAsStream("/res/BoxerDeadE.png"));
+                        this.cellViews[row][column].setImage(dead);
+                    }else {
+                        this.cellViews[row][column].setImage(this.enemy);
+                    }
+                } else if (cellValue == StageModel.CellValue.ATTACK) {
+                    this.cellViews[row][column].setImage(this.attack);
                 } else {
                     this.cellViews[row][column].setImage(null);
                 }

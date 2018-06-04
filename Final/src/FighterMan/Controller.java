@@ -39,82 +39,58 @@ public class Controller implements EventHandler<KeyEvent> {
     public void handle(KeyEvent keyEvent) {
         boolean keyRecognized = true;
         KeyCode code = keyEvent.getCode();
-        if (this.stageModel.getTurn() == 0) {
-            if (code == KeyCode.LEFT || code == KeyCode.A) {
-                this.stageModel.moveCharacter(0, -1);
-            } else if (code == KeyCode.RIGHT || code == KeyCode.D) {
-                this.stageModel.moveCharacter(0, 1);
-            } else if (code == KeyCode.UP || code == KeyCode.W) {
-                this.stageModel.moveCharacter(-1, 0);
-            } else if (code == KeyCode.DOWN || code == KeyCode.S) {
-                this.stageModel.moveCharacter(1, 0);
-            } else if (code == KeyCode.E) {
-                this.stageModel.attack();
-            } else if (code == KeyCode.F) {
-                this.stageModel.spAttack();
-            }  else if (code == KeyCode.O) {
-                this.stageModel.endTurn();
-            } else if (code == KeyCode.R) {
-                if (this.stageModel.isGameOver()) {
-                    this.stageModel.startNewGame();
-                }
-            } else if (code == KeyCode.G) {
-                this.stageModel.startNewGame();
-            } else if (code == KeyCode.L) {
-                if (this.stageModel.levelComplete()) {
-                    this.stageModel.levelContinue();
-                }
-            } else {
-                keyRecognized = false;
-            }
+        if (code == KeyCode.LEFT || code == KeyCode.A) {
+            this.stageModel.moveCharacter(0, -1);
+        } else if (code == KeyCode.RIGHT || code == KeyCode.D) {
+            this.stageModel.moveCharacter(0, 1);
+        } else if (code == KeyCode.UP || code == KeyCode.W) {
+            this.stageModel.moveCharacter(-1, 0);
+        } else if (code == KeyCode.DOWN || code == KeyCode.S) {
+            this.stageModel.moveCharacter(1, 0);
+        } else if (code == KeyCode.E) {
+            this.stageModel.attack();
+        } else if (code == KeyCode.F) {
+            this.stageModel.spAttack();
+        }  else if (code == KeyCode.R) {
+            this.stageModel.endTurn();
+        } else if (code == KeyCode.G) {
+            this.stageModel.startNewGame();
+        } else {
+            keyRecognized = false;
+        }
 
-            if (keyRecognized) {
-                this.update();
-                keyEvent.consume();
-            }
+        if (keyRecognized) {
+            this.update();
+            keyEvent.consume();
         }
     }
 
     private void update(){
         this.view.updateStage(this.stageModel);
-        while(this.stageModel.whoseTurn() != 0){
-            while(this.stageModel.getPlayerActionCredits() > 0 && this.stageModel.nextAction()) {
-                this.stageModel.enemyTurn();
-                this.view.updateStage(this.stageModel);
-                this.updateDisplay();
-            }
-
-            if(this.stageModel.getTurn() > this.stageModel.listSize() - 1){
-                this.stageModel.enemyTurn();
-                this.view.updateStage(this.stageModel);
-                this.updateDisplay();
-                break;
-            }
-            this.view.updateStage(this.stageModel);
-            this.updateDisplay();
-        }
         this.updateDisplay();
-
     }
 
     private void updateDisplay(){
         this.scoreLabel.setText(String.format("HP: %d" + "|| AC: %d" + "\n Turn: %d", this.stageModel.getPlayerHP(),
                 this.stageModel.getPlayerActionCredits(), this.stageModel.getTurn()));
-        if (this.stageModel.getInsufficientCredits() == true) {
+        if (this.stageModel.isWinner()){
+            if(this.stageModel.getPlayerHP() == 0){
+                this.alertLabel.setText("Player 1 Wins!");
+            }
+            else if(this.stageModel.getEnemyHP() == 0){
+                this.alertLabel.setText("Player 2 Wins!");
+            }
+        }else if (this.stageModel.getInsufficientCredits() == true) {
             this.alertLabel.setText("Insufficient Credits");
         } else {
-            this.alertLabel.setText("");
+            if(this.stageModel.getTurn() == 0){
+                this.alertLabel.setText("Player 1's Turn");
+            }
+            else if(this.stageModel.getTurn() == 1){
+                this.alertLabel.setText("Player 2's Turn");
+            }
         }
-        if (this.stageModel.isGameOver()) {
-            this.messageLabel.setText("Game Over. Hit G to start a new game.");
-        } else if (this.stageModel.levelComplete()) {
-            this.messageLabel.setText("Nice job! Hit L to start the next level.");
-        }
-        else if (this.stageModel.isWinner()){
-            this.messageLabel.setText("You're a WINNER!");
-        } else{
-            this.messageLabel.setText(String.format("Enemy 1 HP: %d", this.stageModel.getEnemy1HP()));
-        }
+        this.messageLabel.setText(String.format("Player 2 HP: %d", this.stageModel.getEnemyHP()));
     }
 
     private void slowDown(){

@@ -36,9 +36,9 @@
     </center>
 
     <bottom>
-        <HBox prefHeight="35" style="-fx-padding: 10px, 5px, 10px, 5px; -fx-background-color: #F3B61D">
+        <HBox prefHeight="50" style="-fx-padding: 10px, 5px, 10px, 5px; -fx-background-color: #F3B61D">
             <Label style="-fx-font-size: 140%; -fx-text-fill: white"
-                   text="Move: W A S D / Attack: E / SpA: F / End Turn: O / New game: G" />
+                   text="Move: W A S D or Arrow Keys/ Attack: E / SpA: F / End Turn: R / New game: G" />
         </HBox>
     </bottom>
 

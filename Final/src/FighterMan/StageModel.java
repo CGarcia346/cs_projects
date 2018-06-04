@@ -11,21 +11,23 @@ import java.util.Random;
 public class StageModel  {
 
     public enum CellValue {
-        EMPTY, USER, ENEMY1, ENEMY2, ENEMY3
+        EMPTY, USER, ENEMY, ATTACK
     };
     private CellValue[][] cells;
     private ArrayList<Player> combatants= new ArrayList<Player>();
-    private int turn;
-
-    private int level;
     private int userRow;
     private int userColumn;
+    private int enemyRow;
+    private int enemyColumn;
+
+    private boolean hit;
+    private boolean attack;
+    private boolean displayAttack;
+
+    private int turn;
     private int actionCredit;
     private boolean insufficientCredits;
 
-    private ArrayList[][] moveable;
-
-    private boolean winner;
     private boolean gameOver;
     private boolean endedTurn;
 
@@ -39,7 +41,6 @@ public class StageModel  {
      */
     public void startNewGame(){
         this.gameOver = false;
-        this.level = 1;
         this.initialize();
     }
 
@@ -67,21 +68,19 @@ public class StageModel  {
         this.cells[this.userRow][this.userColumn] = CellValue.USER;
         combatants.add(user);
 
-        if(this.level == 1){
-            Player enemy = new Player();
-            this.cells[5][6] = CellValue.ENEMY1;
-            combatants.add(enemy);
-        }
-
+        Player enemy = new Player();
+        this.enemyRow = 5;
+        this.enemyColumn = 6;
+        this.cells[this.enemyRow][this.enemyColumn] = CellValue.ENEMY;
+        combatants.add(enemy);
     }
-
 
     /**
      * Moves a character to a different position
      * @param  rowChange
      * @param  columnChange
      */
-    public void moveCharacter(int rowChange, int columnChange) {
+    private void movePlayer(int rowChange, int columnChange) {
         if (isTurnOver() == false) {
 
             int newRow = this.userRow + rowChange;
@@ -111,15 +110,53 @@ public class StageModel  {
         }
     }
 
+    private void moveEnemy(int rowChange, int columnChange) {
+        if (isTurnOver() == false) {
+
+            int newRow = this.enemyRow + rowChange;
+            if (newRow < 4) {
+                newRow = 4;
+            }
+            if (newRow > 6) {
+                newRow = 6;
+            }
+
+            int newColumn = this.enemyColumn + columnChange;
+            if (newColumn < 5) {
+                newColumn = 5;
+            }
+            if (newColumn > 7) {
+                newColumn = 7;
+            }
+
+
+            this.cells[this.enemyRow][this.enemyColumn] = CellValue.EMPTY;
+            if (!(this.enemyRow == newRow && this.enemyColumn == newColumn)) {
+                this.actionCredit--;
+            }
+            this.enemyRow = newRow;
+            this.enemyColumn = newColumn;
+            this.cells[this.enemyRow][this.enemyColumn] = CellValue.ENEMY;
+        }
+    }
+
+    public void moveCharacter(int row, int column){
+        if(!isWinner()){
+            if(this.turn == 0){
+                movePlayer(row, column);
+            }
+            else if(this.turn == 1){
+                moveEnemy(row, column);
+            }
+        }
+    }
+
     public boolean isTurnOver() {
-        if (this.gameOver || this.actionCredit == 0 || this.endedTurn || !this.nextAction) {
+        if (this.gameOver || this.actionCredit == 0 || this.endedTurn) {
             if(this.endedTurn){
                 this.endedTurn = false;
             }
-            if(!this.nextAction){
-                this.nextAction = true;
-            }
-            if (this.actionCredit == 0){
+            else if (this.actionCredit == 0){
                 this.endTurn();
             }
             this.actionCredit = 10;
@@ -128,7 +165,7 @@ public class StageModel  {
         return false;
     }
 
-    public void attack() {
+    private void playerAttack() {
         if (isTurnOver() == false) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
@@ -137,12 +174,13 @@ public class StageModel  {
                 int range = attacker.getAttackRange();
                 int receiver = this.userColumn + range;
                 CellValue locationHit = getCellValue(this.userRow, receiver);
-                if (locationHit == CellValue.ENEMY1) {
+                CellValue attackDisplay = getCellValue(this.userRow, receiver - 1);
+                if (attackDisplay == CellValue.EMPTY) {
+                    this.cells[this.userRow][receiver - 1] = CellValue.ATTACK;
+                }
+                if (locationHit == CellValue.ENEMY) {
+                    this.hit = true;
                     this.combatants.get(1).takeDamage(damage);
-                } else if (locationHit == CellValue.ENEMY2) {
-                    this.combatants.get(2).takeDamage(damage);
-                } else if (locationHit == CellValue.ENEMY3) {
-                    this.combatants.get(3).takeDamage(damage);
                 }
                 this.actionCredit = this.actionCredit - 3;
             } else {
@@ -151,168 +189,22 @@ public class StageModel  {
         }
     }
 
-
-    public void spAttack() {
+    private void enemyAttack() {
         if (isTurnOver() == false) {
             int player = this.turn;
             Player attacker = this.combatants.get(player);
-            if ((this.actionCredit - 5) > -1) {
-                int damage = attacker.spAttack();
-                int range = attacker.getSpAttackRange();
-                int receiver = this.userColumn + range;
-                CellValue locationHit = getCellValue(this.userRow, receiver);
-                if (locationHit == CellValue.ENEMY1) {
-                    this.combatants.get(1).takeDamage(damage);
-                } else if (locationHit == CellValue.ENEMY2) {
-                    this.combatants.get(2).takeDamage(damage);
-                } else if (locationHit == CellValue.ENEMY3) {
-                    this.combatants.get(3).takeDamage(damage);
-                }
-                this.actionCredit = this.actionCredit - 5;
-            } else {
-                this.insufficientCredits = true;
-            }
-        }
-    }
-
-
-    /**
-     * retrieves the positions of the Characters
-     * @param  character
-     * @return position of the characters
-     */
-    public void getCharacterPos(Player character){
-    }
-
-    public void enemyTurn(){
-
-        this.nextAction = true;
-        if (this.turn > this.combatants.size()-1){
-            this.turn = 0;
-        }
-        else if(this.turn == 1){
-            moveEnemy1();
-        }
-        else if(this.turn == 2){
-            moveEnemy1();
-        }
-        else if(this.turn == 3){
-            moveEnemy1();
-        }
-
-    }
-
-    private boolean changeRow(int curRow, int curColumn, int direction){
-        int change = 0;
-        if(direction < 0){
-            change = 1;
-        }
-        else if(direction > 0){
-            change = -1;
-        }
-        CellValue origin = getCellValue(curRow, curColumn);
-        if(CellValue.EMPTY == getCellValue(curRow + change, curColumn)){
-            this.cells[curRow+change][curColumn] = origin;
-            this.cells[curRow][curColumn] = CellValue.EMPTY;
-            return true;
-        }
-        return false;
-    }
-
-    private boolean changeColumn(int curRow, int curColumn, int direction){
-        int change = 0;
-        if(direction < 0){
-            change = 1;
-        }
-        else if(direction > 0){
-            change = -1;
-        }
-        CellValue origin = getCellValue(curRow, curColumn);
-        if(curColumn + change >= 5){
-            if(CellValue.EMPTY == getCellValue(curRow, curColumn + change)){
-                this.cells[curRow][curColumn+change] = origin;
-                this.cells[curRow][curColumn] = CellValue.EMPTY;
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void moveEnemy1() {
-        int eRow = 88;
-        int eColumn = 22;
-        for (int row = 4; row < 7; row++) {
-            for (int column = 5; column < 8; column++) {
-                if (this.cells[row][column] == CellValue.ENEMY1) {
-                    eRow = row;
-                    eColumn = column;
-                }
-            }
-        }
-        int enemyRange = this.combatants.get(1).getAttackRange();
-        int enemySRange = this.combatants.get(1).getSpAttackRange();
-        int rowDiff = eRow - this.userRow;
-        int columnDiff = eColumn - this.userColumn;
-        if(eRow != this.userRow && changeRow(eRow, eColumn, rowDiff) && this.actionCredit - 1 > 0){
-            this.actionCredit--;
-        }
-        else if(eColumn != this.userColumn && changeColumn(eRow, eColumn, columnDiff) && this.actionCredit - 1 > 0){
-            this.actionCredit--;
-        }
-        else if(eColumn-enemyRange == this.userColumn || eColumn-enemySRange == this.userColumn){
-            System.out.println("attackBug");
-            if(eColumn-enemySRange == this.userColumn){
-                spAttack();
-            }
-            attack();
-
-            this.retreat = true;
-        }
-        else if(this.actionCredit > 0 && this.retreat){
-            Random rand = new Random();
-            int randomNum = rand.nextInt(3);
-            for(int i = 0; i < randomNum; i++){
-                changeColumn(eRow, eColumn, )
-            }
-            this.retreat = false;
-        }
-        else{
-            this.nextAction = false;
-            this.endTurn();
-        }
-
-    }
-
-    private void enemyAttack(){
-        if (isTurnOver() == false) {
-            int player = this.turn;
-            Player attacker = this.combatants.get(player);
-            int eRow = 1000;
-            int eColumn = 100;
             if ((this.actionCredit - 3) > -1) {
-                if (this.turn == 1) {
-                    CellValue valAttacker = CellValue.ENEMY1;
-                }
-                for(int row = 4; row < 8; row ++) {
-                    for (int column = 4; column < 8; column++) {
-                        if (getCellValue(row, column) == CellValue.ENEMY1) {
-                            eRow = row;
-                            eColumn = column;
-                        }
-                    }
-                }
                 int damage = attacker.attack();
                 int range = -attacker.getAttackRange();
-                int receiver = eColumn + range;
-                CellValue locationHit = getCellValue(eRow, receiver);
-                if (locationHit == CellValue.ENEMY1) {
-                    this.combatants.get(1).takeDamage(damage);
-                } else if (locationHit == CellValue.ENEMY2) {
-                    this.combatants.get(2).takeDamage(damage);
-                } else if (locationHit == CellValue.ENEMY3) {
-                    this.combatants.get(3).takeDamage(damage);
+                int receiver = this.enemyColumn + range;
+                CellValue locationHit = getCellValue(this.enemyRow, receiver);
+                CellValue attackDisplay = getCellValue(this.enemyRow, receiver + 1);
+                if (attackDisplay == CellValue.EMPTY) {
+                    this.cells[this.enemyRow][receiver + 1] = CellValue.ATTACK;
+                    this.displayAttack = true;
                 }
-                else if(locationHit == CellValue.USER){
+                if (locationHit == CellValue.USER) {
+                    this.hit = true;
                     this.combatants.get(0).takeDamage(damage);
                 }
                 this.actionCredit = this.actionCredit - 3;
@@ -321,8 +213,67 @@ public class StageModel  {
             }
         }
     }
+
+
+    private void playerSpAttack() {
+        if (isTurnOver() == false) {
+            int player = this.turn;
+            Player attacker = this.combatants.get(player);
+            if ((this.actionCredit - 5) > -1) {
+                int damage = attacker.spAttack();
+                int range = attacker.getSpAttackRange();
+                int receiver = this.userColumn + range;
+                CellValue locationHit = getCellValue(this.userRow, receiver);
+                if (locationHit == CellValue.ENEMY) {
+                    this.combatants.get(1).takeDamage(damage);
+                }
+                this.actionCredit = this.actionCredit - 5;
+            } else {
+                this.insufficientCredits = true;
+            }
+        }
+    }
+
+    private void enemySpAttack() {
+        if (isTurnOver() == false) {
+            int player = this.turn;
+            Player attacker = this.combatants.get(player);
+            if ((this.actionCredit - 5) > -1) {
+                int damage = attacker.spAttack();
+                int range = -attacker.getSpAttackRange();
+                int receiver = this.enemyColumn + range;
+                CellValue locationHit = getCellValue(this.enemyRow, receiver);
+                if (locationHit == CellValue.USER) {
+                    this.combatants.get(0).takeDamage(damage);
+                }
+                this.actionCredit = this.actionCredit - 5;
+            } else {
+                this.insufficientCredits = true;
+            }
+        }
+    }
+
+    public void attack(){
+
+        if(this.turn == 0){
+            playerAttack();
+        }
+        else if(this.turn == 1){
+            enemyAttack();
+        }
+    }
+
+    public void spAttack(){
+        if(this.turn == 0){
+            playerSpAttack();
+        }
+        else if(this.turn == 1){
+            enemySpAttack();
+        }
+    }
+
     public boolean isGameOver(){
-        return false;
+        return isWinner();
     }
 
     public boolean complete(){
@@ -333,71 +284,13 @@ public class StageModel  {
 
     }
 
-
-
-    public boolean levelComplete(){
-        boolean success = false;
-        if(this.level == 1){
-            if(this.combatants.get(1).isDead()){
-                success = true;
-            }
-        }
-
-        else if(this.level == 2){
-            if(this.combatants.get(1).isDead() && this.combatants.get(2).isDead()){
-                success = true;
-            }
-        }
-        else if(this.level == 3){
-            if(this.combatants.get(1).isDead() && this.combatants.get(2).isDead() && this.combatants.get(3).isDead()){
-                success = true;
-                winner = true;
-            }
-        }
-        return success;
-    }
-
-    public void levelContinue(){
-
-        for (int row = 0; row < this.cells.length; row++) {
-            for (int column = 0; column < this.cells[0].length; column++) {
-                this.cells[row][column] = CellValue.EMPTY;
-            }
-        }
-        this.combatants.clear();
-        Player user = new Player();
-        this.actionCredit = 10;
-        this.turn = 0;
-        this.userRow = 5;
-        this.userColumn = 3;
-        this.cells[this.userRow][this.userColumn] = CellValue.USER;
-        combatants.add(user);
-        this.level++;
-
-        if(this.level == 2){
-            Player enemy1 = new Player();
-            Player enemy2 = new Player();
-            this.cells[5][6] = CellValue.ENEMY1;
-            this.cells[4][6] = CellValue.ENEMY2;
-            this.combatants.add(enemy1);
-            this.combatants.add(enemy2);
-
-        }
-        else if(this.level == 3){
-            Player enemy1 = new Player();
-            Player enemy2 = new Player();
-            Player enemy3 = new Player();
-            this.cells[5][6] = CellValue.ENEMY1;
-            this.cells[4][6] = CellValue.ENEMY2;
-            this.cells[6][6] = CellValue.ENEMY3;
-            this.combatants.add(enemy1);
-            this.combatants.add(enemy2);
-            this.combatants.add(enemy3);
-        }
-    }
-
     public boolean isWinner(){
-        return this.winner;
+        if(this.combatants.get(0).isDead() || this.combatants.get(1).isDead()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public int getRowCount() {
@@ -418,16 +311,8 @@ public class StageModel  {
         return this.combatants.get(0).getHP();
     }
 
-    public int getEnemy1HP(){
+    public int getEnemyHP(){
         return this.combatants.get(1).getHP();
-    }
-
-    public int getEnemy2HP(){
-        return this.combatants.get(2).getHP();
-    }
-
-    public int getEnemy3HP(){
-        return this.combatants.get(3).getHP();
     }
 
     public int getPlayerActionCredits() {
@@ -447,30 +332,21 @@ public class StageModel  {
 
     public boolean endTurn(){
         this.endedTurn = true;
+        this.turn++;
         if(this.turn > this.combatants.size()-1){
             this.turn = 0;
-        }
-        else{
-            this.turn++;
         }
         this.actionCredit = 10;
         return this.endedTurn;
     }
 
-    public int whoseTurn(){
-        return this.turn;
+    public boolean isHit(){
+        if(this.hit){
+            this.hit = false;
+            return true;
+        }
+        return false;
     }
-
-    private boolean nextAction = true;
-    public boolean nextAction(){
-        return this.nextAction;
-    }
-
-    public int listSize(){
-        return this.combatants.size() - 1;
-    }
-
-    private boolean retreat = false;
 
 
 }
